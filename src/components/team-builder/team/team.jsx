@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SelectedPokemon } from "./team.content";
 import { useCreatePkmTeam, useDeletePkmTeam } from "../../stores";
-import { CustomButton, CustomInput } from "../../base";
+import { CustomButton, CustomInput, DragDrop } from "../../base";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -17,20 +17,14 @@ export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
 
   const handleClick = (id) => {
     if (action === "delete") {
-      setPkmTeam((prev) => {
-        return prev.filter((pkm) => pkm.id !== id);
-      });
+      setPkmTeam((prev) => prev.filter((pkm) => pkm.id !== id));
     } else if (action === "random-order") {
-      setPkmTeam((prev) => {
-        return [...prev].sort(() => Math.random() - 0.5);
-      });
+      setPkmTeam((prev) => [...prev].sort(() => Math.random() - 0.5));
     }
   };
 
   const handleSort = () => {
-    setPkmTeam((prev) => {
-      return [...prev].sort(() => Math.random() - 0.5);
-    });
+    setPkmTeam((prev) => [...prev].sort(() => Math.random() - 0.5));
   };
 
   const handleSortByAttack = () => {
@@ -63,28 +57,30 @@ export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3 w-full">
-        {pkmTeam.map((item) => (
-          <div key={item.id} onClick={() => handleClick(item.id)}>
-            <SelectedPokemon action={action} pokemon={item} />
-          </div>
+        <DragDrop
+          list={pkmTeam}
+          setList={setPkmTeam}
+          renderItem={(item) => {
+            return (
+              <div onClick={() => handleClick(item.id)}>
+                <SelectedPokemon action={action} pokemon={item} />
+              </div>
+            );
+          }}
+        />
+        {[...Array(6 - pkmTeam.length)].map((_, idx) => (
+          <div
+            key={`empty-${idx}`}
+            className="border-2 border-neutral-200 bg-white rounded-xl w-full h-20 shadow-inner"
+          ></div>
         ))}
-        {[...Array(6 - pkmTeam.length)].map((_, idx) => {
-          return (
-            <div
-              key={idx}
-              className="border-2 border-neutral-200 bg-white rounded-xl w-full h-20"
-            ></div>
-          );
-        })}
       </div>
       <div className="flex flex-row items-center gap-3">
         {selectedTeamId ? (
           <>
             <CustomButton
               handleClick={() =>
-                setAction((prev) => {
-                  return prev === "delete" ? "" : "delete";
-                })
+                setAction((prev) => (prev === "delete" ? "" : "delete"))
               }
             >
               {t("Base.Delete")}
