@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { useGetPokemonDetails, useGetPokemonList } from "../../api";
 import { PokemonPreview } from "./team-builder.content";
 import { capitalize } from "../../utils";
-import { showToast } from "../base";
+import { Container, showToast } from "../base";
 import { useTranslation } from "react-i18next";
 import { TeamSection } from "./team";
 import Skeleton from "react-loading-skeleton";
@@ -102,11 +102,11 @@ export const TeamBuilder = () => {
   };
 
   return (
-    <div className="w-full h-screen border px-10 py-6">
+    <Container>
       <div className="cursor-pointer" onClick={() => navigate("/")}>
         Atrás
       </div>
-      <div className="grid grid-cols-2 gap-10 h-full">
+      <div className="grid grid-cols-2 gap-10 h-full bg-white">
         <div className="flex flex-row gap-5 min-h-0 h-full">
           <div className="flex flex-col gap-3">
             {pokemonTeams.map((item) => {
@@ -173,6 +173,6 @@ export const TeamBuilder = () => {
         </div>
         <TeamSection pkmTeam={pkmTeam} setPkmTeam={setPkmTeam} />
       </div>
-    </div>
+    </Container>
   );
 };
