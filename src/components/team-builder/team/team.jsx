@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { SelectedPokemon } from "./team.content";
-import { useCreatePkmTeam } from "../../stores";
-import { CustomButton } from "../../base";
+import { useCreatePkmTeam, useDeletePkmTeam } from "../../stores";
+import { CustomButton, CustomInput } from "../../base";
+import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
+export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
+  const { t } = useTranslation();
+  const [_, setSearchParams] = useSearchParams();
+
   const createTeam = useCreatePkmTeam();
+  const deleteTeam = useDeletePkmTeam();
 
   const [action, setAction] = useState("");
   const [teamName, setTeamName] = useState("");
@@ -41,11 +47,10 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
     <div className="flex flex-col gap-5 items-center justify-center w-full">
       <div className="flex flex-row gap-2 justify-between w-full">
         <div className="w-fit border border-neutral-200 rounded-xl ">
-          <input
+          <CustomInput
             value={teamName}
-            placeholder="Nombre del equipo..."
+            placeholder={t("TeamBuilder.TeamName")}
             onChange={(e) => setTeamName(e.target.value)}
-            className="w-full py-2 px-4 rounded-2xl focus:outline-none bg-white"
           />
         </div>
         <div className="flex flex-row items-center gap-3">
@@ -59,7 +64,7 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
       </div>
       <div className="grid grid-cols-2 gap-3 w-full">
         {pkmTeam.map((item) => (
-          <div key={item.name} onClick={() => handleClick(item.id)}>
+          <div key={item.id} onClick={() => handleClick(item.id)}>
             <SelectedPokemon action={action} pokemon={item} />
           </div>
         ))}
@@ -73,22 +78,42 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
         })}
       </div>
       <div className="flex flex-row items-center gap-3">
-        <CustomButton
-          handleClick={() =>
-            setAction((prev) => {
-              return prev === "delete" ? "" : "delete";
-            })
-          }
-        >
-          Eliminar
-        </CustomButton>
-        <CustomButton
-          handleClick={() =>
-            createTeam({ name: teamName ?? "Equipo X", pokemon: pkmTeam })
-          }
-        >
-          Crear
-        </CustomButton>
+        {selectedTeamId ? (
+          <>
+            <CustomButton
+              handleClick={() =>
+                setAction((prev) => {
+                  return prev === "delete" ? "" : "delete";
+                })
+              }
+            >
+              {t("Base.Delete")}
+            </CustomButton>
+            <CustomButton
+              handleClick={() => {
+                setSearchParams((params) => {
+                  params.delete("id");
+                  setPkmTeam([]);
+                  return params;
+                });
+                deleteTeam(selectedTeamId);
+              }}
+            >
+              Eliminar equipo
+            </CustomButton>
+            <CustomButton handleClick={() => {}}>
+              Actualizar equipo
+            </CustomButton>
+          </>
+        ) : (
+          <CustomButton
+            handleClick={() =>
+              createTeam({ name: teamName ?? "Equipo X", pokemon: pkmTeam })
+            }
+          >
+            {t("Base.CreateTeam")}
+          </CustomButton>
+        )}
       </div>
     </div>
   );

@@ -1,11 +1,17 @@
 {
+  "Base": {
+    "CreateTeam": "Create team",
+    "Delete": "Delete",
+    "Search": "Search..."
+  },
   "Home": {
     "Teams": {
-      "Title": "My teams",
-      "Crear": "Create team"
+      "Title": "My teams"
     }
   },
   "TeamBuilder": {
+    "SearchPokemon": "Search pokémon...",
+    "TeamName": "Team's name...",
     "TeamFull": "Team is already full",
     "AlreadyInTeam": "This pokemon is already in the tea"
   }

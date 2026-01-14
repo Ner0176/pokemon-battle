@@ -23,9 +23,10 @@ export const Container = ({ children }) => {
       <div className="relative z-10 w-full h-full border px-10 pt-12 pb-4">
         <div className="relative size-full bg-white/80 rounded-2xl rounded-tl-none px-6 py-4 shadow-md">
           <div className="absolute left-0 top-0 -translate-y-full z-10 flex flex-row rounded-t-xl border border-neutral-200 overflow-hidden">
-            {TABS.map(({ icon, path, label }) => {
+            {TABS.map(({ icon, path, label }, idx) => {
               return (
                 <div
+                  key={idx}
                   onClick={() => navigate(path)}
                   className="flex flex-row items-center gap-1 px-4 py-1 cursor-pointer bg-white/90 border-r border-neutral-300 last:border-r-0 hover:bg-neutral-50"
                 >

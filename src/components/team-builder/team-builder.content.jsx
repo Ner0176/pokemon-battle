@@ -1,6 +1,7 @@
 import Icon from "@mdi/react";
 import { capitalize } from "../../utils";
 import { mdiVolumeHigh } from "@mdi/js";
+import { useSearchParams } from "react-router-dom";
 
 const BASE_ASSETS_URL = "https://raw.githubusercontent.com/PokeAPI";
 
@@ -37,6 +38,46 @@ export const PokemonPreview = ({ details }) => {
         }}
       >
         <Icon path={mdiVolumeHigh} className="h-6" />
+      </div>
+    </div>
+  );
+};
+
+export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
+  const [_, setSearchParams] = useSearchParams();
+
+  return (
+    <div className="flex flex-col gap-3">
+      {pokemonTeams.map((item) => {
+        return (
+          <div
+            key={item.id}
+            onClick={() => {
+              setSearchParams((params) => {
+                params.set("id", item.id);
+                return params;
+              });
+            }}
+            style={{
+              borderColor: item.id === selectedTeamId ? "purple" : undefined,
+            }}
+            className="flex flex-col items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer"
+          >
+            <img className="size-10" src={item.team[0].staticSprite} />
+            <span className="text-sm">{item.name}</span>
+          </div>
+        );
+      })}
+      <div
+        onClick={() => {
+          setSearchParams((params) => {
+            params.delete("id");
+            return params;
+          });
+        }}
+        className="flex items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer"
+      >
+        +
       </div>
     </div>
   );

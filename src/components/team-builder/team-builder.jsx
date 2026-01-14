@@ -1,28 +1,26 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useGetPokemonDetails, useGetPokemonList } from "../../api";
-import { PokemonPreview } from "./team-builder.content";
-import { capitalize } from "../../utils";
+import { PokemonPreview, TeamsPreview } from "./team-builder.content";
 import { Container, showToast } from "../base";
 import { useTranslation } from "react-i18next";
 import { TeamSection } from "./team";
 import Skeleton from "react-loading-skeleton";
-import { getIdFromUrl } from "./team-builder.utils";
+import { formatPokemonInfo, getIdFromUrl } from "./team-builder.utils";
 import { useSearchParams } from "react-router-dom";
 import { usePokemonTeams } from "../stores";
-
-const BASE_SPRITE_URL =
-  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
+import { CustomInput } from "../base";
 
 export const TeamBuilder = () => {
   const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const paramsTeamId = searchParams.get("id");
+  const [searchParams] = useSearchParams();
+  const selectedTeamId = searchParams.get("id");
 
-  const pokemonTeams = usePokemonTeams();
+  const storedTeams = usePokemonTeams();
 
   const observerRef = useRef(null);
 
   const [limit, _] = useState(40);
+  const [search, setSearch] = useState("");
   const [pkmTeam, setPkmTeam] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
 
@@ -36,13 +34,15 @@ export const TeamBuilder = () => {
   } = useGetPokemonList(limit);
 
   useEffect(() => {
-    if (paramsTeamId) {
-      const team = pokemonTeams.find((team) => team.id === paramsTeamId);
-      setPkmTeam(team.team);
-    } else {
-      setPkmTeam([]);
+    let newPkmTeam = [];
+
+    if (selectedTeamId) {
+      const paramsTeam = storedTeams.find((team) => team.id === selectedTeamId);
+      if (paramsTeam) newPkmTeam = paramsTeam.team;
     }
-  }, [paramsTeamId, pokemonTeams]);
+
+    setPkmTeam(newPkmTeam);
+  }, [selectedTeamId, storedTeams]);
 
   useEffect(() => {
     const element = observerRef.current;
@@ -71,18 +71,7 @@ export const TeamBuilder = () => {
         return;
       }
 
-      const pokemon = {
-        id: pkmDetails.id,
-        name: capitalize(pkmDetails.name),
-        types: pkmDetails.types.map(({ type }) => type.name),
-        stats: pkmDetails.stats.map(({ base_stat, stat }) => ({
-          name: stat.name,
-          score: base_stat,
-        })),
-        staticSprite: `${BASE_SPRITE_URL}/${pkmDetails.id}.png`,
-        movingSprite: `${BASE_SPRITE_URL}/other/showdown/${pkmDetails.id}.gif`,
-      };
-      setPkmTeam((prev) => [...prev, pokemon]);
+      setPkmTeam((prev) => [...prev, formatPokemonInfo(pkmDetails)]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pkmDetails]);
@@ -104,43 +93,16 @@ export const TeamBuilder = () => {
     <Container>
       <div className="grid grid-cols-2 gap-10 h-full">
         <div className="flex flex-row gap-5 min-h-0 h-full">
-          <div className="flex flex-col gap-3">
-            {pokemonTeams.map((item) => {
-              return (
-                <div
-                  onClick={() => {
-                    setSearchParams((params) => {
-                      params.set("id", item.id);
-                      return params;
-                    });
-                  }}
-                  style={{
-                    borderColor:
-                      item.id === paramsTeamId ? "purple" : undefined,
-                  }}
-                  className="flex flex-col items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer"
-                >
-                  <img className="size-10" src={item.team[0].staticSprite} />
-                  <span className="text-sm">{item.name}</span>
-                </div>
-              );
-            })}
-            <div
-              onClick={() => {
-                setSearchParams((params) => {
-                  params.delete("id");
-                  return params;
-                });
-              }}
-              className="flex items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer"
-            >
-              +
-            </div>
-          </div>
+          <TeamsPreview
+            pokemonTeams={storedTeams}
+            selectedTeamId={selectedTeamId}
+          />
           <div className="flex flex-col gap-3 w-full h-full">
             <div className="w-full border border-neutral-200 rounded-xl">
-              <input
-                placeholder="Buscar pokémon..."
+              <CustomInput
+                search={search}
+                placeholder={t("TeamBuilder.SearchPokemon")}
+                handleChange={(e) => setSearch(e.current.value)}
                 className="w-full py-2 px-4 rounded-2xl focus:outline-none bg-white"
               />
             </div>
@@ -167,7 +129,11 @@ export const TeamBuilder = () => {
             </div>
           </div>
         </div>
-        <TeamSection pkmTeam={pkmTeam} setPkmTeam={setPkmTeam} />
+        <TeamSection
+          pkmTeam={pkmTeam}
+          setPkmTeam={setPkmTeam}
+          selectedTeamId={selectedTeamId}
+        />
       </div>
     </Container>
   );

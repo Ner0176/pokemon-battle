@@ -23,7 +23,7 @@ export const TeamsPreview = () => {
         </span>
         <CustomButton handleClick={() => navigate("/team-builder")}>
           <Icon path={mdiPlus} className="size-3.5" />
-          {t("Home.Teams.Crear")}
+          {t("Base.CreateTeam")}
         </CustomButton>
       </div>
       <div className="flex flex-col items-center gap-3 size-full overflow-y-auto">

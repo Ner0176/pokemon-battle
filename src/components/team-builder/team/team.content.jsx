@@ -3,15 +3,6 @@ import { capitalize } from "../../../utils";
 export const SelectedPokemon = ({ action, pokemon }) => {
   const { name, types, stats, movingSprite } = pokemon;
 
-  const statAbbreviations = {
-    hp: "HP",
-    attack: "ATK",
-    defense: "DEF",
-    "special-attack": "SPA",
-    "special-defense": "SPD",
-    speed: "SPE",
-  };
-
   return (
     <div
       key={name}
@@ -22,16 +13,24 @@ export const SelectedPokemon = ({ action, pokemon }) => {
       className="relative flex flex-row items-center justify-between px-6 border rounded-2xl py-3 bg-white hover:bg-neutral-50 cursor-pointer shadow-sm"
     >
       <div className="flex flex-row items-center gap-2">
-        <img className="size-full" src={movingSprite} />
+        <div className="h-14 w-fit">
+          <img className="size-full object-contain" src={movingSprite} />
+        </div>
         <div className="flex flex-col gap-3">
           {capitalize(name)}
-          <div>{types[0]}</div>
+          <div className="flex flex-row gap-1">
+            {types.map((type) => (
+              <div className="w-fit h-[15px] border">
+                <img src={type.sprite} className="size-full object-contain" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-1.5">
+      <div className="grid grid-cols-1 gap-1.5">
         {stats.map((item) => (
           <span key={item.name} className="text-xs">
-            {statAbbreviations[item.name]}: {item.score}
+            <span className="font-bold">{item.name}:</span> {item.score}
           </span>
         ))}
       </div>
