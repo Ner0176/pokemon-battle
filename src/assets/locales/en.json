@@ -1,5 +1,6 @@
 {
   "TeamBuilder": {
-    "TeamFull": "Team is already full"
+    "TeamFull": "Team is already full",
+    "AlreadyInTeam": "This pokemon is already in the tea"
   }
 }

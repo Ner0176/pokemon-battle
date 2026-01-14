@@ -1,16 +1,19 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useGetPokemonDetails, useGetPokemonList } from "../../api";
-import { PokemonPreview, SelectedPokemon } from "./team-builder.content";
+import { PokemonPreview } from "./team-builder.content";
 import { capitalize } from "../../utils";
 import { showToast } from "../base";
 import { useTranslation } from "react-i18next";
+import { TeamSection } from "./team";
+import Skeleton from "react-loading-skeleton";
+import { getIdFromUrl } from "./team-builder.utils";
 
 export const TeamBuilder = () => {
   const { t } = useTranslation();
 
   const observerRef = useRef(null);
 
-  const [action, setAction] = useState("");
+  const [limit, _] = useState(40);
   const [pkmTeam, setPkmTeam] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
 
@@ -21,7 +24,7 @@ export const TeamBuilder = () => {
     fetchNextPage,
     isFetchingNextPage,
     isLoading: isPkmListLoading,
-  } = useGetPokemonList();
+  } = useGetPokemonList(limit);
 
   useEffect(() => {
     const element = observerRef.current;
@@ -77,102 +80,46 @@ export const TeamBuilder = () => {
     setSelectedId(id);
   };
 
-  const handleClick = (id) => {
-    if (action === "delete") {
-      setPkmTeam((prev) => {
-        return prev.filter((pkm) => pkm.id !== id);
-      });
-    } else if (action === "random-order") {
-      setPkmTeam((prev) => {
-        return [...prev].sort(() => Math.random() - 0.5);
-      });
-    }
-  };
-
-  const handleSort = () => {
-    setPkmTeam((prev) => {
-      return [...prev].sort(() => Math.random() - 0.5);
-    });
-  };
-
-  const handleSortByAttack = () => {
-    setPkmTeam((prev) => {
-      return [...prev].sort((a, b) => {
-        const attackA = a.stats.find((s) => s.name === "attack")?.score || 0;
-        const attackB = b.stats.find((s) => s.name === "attack")?.score || 0;
-        return attackB - attackA;
-      });
-    });
-  };
-
   return (
     <div className="w-full h-screen border px-10 py-6">
       <div className="grid grid-cols-2 gap-10 h-full">
-        <div className="flex flex-col gap-3 w-full min-h-0 h-full">
-          <div className="w-full border border-neutral-200 rounded-xl">
-            <input
-              placeholder="Buscar pokémon..."
-              className="w-full py-2 px-4 rounded-2xl focus:outline-none"
-            />
-          </div>
-          <div className="flex flex-col gap-3 w-full h-full overflow-y-auto">
-            {loadedPkm.map((item, idx) => {
-              return (
-                <div key={item.name} onClick={() => addPokemon(idx + 1)}>
-                  <PokemonPreview details={{ id: idx + 1, name: item.name }} />
-                </div>
-              );
-            })}
-            {isPkmListLoading && <></>}
-            <div ref={observerRef} className="h-4">
-              Cargando más...
+        <div className="flex flex-row gap-5 min-h-0 h-full">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-center size-20 border border-neutral-200 rounded-lg cursor-pointer">
+              +
             </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-5 items-center justify-center w-full">
-          <div className="flex flex-row gap-2 justify-between w-full">
-            <span className="text-xl">Equipo 1</span>
-            <div className="flex flex-row items-center gap-3">
-              <button
-                onClick={handleSort}
-                className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
-              >
-                Ordenar aleatorio
-              </button>
-              <button
-                onClick={handleSortByAttack}
-                className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
-              >
-                Ordenar por ataque
-              </button>
-              <button
-                onClick={() =>
-                  setAction((prev) => {
-                    return prev === "delete" ? "" : "delete";
-                  })
-                }
-                className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
-              >
-                Eliminar
-              </button>
+          <div className="flex flex-col gap-3 w-full h-full">
+            <div className="w-full border border-neutral-200 rounded-xl">
+              <input
+                placeholder="Buscar pokémon..."
+                className="w-full py-2 px-4 rounded-2xl focus:outline-none"
+              />
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3 w-full">
-            {pkmTeam.map((item) => (
-              <div key={item.name} onClick={() => handleClick(item.id)}>
-                <SelectedPokemon action={action} pokemon={item} />
+            <div className="flex flex-col gap-3 w-full h-full overflow-y-auto">
+              {loadedPkm.map(({ name, url }) => {
+                const pkmId = getIdFromUrl(url);
+                return (
+                  <div key={name} onClick={() => addPokemon(pkmId)}>
+                    <PokemonPreview details={{ id: pkmId, name: name }} />
+                  </div>
+                );
+              })}
+              {(isPkmListLoading || isFetchingNextPage) &&
+                [...Array(5)].map((_, idx) => (
+                  <Skeleton
+                    key={idx}
+                    className="w-full h-20"
+                    style={{ borderRadius: 12 }}
+                  />
+                ))}
+              <div ref={observerRef} className="h-4 w-full">
+                Loading...
               </div>
-            ))}
-            {[...Array(6 - pkmTeam.length)].map((_, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="border-2 border-neutral-200  rounded-xl w-full h-20"
-                ></div>
-              );
-            })}
+            </div>
           </div>
         </div>
+        <TeamSection pkmTeam={pkmTeam} setPkmTeam={setPkmTeam} />
       </div>
     </div>
   );
