@@ -19,7 +19,7 @@ export const SelectedPokemon = ({ action, pokemon }) => {
         backgroundColor: action === "delete" && "#fef2f2",
         borderColor: action === "delete" ? "#fb2c36" : "#e5e5e5",
       }}
-      className="relative flex flex-row items-center justify-between px-6 border rounded-2xl py-3 hover:bg-neutral-50 cursor-pointer shadow-sm"
+      className="relative flex flex-row items-center justify-between px-6 border rounded-2xl py-3 bg-white hover:bg-neutral-50 cursor-pointer shadow-sm"
     >
       <div className="flex flex-row items-center gap-2">
         <img className="size-full" src={movingSprite} />

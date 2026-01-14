@@ -45,7 +45,7 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
             value={teamName}
             placeholder="Nombre del equipo..."
             onChange={(e) => setTeamName(e.target.value)}
-            className="w-full py-2 px-4 rounded-2xl focus:outline-none"
+            className="w-full py-2 px-4 rounded-2xl focus:outline-none bg-white"
           />
         </div>
         <div className="flex flex-row items-center gap-3">
@@ -67,7 +67,7 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
           return (
             <div
               key={idx}
-              className="border-2 border-neutral-200  rounded-xl w-full h-20"
+              className="border-2 border-neutral-200 bg-white rounded-xl w-full h-20"
             ></div>
           );
         })}
@@ -83,7 +83,7 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
           Eliminar
         </CustomButton>
         <CustomButton
-          onClick={() =>
+          handleClick={() =>
             createTeam({ name: teamName ?? "Equipo X", pokemon: pkmTeam })
           }
         >

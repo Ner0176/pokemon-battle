@@ -17,7 +17,7 @@ export const PokemonPreview = ({ details }) => {
   return (
     <div
       key={name}
-      className="flex flex-row items-center justify-between px-6 border border-neutral-200 rounded-2xl py-3 hover:bg-neutral-50 cursor-pointer"
+      className="flex flex-row items-center justify-between px-6 border border-neutral-200 bg-white rounded-2xl py-3 hover:bg-neutral-50 cursor-pointer"
     >
       <div className="flex flex-row items-center gap-2">
         <img

@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { TeamSection } from "./team";
 import Skeleton from "react-loading-skeleton";
 import { getIdFromUrl } from "./team-builder.utils";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { usePokemonTeams } from "../stores";
 
 const BASE_SPRITE_URL =
@@ -15,7 +15,6 @@ const BASE_SPRITE_URL =
 
 export const TeamBuilder = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const paramsTeamId = searchParams.get("id");
 
@@ -103,10 +102,7 @@ export const TeamBuilder = () => {
 
   return (
     <Container>
-      <div className="cursor-pointer" onClick={() => navigate("/")}>
-        Atrás
-      </div>
-      <div className="grid grid-cols-2 gap-10 h-full bg-white">
+      <div className="grid grid-cols-2 gap-10 h-full">
         <div className="flex flex-row gap-5 min-h-0 h-full">
           <div className="flex flex-col gap-3">
             {pokemonTeams.map((item) => {
@@ -122,7 +118,7 @@ export const TeamBuilder = () => {
                     borderColor:
                       item.id === paramsTeamId ? "purple" : undefined,
                   }}
-                  className="flex flex-col items-center justify-center size-20 border border-neutral-200 rounded-lg cursor-pointer"
+                  className="flex flex-col items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer"
                 >
                   <img className="size-10" src={item.team[0].staticSprite} />
                   <span className="text-sm">{item.name}</span>
@@ -136,7 +132,7 @@ export const TeamBuilder = () => {
                   return params;
                 });
               }}
-              className="flex items-center justify-center size-20 border border-neutral-200 rounded-lg cursor-pointer"
+              className="flex items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer"
             >
               +
             </div>
@@ -145,7 +141,7 @@ export const TeamBuilder = () => {
             <div className="w-full border border-neutral-200 rounded-xl">
               <input
                 placeholder="Buscar pokémon..."
-                className="w-full py-2 px-4 rounded-2xl focus:outline-none"
+                className="w-full py-2 px-4 rounded-2xl focus:outline-none bg-white"
               />
             </div>
             <div className="flex flex-col gap-3 w-full h-full overflow-y-auto">
