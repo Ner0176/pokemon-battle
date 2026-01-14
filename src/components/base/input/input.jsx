@@ -6,7 +6,9 @@ export const CustomInput = ({ value, handleChange, placeholder }) => {
   return (
     <input
       value={value}
-      onChange={handleChange}
+      onChange={(e) => {
+        handleChange(e.target.value);
+      }}
       placeholder={placeholder ?? t("Base.Search")}
       className="w-full py-2 px-4 rounded-2xl focus:outline-none bg-white"
     />

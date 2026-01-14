@@ -44,7 +44,7 @@ export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
           <CustomInput
             value={teamName}
             placeholder={t("TeamBuilder.TeamName")}
-            onChange={(e) => setTeamName(e.target.value)}
+            onChange={(value) => setTeamName(value)}
           />
         </div>
         <div className="flex flex-row items-center gap-3">

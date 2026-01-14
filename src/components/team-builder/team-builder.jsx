@@ -19,7 +19,6 @@ export const TeamBuilder = () => {
 
   const observerRef = useRef(null);
 
-  const [limit, _] = useState(40);
   const [search, setSearch] = useState("");
   const [pkmTeam, setPkmTeam] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -31,7 +30,7 @@ export const TeamBuilder = () => {
     fetchNextPage,
     isFetchingNextPage,
     isLoading: isPkmListLoading,
-  } = useGetPokemonList(limit);
+  } = useGetPokemonList();
 
   useEffect(() => {
     let newPkmTeam = [];
@@ -77,8 +76,13 @@ export const TeamBuilder = () => {
   }, [pkmDetails]);
 
   const loadedPkm = useMemo(() => {
-    return pkmList?.pages.flatMap((page) => page.results) ?? [];
-  }, [pkmList]);
+    const searchTerm = search.toLowerCase();
+    return (
+      pkmList?.pages
+        .flatMap((page) => page.results)
+        .filter((pkm) => pkm.name.toLowerCase().includes(searchTerm)) ?? []
+    );
+  }, [search, pkmList]);
 
   const addPokemon = (id) => {
     const alreadyIn = pkmTeam.find((pkm) => pkm.id === id);
@@ -100,10 +104,9 @@ export const TeamBuilder = () => {
           <div className="flex flex-col gap-3 w-full h-full">
             <div className="w-full border border-neutral-200 rounded-xl">
               <CustomInput
-                search={search}
+                value={search}
                 placeholder={t("TeamBuilder.SearchPokemon")}
-                handleChange={(e) => setSearch(e.current.value)}
-                className="w-full py-2 px-4 rounded-2xl focus:outline-none bg-white"
+                handleChange={(value) => setSearch(value)}
               />
             </div>
             <div className="flex flex-col gap-3 w-full h-full overflow-y-auto">

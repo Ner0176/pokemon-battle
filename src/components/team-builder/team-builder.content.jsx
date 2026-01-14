@@ -18,16 +18,18 @@ export const PokemonPreview = ({ details }) => {
   return (
     <div
       key={name}
-      className="flex flex-row items-center justify-between px-6 border border-neutral-200 bg-white rounded-2xl py-3 hover:bg-neutral-50 cursor-pointer"
+      className="flex flex-row items-center justify-between px-6 border border-neutral-200 bg-white rounded-2xl py-3 hover:bg-neutral-50 cursor-pointer shadow-inner"
     >
       <div className="flex flex-row items-center gap-2">
-        <img
-          className="size-16"
-          src={`${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/${id}.png`}
-          onError={(e) => {
-            e.currentTarget.src = `${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/0.png`;
-          }}
-        />
+        <div className="h-14 w-fit">
+          <img
+            className="size-full object-contain"
+            src={`${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/${id}.png`}
+            onError={(e) => {
+              e.currentTarget.src = `${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/0.png`;
+            }}
+          />
+        </div>
         {capitalize(name)}
       </div>
       <div
@@ -48,7 +50,22 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
 
   return (
     <div className="flex flex-col gap-3">
+      <div
+        onClick={() => {
+          setSearchParams((params) => {
+            params.delete("id");
+            return params;
+          });
+        }}
+        className="flex items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer shadow-inner"
+      >
+        +
+      </div>
       {pokemonTeams.map((item) => {
+        const isSelected =
+          item.id === selectedTeamId
+            ? { borderColor: "#00bc7d", backgroundColor: "#ecfdf5" }
+            : {};
         return (
           <div
             key={item.id}
@@ -58,27 +75,14 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
                 return params;
               });
             }}
-            style={{
-              borderColor: item.id === selectedTeamId ? "purple" : undefined,
-            }}
-            className="flex flex-col items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer"
+            style={isSelected}
+            className="flex flex-col items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer shadow-inner"
           >
             <img className="size-10" src={item.team[0].staticSprite} />
             <span className="text-sm">{item.name}</span>
           </div>
         );
       })}
-      <div
-        onClick={() => {
-          setSearchParams((params) => {
-            params.delete("id");
-            return params;
-          });
-        }}
-        className="flex items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer"
-      >
-        +
-      </div>
     </div>
   );
 };

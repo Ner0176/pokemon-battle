@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { pokemonApi } from "./pokemon.gateway";
 
-export function useGetPokemonList(limit = 20) {
+export function useGetPokemonList(limit = 1500) {
   return useInfiniteQuery({
     queryKey: ["pkmList", limit],
     queryFn: ({ pageParam }) => pokemonApi.getList({ limit, pageParam }),
