@@ -1,16 +1,19 @@
+import Icon from "@mdi/react";
 import { capitalize } from "../../../utils";
+import { useState } from "react";
+import { mdiTrashCanOutline } from "@mdi/js";
 
-export const SelectedPokemon = ({ action, pokemon }) => {
-  const { name, types, stats, movingSprite } = pokemon;
+export const SelectedPokemon = ({ pokemon, handleDelete }) => {
+  const { id, name, types, stats, movingSprite } = pokemon;
+
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
       key={name}
-      style={{
-        backgroundColor: action === "delete" && "#fef2f2",
-        borderColor: action === "delete" ? "#fb2c36" : "#e5e5e5",
-      }}
-      className="relative flex flex-row items-center justify-between px-6 border rounded-2xl py-3 bg-white hover:bg-neutral-50 cursor-pointer shadow-sm"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative flex flex-row items-center justify-between px-6 border border-neutral-200 rounded-2xl py-4 bg-white hover:bg-neutral-50 cursor-pointer shadow-sm"
     >
       <div className="flex flex-row items-center gap-2">
         <div className="h-14 w-fit">
@@ -20,20 +23,31 @@ export const SelectedPokemon = ({ action, pokemon }) => {
           {capitalize(name)}
           <div className="flex flex-row gap-1">
             {types.map((type) => (
-              <div className="w-fit h-[15px] border">
+              <div className="w-fit h-3.75 border">
                 <img src={type.sprite} className="size-full object-contain" />
               </div>
             ))}
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-1.5">
+      <div className="flex flex-col gap-1.5">
         {stats.map((item) => (
           <span key={item.name} className="text-xs">
             <span className="font-bold">{item.name}:</span> {item.score}
           </span>
         ))}
       </div>
+      {isHovered && (
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete(id);
+          }}
+          className="absolute top-2 left-2 z-30 cursor-pointer"
+        >
+          <Icon path={mdiTrashCanOutline} className="size-4 text-red-500" />
+        </div>
+      )}
     </div>
   );
 };

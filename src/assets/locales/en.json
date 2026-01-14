@@ -1,8 +1,10 @@
 {
   "Base": {
-    "CreateTeam": "Create team",
     "Delete": "Delete",
-    "Search": "Search..."
+    "Search": "Search...",
+    "CreateTeam": "Create team",
+    "DeleteTeam": "Delete team",
+    "UpdateTeam": "Update team"
   },
   "Home": {
     "Teams": {
@@ -13,6 +15,10 @@
     "SearchPokemon": "Search pokémon...",
     "TeamName": "Team's name...",
     "TeamFull": "Team is already full",
-    "AlreadyInTeam": "This pokemon is already in the tea"
+    "AlreadyInTeam": "This pokemon is already in the team",
+    "OrderBy": {
+      "Random": "Order randomly",
+      "Attack": "Order by attack"
+    }
   }
 }

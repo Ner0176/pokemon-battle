@@ -8,6 +8,8 @@ import {
 import { CustomButton, CustomInput, DragDrop } from "../../base";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { mdiFilterVariant } from "@mdi/js";
+import { mdiSword } from "@mdi/js";
 
 export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
   const { t } = useTranslation();
@@ -17,16 +19,7 @@ export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
   const updateTeam = useUpdatePkmTeam();
   const deleteTeam = useDeletePkmTeam();
 
-  const [action, setAction] = useState("");
   const [teamName, setTeamName] = useState("");
-
-  const handleClick = (id) => {
-    if (action === "delete") {
-      setPkmTeam((prev) => prev.filter((pkm) => pkm.id !== id));
-    } else if (action === "random-order") {
-      setPkmTeam((prev) => [...prev].sort(() => Math.random() - 0.5));
-    }
-  };
 
   const handleSort = () => {
     setPkmTeam((prev) => [...prev].sort(() => Math.random() - 0.5));
@@ -35,29 +28,61 @@ export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
   const handleSortByAttack = () => {
     setPkmTeam((prev) => {
       return [...prev].sort((a, b) => {
-        const attackA = a.stats.find((s) => s.name === "attack")?.score || 0;
-        const attackB = b.stats.find((s) => s.name === "attack")?.score || 0;
+        const attackA = a.stats.find((s) => s.name === "ATK")?.score || 0;
+        const attackB = b.stats.find((s) => s.name === "ATK")?.score || 0;
         return attackB - attackA;
       });
     });
   };
 
+  const handleCreateTeam = () => {
+    createTeam({ name: teamName, team: pkmTeam });
+  };
+
+  const handleUpdateTeam = () => {
+    updateTeam({
+      team: pkmTeam,
+      name: teamName,
+      id: selectedTeamId,
+    });
+  };
+
+  const handleDeleteTeam = () => {
+    setSearchParams((params) => {
+      params.delete("id");
+      setPkmTeam([]);
+      return params;
+    });
+    deleteTeam(selectedTeamId);
+  };
+
+  const deleteFromTeam = (id) => {
+    setPkmTeam((prev) => prev.filter((pkm) => pkm.id !== id));
+  };
+
   return (
     <div className="flex flex-col gap-5 items-center justify-center w-full">
-      <div className="flex flex-row gap-2 justify-between w-full">
-        <div className="w-fit border border-neutral-200 rounded-xl ">
-          <CustomInput
-            value={teamName}
-            placeholder={t("TeamBuilder.TeamName")}
-            handleChange={(value) => setTeamName(value)}
-          />
-        </div>
-        <div className="flex flex-row items-center gap-3">
-          <CustomButton handleClick={handleSort}>
-            Ordenar aleatorio
+      <div className="flex flex-row gap-6 w-full">
+        <CustomInput
+          value={teamName}
+          placeholder={t("TeamBuilder.TeamName")}
+          handleChange={(value) => setTeamName(value)}
+          customStyles={{ fontSize: 14 }}
+        />
+        <div className="flex flex-row items-center gap-2">
+          <CustomButton
+            icon={mdiFilterVariant}
+            handleClick={handleSort}
+            color={{ bgColor: "#f5f5f5", textColor: "#404040" }}
+          >
+            {t("TeamBuilder.OrderBy.Random")}
           </CustomButton>
-          <CustomButton handleClick={handleSortByAttack}>
-            Ordenar por ataque
+          <CustomButton
+            icon={mdiSword}
+            handleClick={handleSortByAttack}
+            color={{ bgColor: "#f5f5f5", textColor: "#404040" }}
+          >
+            {t("TeamBuilder.OrderBy.Attack")}
           </CustomButton>
         </div>
       </div>
@@ -67,58 +92,38 @@ export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
           setList={setPkmTeam}
           renderItem={(item) => {
             return (
-              <div onClick={() => handleClick(item.id)}>
-                <SelectedPokemon action={action} pokemon={item} />
-              </div>
+              <SelectedPokemon pokemon={item} handleDelete={deleteFromTeam} />
             );
           }}
         />
         {[...Array(6 - pkmTeam.length)].map((_, idx) => (
           <div
             key={`empty-${idx}`}
-            className="border-2 border-neutral-200 bg-white rounded-xl w-full h-20 shadow-inner"
-          ></div>
+            className="border-2 border-neutral-200 bg-white rounded-xl w-full h-23.5 shadow-inner"
+          />
         ))}
       </div>
-      <div className="flex flex-row items-center gap-3">
+      <div className="flex flex-row items-center justify-end w-full gap-3">
         {selectedTeamId ? (
           <>
             <CustomButton
-              handleClick={() =>
-                setAction((prev) => (prev === "delete" ? "" : "delete"))
-              }
+              variant="secondary"
+              handleClick={handleDeleteTeam}
+              customStyles={{ fontSize: 16 }}
             >
-              {t("Base.Delete")}
+              {t("Base.DeleteTeam")}
             </CustomButton>
             <CustomButton
-              handleClick={() => {
-                setSearchParams((params) => {
-                  params.delete("id");
-                  setPkmTeam([]);
-                  return params;
-                });
-                deleteTeam(selectedTeamId);
-              }}
+              handleClick={handleUpdateTeam}
+              customStyles={{ fontSize: 16 }}
             >
-              Eliminar equipo
-            </CustomButton>
-            <CustomButton
-              handleClick={() =>
-                updateTeam({
-                  team: pkmTeam,
-                  name: teamName,
-                  id: selectedTeamId,
-                })
-              }
-            >
-              Actualizar equipo
+              {t("Base.UpdateTeam")}
             </CustomButton>
           </>
         ) : (
           <CustomButton
-            handleClick={() =>
-              createTeam({ name: teamName ?? "Equipo X", team: pkmTeam })
-            }
+            handleClick={handleCreateTeam}
+            customStyles={{ fontSize: 16 }}
           >
             {t("Base.CreateTeam")}
           </CustomButton>

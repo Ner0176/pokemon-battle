@@ -2,7 +2,9 @@
   "Base": {
     "Delete": "Eliminar",
     "Search": "Buscar...",
-    "CreateTeam": "Crear equipo"
+    "CreateTeam": "Crear equipo",
+    "DeleteTeam": "Eliminar equipo",
+    "UpdateTeam": "Actualizar equipo"
   },
   "Home": {
     "Teams": {
@@ -14,6 +16,10 @@
     "SearchPokemon": "Buscar pokémon...",
     "TeamName": "Nombre del equipo...",
     "TeamFull": "No se pueden seleccionar más de 6 pokémon",
-    "AlreadyInTeam": "Este pokémon ya está en el equipo"
+    "AlreadyInTeam": "Este pokémon ya está en el equipo",
+    "OrderBy": {
+      "Random": "Ordenar aleatorio",
+      "Attack": "Ordenar por ataque"
+    }
   }
 }

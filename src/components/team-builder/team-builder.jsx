@@ -77,11 +77,13 @@ export const TeamBuilder = () => {
 
   const loadedPkm = useMemo(() => {
     const searchTerm = search.toLowerCase();
-    return (
-      pkmList?.pages
-        .flatMap((page) => page.results)
-        .filter((pkm) => pkm.name.toLowerCase().includes(searchTerm)) ?? []
-    );
+    let allPokemon = pkmList?.pages.flatMap((page) => page.results) ?? [];
+
+    if (search) {
+      allPokemon = allPokemon.filter((pkm) => pkm.name.includes(searchTerm));
+    }
+
+    return allPokemon;
   }, [search, pkmList]);
 
   const addPokemon = (id) => {
@@ -109,7 +111,7 @@ export const TeamBuilder = () => {
                 handleChange={(value) => setSearch(value)}
               />
             </div>
-            <div className="flex flex-col gap-3 w-full h-full overflow-y-auto">
+            <div className="grid grid-cols-2 gap-3 w-full h-full overflow-y-auto">
               {loadedPkm.map(({ name, url }) => {
                 const pkmId = getIdFromUrl(url);
                 return (
