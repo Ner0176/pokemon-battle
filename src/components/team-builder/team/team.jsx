@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SelectedPokemon } from "./team.content";
 import { useCreatePkmTeam } from "../../stores";
+import { CustomButton } from "../../base";
 
 export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
   const createTeam = useCreatePkmTeam();
@@ -48,18 +49,12 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
           />
         </div>
         <div className="flex flex-row items-center gap-3">
-          <button
-            onClick={handleSort}
-            className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
-          >
+          <CustomButton handleClick={handleSort}>
             Ordenar aleatorio
-          </button>
-          <button
-            onClick={handleSortByAttack}
-            className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
-          >
+          </CustomButton>
+          <CustomButton handleClick={handleSortByAttack}>
             Ordenar por ataque
-          </button>
+          </CustomButton>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3 w-full">
@@ -78,24 +73,22 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
         })}
       </div>
       <div className="flex flex-row items-center gap-3">
-        <button
-          onClick={() =>
+        <CustomButton
+          handleClick={() =>
             setAction((prev) => {
               return prev === "delete" ? "" : "delete";
             })
           }
-          className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
         >
           Eliminar
-        </button>
-        <button
+        </CustomButton>
+        <CustomButton
           onClick={() =>
             createTeam({ name: teamName ?? "Equipo X", pokemon: pkmTeam })
           }
-          className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
         >
           Crear
-        </button>
+        </CustomButton>
       </div>
     </div>
   );

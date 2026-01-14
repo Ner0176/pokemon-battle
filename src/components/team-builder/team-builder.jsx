@@ -10,6 +10,9 @@ import { getIdFromUrl } from "./team-builder.utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { usePokemonTeams } from "../stores";
 
+const BASE_SPRITE_URL =
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
+
 export const TeamBuilder = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -77,6 +80,8 @@ export const TeamBuilder = () => {
           name: stat.name,
           score: base_stat,
         })),
+        staticSprite: `${BASE_SPRITE_URL}/${pkmDetails.id}.png`,
+        movingSprite: `${BASE_SPRITE_URL}/other/showdown/${pkmDetails.id}.gif`,
       };
       setPkmTeam((prev) => [...prev, pokemon]);
     }
@@ -119,10 +124,7 @@ export const TeamBuilder = () => {
                   }}
                   className="flex flex-col items-center justify-center size-20 border border-neutral-200 rounded-lg cursor-pointer"
                 >
-                  <img
-                    className="size-10"
-                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.team[0].id}.png`}
-                  />
+                  <img className="size-10" src={item.team[0].staticSprite} />
                   <span className="text-sm">{item.name}</span>
                 </div>
               );

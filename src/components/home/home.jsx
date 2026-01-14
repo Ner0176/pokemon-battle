@@ -1,48 +1,28 @@
-import { useNavigate } from "react-router-dom";
-import { usePokemonTeams } from "../stores";
+import { CustomButton } from "../base";
+import { TeamsPreview } from "./home.content";
 
 export const HomeDashboard = () => {
-  const navigate = useNavigate();
-
-  const pokemonTeams = usePokemonTeams();
-
-  const showTeamDetails = (teamId) => {
-    navigate(`/team-builder?id=${teamId}`);
-  };
-
   return (
-    <div className="w-full h-screen border px-10 py-6">
-      <div className="grid grid-cols-2 gap-10 h-full">
-        <div className="size-full bg-black/20 rounded-2xl px-6 py-4">
-          <div className="flex flex-col gap-3 overflow-y-auto">
-            <span className="text-xl">Mis equipos</span>
-            {pokemonTeams.map(({ id, name, team }) => {
-              return (
-                <div
-                  onClick={() => showTeamDetails(id)}
-                  className="flex flex-col gap-2 w-full bg-white border border-neutral-200 rounded-lg py-2 px-4 cursor-pointer hover:shadow-md hover:bg-neutral-50"
-                >
-                  <span>{name}</span>
-                  <div className="flex flex-row items-center gap-3">
-                    {team.map((pkm) => (
-                      <img
-                        className="size-10"
-                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pkm.id}.png`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+    <div
+      className="w-full h-screen bg-cover bg-center relative"
+      style={{
+        backgroundImage:
+          "url('https://cdna.artstation.com/p/assets/images/images/077/352/672/large/flyziken-twitch-bg-pokemon.jpg?1719247264')",
+      }}
+    >
+      <div className="absolute inset-0 bg-black/40"></div>
+      <div className="relative z-10 w-full h-full border px-10 py-6">
+        <div className="size-full bg-white/80 rounded-2xl px-6 py-4 shadow-md">
+          <div className="grid grid-cols-2 gap-10 py-4 h-full">
+            <TeamsPreview />
+            <div className="flex items-center justify-center">
+              <CustomButton
+                customStyles={{ fontSize: 18, padding: "24px 40px 24px 40px" }}
+              >
+                {"Jugar partida"}
+              </CustomButton>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center justify-center">
-          <button
-            onClick={() => navigate("/team-builder")}
-            className="bg-emerald-500 text-white rounded-xl px-10 py-6 text-lg cursor-pointer hover:shadow-md"
-          >
-            Crear equipo
-          </button>
         </div>
       </div>
     </div>

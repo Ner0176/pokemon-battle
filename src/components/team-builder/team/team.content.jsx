@@ -1,7 +1,7 @@
 import { capitalize } from "../../../utils";
 
 export const SelectedPokemon = ({ action, pokemon }) => {
-  const { id, name, types, stats } = pokemon;
+  const { name, types, stats, movingSprite } = pokemon;
 
   const statAbbreviations = {
     hp: "HP",
@@ -22,10 +22,7 @@ export const SelectedPokemon = ({ action, pokemon }) => {
       className="relative flex flex-row items-center justify-between px-6 border rounded-2xl py-3 hover:bg-neutral-50 cursor-pointer shadow-sm"
     >
       <div className="flex flex-row items-center gap-2">
-        <img
-          className="size-full"
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${id}.gif`}
-        />
+        <img className="size-full" src={movingSprite} />
         <div className="flex flex-col gap-3">
           {capitalize(name)}
           <div>{types[0]}</div>

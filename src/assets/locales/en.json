@@ -1,4 +1,10 @@
 {
+  "Home": {
+    "Teams": {
+      "Title": "My teams",
+      "Crear": "Create team"
+    }
+  },
   "TeamBuilder": {
     "TeamFull": "Team is already full",
     "AlreadyInTeam": "This pokemon is already in the tea"

@@ -1,4 +1,10 @@
 {
+  "Home": {
+    "Teams": {
+      "Title": "Mis equipos",
+      "Crear": "Crear equipo"
+    }
+  },
   "TeamBuilder": {
     "TeamFull": "No se pueden seleccionar más de 6 pokémon",
     "AlreadyInTeam": "Este pokémon ya está en el equipo"
