@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { SelectedPokemon } from "./team.content";
+import { useCreatePkmTeam } from "../../stores";
 
 export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
+  const createTeam = useCreatePkmTeam();
+
   const [action, setAction] = useState("");
+  const [teamName, setTeamName] = useState("");
 
   const handleClick = (id) => {
     if (action === "delete") {
@@ -35,7 +39,14 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
   return (
     <div className="flex flex-col gap-5 items-center justify-center w-full">
       <div className="flex flex-row gap-2 justify-between w-full">
-        <span className="text-xl">Equipo 1</span>
+        <div className="w-fit border border-neutral-200 rounded-xl ">
+          <input
+            value={teamName}
+            placeholder="Nombre del equipo..."
+            onChange={(e) => setTeamName(e.target.value)}
+            className="w-full py-2 px-4 rounded-2xl focus:outline-none"
+          />
+        </div>
         <div className="flex flex-row items-center gap-3">
           <button
             onClick={handleSort}
@@ -48,16 +59,6 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
             className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
           >
             Ordenar por ataque
-          </button>
-          <button
-            onClick={() =>
-              setAction((prev) => {
-                return prev === "delete" ? "" : "delete";
-              })
-            }
-            className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
-          >
-            Eliminar
           </button>
         </div>
       </div>
@@ -75,6 +76,26 @@ export const TeamSection = ({ pkmTeam, setPkmTeam }) => {
             ></div>
           );
         })}
+      </div>
+      <div className="flex flex-row items-center gap-3">
+        <button
+          onClick={() =>
+            setAction((prev) => {
+              return prev === "delete" ? "" : "delete";
+            })
+          }
+          className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
+        >
+          Eliminar
+        </button>
+        <button
+          onClick={() =>
+            createTeam({ name: teamName ?? "Equipo X", pokemon: pkmTeam })
+          }
+          className="bg-neutral-50 border border-neutral-200 px-4 py-2.5 rounded-xl cursor-pointer shadow-sm hover:shadow-md"
+        >
+          Crear
+        </button>
       </div>
     </div>
   );

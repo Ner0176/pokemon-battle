@@ -7,9 +7,16 @@ import { useTranslation } from "react-i18next";
 import { TeamSection } from "./team";
 import Skeleton from "react-loading-skeleton";
 import { getIdFromUrl } from "./team-builder.utils";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { usePokemonTeams } from "../stores";
 
 export const TeamBuilder = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const paramsTeamId = searchParams.get("id");
+
+  const pokemonTeams = usePokemonTeams();
 
   const observerRef = useRef(null);
 
@@ -25,6 +32,15 @@ export const TeamBuilder = () => {
     isFetchingNextPage,
     isLoading: isPkmListLoading,
   } = useGetPokemonList(limit);
+
+  useEffect(() => {
+    if (paramsTeamId) {
+      const team = pokemonTeams.find((team) => team.id === paramsTeamId);
+      setPkmTeam(team.team);
+    } else {
+      setPkmTeam([]);
+    }
+  }, [paramsTeamId, pokemonTeams]);
 
   useEffect(() => {
     const element = observerRef.current;
@@ -82,10 +98,44 @@ export const TeamBuilder = () => {
 
   return (
     <div className="w-full h-screen border px-10 py-6">
+      <div className="cursor-pointer" onClick={() => navigate("/")}>
+        Atrás
+      </div>
       <div className="grid grid-cols-2 gap-10 h-full">
         <div className="flex flex-row gap-5 min-h-0 h-full">
           <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-center size-20 border border-neutral-200 rounded-lg cursor-pointer">
+            {pokemonTeams.map((item) => {
+              return (
+                <div
+                  onClick={() => {
+                    setSearchParams((params) => {
+                      params.set("id", item.id);
+                      return params;
+                    });
+                  }}
+                  style={{
+                    borderColor:
+                      item.id === paramsTeamId ? "purple" : undefined,
+                  }}
+                  className="flex flex-col items-center justify-center size-20 border border-neutral-200 rounded-lg cursor-pointer"
+                >
+                  <img
+                    className="size-10"
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.team[0].id}.png`}
+                  />
+                  <span className="text-sm">{item.name}</span>
+                </div>
+              );
+            })}
+            <div
+              onClick={() => {
+                setSearchParams((params) => {
+                  params.delete("id");
+                  return params;
+                });
+              }}
+              className="flex items-center justify-center size-20 border border-neutral-200 rounded-lg cursor-pointer"
+            >
               +
             </div>
           </div>
