@@ -103,7 +103,7 @@ export const TeamBuilder = () => {
             pokemonTeams={storedTeams}
             selectedTeamId={selectedTeamId}
           />
-          <div className="flex flex-col gap-3 w-full h-full">
+          <div className="flex flex-col w-full h-full">
             <div className="w-full border border-neutral-200 rounded-xl">
               <CustomInput
                 value={search}
@@ -112,10 +112,14 @@ export const TeamBuilder = () => {
               />
             </div>
             <div className="grid grid-cols-2 gap-3 w-full h-full overflow-y-auto">
-              {loadedPkm.map(({ name, url }) => {
+              {loadedPkm.map(({ name, url }, idx) => {
                 const pkmId = getIdFromUrl(url);
                 return (
-                  <div key={name} onClick={() => addPokemon(pkmId)}>
+                  <div
+                    key={name}
+                    onClick={() => addPokemon(pkmId)}
+                    style={{ marginTop: idx < 2 && 12 }}
+                  >
                     <PokemonPreview details={{ id: pkmId, name: name }} />
                   </div>
                 );

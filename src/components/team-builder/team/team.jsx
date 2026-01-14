@@ -36,7 +36,7 @@ export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
   };
 
   const handleCreateTeam = () => {
-    createTeam({ name: teamName, team: pkmTeam });
+    createTeam({ name: teamName, pokemon: pkmTeam });
   };
 
   const handleUpdateTeam = () => {

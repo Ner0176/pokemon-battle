@@ -35,8 +35,21 @@ export const TeamsPreview = () => {
             >
               <span>{name}</span>
               <div className="flex flex-row items-center justify-evenly gap-3 w-full">
-                {team.map((pkm) => (
-                  <img className="size-10" src={pkm.staticSprite} />
+                {team.map(({ stats, staticSprite }) => (
+                  <div className="flex flex-col items-center gap-1">
+                    <div className="w-fit h-16">
+                      <img
+                        src={staticSprite}
+                        className="size-full object-contain"
+                      />
+                    </div>
+                    {stats.map((item) => (
+                      <span key={item.name} className="text-[10px]">
+                        <span className="font-bold">{item.name}: </span>
+                        {item.score}
+                      </span>
+                    ))}
+                  </div>
                 ))}
               </div>
             </div>

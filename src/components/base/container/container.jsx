@@ -21,7 +21,7 @@ export const Container = ({ children }) => {
     >
       <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 w-full h-full border px-10 pt-12 pb-4">
-        <div className="relative size-full bg-white/80 rounded-2xl rounded-tl-none px-6 py-4 shadow-md">
+        <div className="relative size-full bg-white/80 rounded-2xl rounded-tl-none px-6 pt-4 shadow-md">
           <div className="absolute left-0 top-0 -translate-y-full z-10 flex flex-row rounded-t-xl border border-neutral-200 overflow-hidden">
             {TABS.map(({ icon, path, label }, idx) => {
               return (
