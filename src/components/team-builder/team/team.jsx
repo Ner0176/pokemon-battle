@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { SelectedPokemon } from "./team.content";
-import { useCreatePkmTeam, useDeletePkmTeam } from "../../stores";
+import {
+  useCreatePkmTeam,
+  useDeletePkmTeam,
+  useUpdatePkmTeam,
+} from "../../stores";
 import { CustomButton, CustomInput, DragDrop } from "../../base";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -10,6 +14,7 @@ export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
   const [_, setSearchParams] = useSearchParams();
 
   const createTeam = useCreatePkmTeam();
+  const updateTeam = useUpdatePkmTeam();
   const deleteTeam = useDeletePkmTeam();
 
   const [action, setAction] = useState("");
@@ -44,7 +49,7 @@ export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
           <CustomInput
             value={teamName}
             placeholder={t("TeamBuilder.TeamName")}
-            onChange={(value) => setTeamName(value)}
+            handleChange={(value) => setTeamName(value)}
           />
         </div>
         <div className="flex flex-row items-center gap-3">
@@ -97,14 +102,22 @@ export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
             >
               Eliminar equipo
             </CustomButton>
-            <CustomButton handleClick={() => {}}>
+            <CustomButton
+              handleClick={() =>
+                updateTeam({
+                  team: pkmTeam,
+                  name: teamName,
+                  id: selectedTeamId,
+                })
+              }
+            >
               Actualizar equipo
             </CustomButton>
           </>
         ) : (
           <CustomButton
             handleClick={() =>
-              createTeam({ name: teamName ?? "Equipo X", pokemon: pkmTeam })
+              createTeam({ name: teamName ?? "Equipo X", team: pkmTeam })
             }
           >
             {t("Base.CreateTeam")}
