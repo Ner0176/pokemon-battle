@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { usePokemonTeams } from "../../stores";
+import { useGetBattleTeams } from "../../stores";
 import { simulateBattle } from "./battle-arena.utils";
 import { useEffect } from "react";
 import { Container, CustomButton } from "../base";
@@ -9,12 +9,15 @@ import {
   FightingPokemon,
 } from "./battle-arena.content";
 import { useNavigate } from "react-router-dom";
+import { BattleResultSummary } from "./result-summary";
+import { useTranslation } from "react-i18next";
 
 export const BattleArena = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const teams = useGetBattleTeams();
 
-  const teams = usePokemonTeams();
-
+  const [result, setResult] = useState();
   const [history, setHistory] = useState([]);
   const [stageIdx, setStageIdx] = useState(-1);
   const [isAnimating, setIsAnimating] = useState(true);
@@ -22,9 +25,10 @@ export const BattleArena = () => {
   const { pokemonA, pokemonB, loser } = history[stageIdx] ?? {};
 
   useEffect(() => {
-    if (teams.length >= 2) {
-      const result = simulateBattle(teams[0], teams[1]);
+    if (teams.blueTeam && teams.redTeam) {
+      const result = simulateBattle(teams.redTeam, teams.blueTeam, t);
       setHistory(result.history);
+      setResult(result);
       setStageIdx(0);
     } else navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,15 +73,26 @@ export const BattleArena = () => {
                 isLoser={!isAnimating && loser === pokemonB.name}
               />
             )}
-            <BattleTeamInfo teamDetails={teams[0]} />
-            <BattleTeamInfo teamDetails={teams[1]} variant="right" />
+            {history && (
+              <>
+                <BattleTeamInfo
+                  currentPokemon={pokemonA}
+                  teamDetails={teams.redTeam}
+                />
+                <BattleTeamInfo
+                  variant="right"
+                  currentPokemon={pokemonB}
+                  teamDetails={teams.blueTeam}
+                />
+              </>
+            )}
           </div>
           <div>
             <CustomButton
               customStyles={{ fontSize: 16 }}
               handleClick={nextStage}
             >
-              Siguiente ronda
+              Ver resultado
             </CustomButton>
           </div>
         </div>
@@ -87,6 +102,13 @@ export const BattleArena = () => {
           isAnimating={isAnimating}
         />
       </div>
+      {result && stageIdx === history.length && (
+        <BattleResultSummary
+          teams={teams}
+          result={result}
+          handleClose={() => navigate("/")}
+        />
+      )}
     </Container>
   );
 };

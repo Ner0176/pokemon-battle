@@ -1,4 +1,4 @@
-export const simulateBattle = (teamA, teamB) => {
+export const simulateBattle = (teamA, teamB, t) => {
   let fightersA = [...teamA.team];
   let fightersB = [...teamB.team];
   const history = [];
@@ -37,24 +37,29 @@ export const simulateBattle = (teamA, teamB) => {
     if (firstAttacker.s.atk > secondAttacker.s.def) {
       winnerPokemon = firstAttacker.p;
       loserPokemon = secondAttacker.p;
-      reason = `${winnerPokemon.name} atacó primero y superó la defensa de ${loserPokemon.name}.`;
+      reason = t("BattleArena.RedWins", {
+        pkm1: winnerPokemon.name,
+        pkm2: loserPokemon.name,
+      });
     } else if (secondAttacker.s.atk > firstAttacker.s.def) {
       winnerPokemon = secondAttacker.p;
       loserPokemon = firstAttacker.p;
-      reason = `${firstAttacker.p.name} no pudo romper la defensa, pero ${winnerPokemon.name} contraatacó con éxito.`;
+      reason = t("BattleArena.BlueWins", {
+        pkm1: loserPokemon.name,
+        pkm2: loserPokemon.name,
+      });
     } else {
       winnerPokemon = firstAttacker.p;
       loserPokemon = secondAttacker.p;
-      reason =
-        "Empate técnico en combate; la velocidad superior decidió el ganador.";
+      reason = t("BattleArena.Tie");
     }
 
     history.push({
       reason,
       pokemonA: p1,
       pokemonB: p2,
-      winner: winnerPokemon.name,
       loser: loserPokemon.name,
+      winner: winnerPokemon.name,
       roundWinnerTeam: winnerPokemon.id === p1.id ? teamA.name : teamB.name,
     });
 
@@ -64,10 +69,11 @@ export const simulateBattle = (teamA, teamB) => {
       currentPokemonAIndex++;
     }
   }
+
   return {
+    history,
     winnerTeam:
       currentPokemonAIndex < fightersA.length ? teamA.name : teamB.name,
-    history, // Ahora cada entrada tiene pokemonA y pokemonB completos
     survivorsA: fightersA.length - currentPokemonAIndex,
     defeatedA: currentPokemonAIndex,
     survivorsB: fightersB.length - currentPokemonBIndex,

@@ -1,8 +1,11 @@
 {
   "Base": {
+    "Winner": "Ganador",
     "Battle": "Combatir",
     "Delete": "Eliminar",
     "Search": "Buscar...",
+    "RedTeam": "Equipo rojo",
+    "BlueTeam": "Equipo azul",
     "CreateTeam": "Crear equipo",
     "DeleteTeam": "Eliminar equipo",
     "UpdateTeam": "Actualizar equipo"
@@ -11,6 +14,9 @@
     "Teams": {
       "Title": "Mis equipos",
       "Placeholder": "Nombre del equipo..."
+    },
+    "PrepareBattle": {
+      "Title": "Selecciona contendientes"
     }
   },
   "TeamBuilder": {
@@ -24,8 +30,20 @@
     }
   },
   "BattleArena": {
+    "RedWins": "{{pkm1}} atacó primero y superó la defensa de {{pkm2}}.",
+    "BlueWins": "{{pkm1}} no pudo romper la defensa y {{pkm2}} contraatacó con éxito.",
+    "Tie": "Empate técnico en combate; la velocidad superior decidió el ganador",
     "Historic": {
       "Title": "Historial de combate"
+    },
+    "Results": {
+      "Alive": "Vivos",
+      "Victory": "Victoria",
+      "Wins": "Gana: {{name}}",
+      "Defeated": "Debilitados",
+      "Close": "Cerrar resultados",
+      "Title": "Resultados del combate",
+      "Breakdown": "Desglose por rondas"
     }
   }
 }

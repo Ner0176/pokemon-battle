@@ -1,8 +1,11 @@
 {
   "Base": {
+    "Winner": "Winner",
     "Fight": "Battle",
     "Delete": "Delete",
     "Search": "Search...",
+    "RedTeam": "Red team",
+    "BlueTeam": "Blue team",
     "CreateTeam": "Create team",
     "DeleteTeam": "Delete team",
     "UpdateTeam": "Update team"
@@ -10,6 +13,9 @@
   "Home": {
     "Teams": {
       "Title": "My teams"
+    },
+    "PrepareBattle": {
+      "Title": "Select contenders"
     }
   },
   "TeamBuilder": {
@@ -23,8 +29,20 @@
     }
   },
   "BattleArena": {
+    "RedWins": "{{pkm1}} attacked first and broke through {{pkm2}}'s defense.",
+    "BlueWins": "{{pkm1}} failed to break the defense, and {{pkm2}} successfully counterattacked.",
+    "Tie": "Technical tie; superior speed decided the winner",
     "Historic": {
-      "Title": "Battle historic"
+      "Title": "Battle History"
+    },
+    "Results": {
+      "Alive": "Survivors",
+      "Victory": "Victory",
+      "Wins": "Winner: {{name}}",
+      "Defeated": "Defeated",
+      "Close": "Close Results",
+      "Title": "Battle Results",
+      "Breakdown": "Round Breakdown"
     }
   }
 }
