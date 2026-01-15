@@ -49,7 +49,7 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
   const [_, setSearchParams] = useSearchParams();
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 h-full overflow-y-auto p-1">
       <div
         onClick={() => {
           setSearchParams((params) => {
@@ -57,7 +57,7 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
             return params;
           });
         }}
-        className="flex items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer shadow-inner"
+        className="flex items-center justify-center w-full aspect-square bg-white border border-neutral-200 rounded-lg cursor-pointer shadow-inner"
       >
         +
       </div>
@@ -76,10 +76,18 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
               });
             }}
             style={isSelected}
-            className="flex flex-col items-center justify-center size-20 bg-white border border-neutral-200 rounded-lg cursor-pointer shadow-inner"
+            className="flex flex-col items-center justify-center w-full aspect-square bg-white border border-neutral-200 rounded-lg cursor-pointer shadow-inner px-2 shrink-0 relative"
           >
-            <img className="size-10" src={item.team[0].staticSprite} />
-            <span className="text-sm">{item.name}</span>
+            <div className="h-1/2 w-full flex items-center justify-center mb-1">
+              <img
+                className="max-h-full max-w-full object-contain"
+                src={item.team[0].staticSprite}
+                alt={item.name}
+              />
+            </div>
+            <span className="text-sm truncate w-full text-center px-1">
+              {item.name}
+            </span>
           </div>
         );
       })}
