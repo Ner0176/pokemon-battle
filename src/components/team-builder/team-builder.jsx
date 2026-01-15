@@ -103,10 +103,12 @@ export const TeamBuilder = () => {
     <Container>
       <div className="grid grid-cols-2 gap-10 h-full">
         <div className="flex flex-row gap-5 min-h-0 h-full">
-          <TeamsPreview
-            pokemonTeams={storedTeams}
-            selectedTeamId={selectedTeamId}
-          />
+          {storedTeams.length > 0 && (
+            <TeamsPreview
+              pokemonTeams={storedTeams}
+              selectedTeamId={selectedTeamId}
+            />
+          )}
           <div className="flex flex-col w-full h-full">
             <div className="w-full border border-neutral-200 rounded-xl">
               <CustomInput

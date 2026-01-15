@@ -1,7 +1,11 @@
 import Icon from "@mdi/react";
 import { capitalize } from "../../utils";
-import { mdiVolumeHigh } from "@mdi/js";
+import { mdiPlus, mdiVolumeHigh } from "@mdi/js";
 import { useSearchParams } from "react-router-dom";
+import {
+  pkmPreviewContainer,
+  teamPreviewBoxContainer,
+} from "./team-builder.styled";
 
 const BASE_ASSETS_URL = "https://raw.githubusercontent.com/PokeAPI";
 
@@ -16,10 +20,7 @@ export const PokemonPreview = ({ details }) => {
   };
 
   return (
-    <div
-      key={name}
-      className="flex flex-row items-center justify-between px-6 border border-neutral-200 bg-white rounded-2xl py-3 hover:bg-neutral-50 cursor-pointer shadow-inner"
-    >
+    <div className={pkmPreviewContainer}>
       <div className="flex flex-row items-center gap-2">
         <div className="h-14 w-fit">
           <img
@@ -48,18 +49,17 @@ export const PokemonPreview = ({ details }) => {
 export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
   const [_, setSearchParams] = useSearchParams();
 
+  const handleTeamIdParam = ({ teamId }) => {
+    setSearchParams((params) => {
+      teamId ? params.set("id", teamId) : params.delete("id");
+      return params;
+    });
+  };
+
   return (
     <div className="flex flex-col gap-3 h-full overflow-y-auto p-1">
-      <div
-        onClick={() => {
-          setSearchParams((params) => {
-            params.delete("id");
-            return params;
-          });
-        }}
-        className="flex items-center justify-center w-full aspect-square bg-white border border-neutral-200 rounded-lg cursor-pointer shadow-inner"
-      >
-        +
+      <div onClick={handleTeamIdParam} className={teamPreviewBoxContainer}>
+        <Icon path={mdiPlus} className="size-4" />
       </div>
       {pokemonTeams.map((item) => {
         const isSelected =
@@ -69,20 +69,15 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
         return (
           <div
             key={item.id}
-            onClick={() => {
-              setSearchParams((params) => {
-                params.set("id", item.id);
-                return params;
-              });
-            }}
             style={isSelected}
-            className="flex flex-col items-center justify-center w-full aspect-square bg-white border border-neutral-200 rounded-lg cursor-pointer shadow-inner px-2 shrink-0 relative"
+            onClick={() => handleTeamIdParam({ teamId: item.id })}
+            className={`${teamPreviewBoxContainer} px-2 shrink-0`}
           >
             <div className="h-1/2 w-full flex items-center justify-center mb-1">
               <img
-                className="max-h-full max-w-full object-contain"
-                src={item.team[0].staticSprite}
                 alt={item.name}
+                src={item.team[0].staticSprite}
+                className="max-h-full max-w-full object-contain"
               />
             </div>
             <span className="text-sm truncate w-full text-center px-1">
