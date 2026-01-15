@@ -24,13 +24,8 @@ export const BattleArena = () => {
   useEffect(() => {
     if (teams.length >= 2) {
       const result = simulateBattle(teams[0], teams[1]);
-
-      const timer = setTimeout(() => {
-        setHistory(result.history);
-        setStageIdx(0);
-      }, 1000);
-
-      return () => clearTimeout(timer);
+      setHistory(result.history);
+      setStageIdx(0);
     } else navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

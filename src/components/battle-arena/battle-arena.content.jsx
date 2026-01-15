@@ -1,22 +1,32 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
   const { name, types, movingSprite, movingBackSprite } = pokemon;
+
+  const [isEntering, setIsEntering] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsEntering(false), 50);
+    return () => clearTimeout(timer);
+  }, []);
 
   const variants = {
     left: "bottom-10 left-50",
     right: "top-10 right-50",
   };
 
-  const exitClass = isLoser
-    ? "opacity-0 translate-y-20 delay-1000"
-    : "opacity-100 scale-100";
-  const entryClass = "animate-in slide-in-from-bottom duration-1000";
+  const animationClass = isLoser
+    ? "opacity-0 translate-y-20 scale-90 delay-1000 duration-800"
+    : isEntering
+    ? "opacity-0 -translate-y-20 scale-90"
+    : "opacity-100 translate-y-0 scale-100";
 
   return (
     <div
-      className={`absolute flex flex-row justify-between gap-5 transition-all 
-        ${variants[variant] || variants.left} ${exitClass} ${entryClass} `}
+      className={`absolute flex flex-row justify-between gap-5 transition-all duration-1000
+        ${variants[variant] || variants.left} ${animationClass}`}
     >
       <div className="flex flex-col gap-2 bg-white/90 px-4 py-2 rounded-lg shadow-lg h-fit">
         <div className="flex flex-row items-center gap-3">
