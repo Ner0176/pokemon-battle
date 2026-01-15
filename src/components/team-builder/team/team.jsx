@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { SelectedPokemon } from "./team.content";
 import {
   useCreatePkmTeam,
@@ -11,15 +10,19 @@ import { useTranslation } from "react-i18next";
 import { mdiFilterVariant } from "@mdi/js";
 import { mdiSword } from "@mdi/js";
 
-export const TeamSection = ({ pkmTeam, setPkmTeam, selectedTeamId }) => {
+export const TeamSection = ({
+  pkmTeam,
+  teamName,
+  setPkmTeam,
+  setTeamName,
+  selectedTeamId,
+}) => {
   const { t } = useTranslation();
   const [_, setSearchParams] = useSearchParams();
 
   const createTeam = useCreatePkmTeam();
   const updateTeam = useUpdatePkmTeam();
   const deleteTeam = useDeletePkmTeam();
-
-  const [teamName, setTeamName] = useState("");
 
   const handleSort = () => {
     setPkmTeam((prev) => [...prev].sort(() => Math.random() - 0.5));

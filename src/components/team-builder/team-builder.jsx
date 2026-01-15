@@ -21,6 +21,7 @@ export const TeamBuilder = () => {
 
   const [search, setSearch] = useState("");
   const [pkmTeam, setPkmTeam] = useState([]);
+  const [teamName, setTeamName] = useState("");
   const [selectedId, setSelectedId] = useState(null);
 
   const { data: pkmDetails } = useGetPokemonDetails(selectedId);
@@ -37,8 +38,11 @@ export const TeamBuilder = () => {
 
     if (selectedTeamId) {
       const paramsTeam = storedTeams.find((team) => team.id === selectedTeamId);
-      if (paramsTeam) newPkmTeam = paramsTeam.team;
-    }
+      if (paramsTeam) {
+        setTeamName(paramsTeam.name);
+        newPkmTeam = paramsTeam.team;
+      }
+    } else setTeamName("");
 
     setPkmTeam(newPkmTeam);
   }, [selectedTeamId, storedTeams]);
@@ -140,7 +144,9 @@ export const TeamBuilder = () => {
         </div>
         <TeamSection
           pkmTeam={pkmTeam}
+          teamName={teamName}
           setPkmTeam={setPkmTeam}
+          setTeamName={setTeamName}
           selectedTeamId={selectedTeamId}
         />
       </div>
