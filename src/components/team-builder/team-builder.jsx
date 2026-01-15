@@ -7,7 +7,7 @@ import { TeamSection } from "./team";
 import Skeleton from "react-loading-skeleton";
 import { formatPokemonInfo, getIdFromUrl } from "./team-builder.utils";
 import { useSearchParams } from "react-router-dom";
-import { usePokemonTeams } from "../stores";
+import { usePokemonTeams } from "../../stores";
 import { CustomInput } from "../base";
 
 export const TeamBuilder = () => {

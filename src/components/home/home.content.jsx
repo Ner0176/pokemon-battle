@@ -2,7 +2,7 @@ import Icon from "@mdi/react";
 import { mdiPlus } from "@mdi/js";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { usePokemonTeams } from "../stores";
+import { usePokemonTeams } from "../../stores";
 import { CustomButton } from "../base";
 
 export const TeamsPreview = () => {

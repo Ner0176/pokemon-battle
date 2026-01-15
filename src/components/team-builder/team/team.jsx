@@ -4,7 +4,7 @@ import {
   useCreatePkmTeam,
   useDeletePkmTeam,
   useUpdatePkmTeam,
-} from "../../stores";
+} from "../../../stores";
 import { CustomButton, CustomInput, DragDrop } from "../../base";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";

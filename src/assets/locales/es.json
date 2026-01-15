@@ -1,5 +1,6 @@
 {
   "Base": {
+    "Battle": "Combatir",
     "Delete": "Eliminar",
     "Search": "Buscar...",
     "CreateTeam": "Crear equipo",

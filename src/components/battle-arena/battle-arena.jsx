@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { usePokemonTeams } from "../stores";
+import { usePokemonTeams } from "../../stores";
 import { simulateBattle } from "./battle-arena.utils";
 import { useEffect } from "react";
 import { Container, CustomButton } from "../base";
