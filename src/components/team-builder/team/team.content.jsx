@@ -23,7 +23,7 @@ export const SelectedPokemon = ({ pokemon, handleDelete }) => {
           {capitalize(name)}
           <div className="flex flex-row gap-1">
             {types.map((type) => (
-              <div className="w-fit h-3.75 border">
+              <div key={type.name} className="w-fit h-3.75 border">
                 <img src={type.sprite} className="size-full object-contain" />
               </div>
             ))}

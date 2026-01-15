@@ -40,5 +40,6 @@ export function formatPokemonInfo(info) {
     }),
     staticSprite: `${BASE_SPRITE_URL}/${info.id}.png`,
     movingSprite: `${BASE_SPRITE_URL}/other/showdown/${info.id}.gif`,
+    movingBackSprite: `${BASE_SPRITE_URL}/other/showdown/back/${info.id}.gif`,
   };
 }
