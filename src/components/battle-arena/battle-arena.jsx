@@ -1,24 +1,51 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { usePokemonTeams } from "../stores";
 import { simulateBattle } from "./battle-arena.utils";
 import { useEffect } from "react";
-import { Container } from "../base";
+import { Container, CustomButton } from "../base";
 import { BattleTeamInfo, FightingPokemon } from "./battle-arena.content";
+import { useNavigate } from "react-router-dom";
 
 export const BattleArena = () => {
+  const navigate = useNavigate();
+
   const teams = usePokemonTeams();
-  const team1 = teams[0];
-  const team2 = teams[1];
 
   const [history, setHistory] = useState([]);
-  const [team1PkmIdx, setTeam1PkmIdx] = useState(0);
-  const [team2PkmIdx, setTeam2PkmIdx] = useState(0);
+  const [stageIdx, setStageIdx] = useState(-1);
+  const [isAnimating, setIsAnimating] = useState(true);
+
+  const { pokemonA, pokemonB, loser } = history[stageIdx] ?? {};
+
+  useEffect(() => {
+    if (teams.length >= 2) {
+      const result = simulateBattle(teams[0], teams[1]);
+
+      const timer = setTimeout(() => {
+        setHistory(result.history);
+        setStageIdx(0);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    } else navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const nextStage = () => {
+    setIsAnimating(false);
+
+    const timer = setTimeout(() => {
+      setIsAnimating(true);
+      setStageIdx((prev) => prev + 1);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  };
 
   return (
     <Container>
       <div className="grid grid-cols-3 gap-10 h-full">
-        <div className="col-span-2 h-full">
+        <div className="col-span-2 flex flex-col gap-3 h-full">
           <div
             className="relative h-1/2 border border-neutral-200 rounded-xl bg-cover bg-center overflow-hidden"
             style={{
@@ -26,14 +53,67 @@ export const BattleArena = () => {
                 "url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2fb2821a-1406-4a1d-9b04-6668f278e944/d85ijvr-c2c4a900-5386-4a6a-bee8-5b73e5235ebf.png/v1/fit/w_800,h_480,q_70,strp/pokemon_x_and_y_forest_battle_background_by_phoenixoflight92_d85ijvr-414w-2x.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NDgwIiwicGF0aCI6Ii9mLzJmYjI4MjFhLTE0MDYtNGExZC05YjA0LTY2NjhmMjc4ZTk0NC9kODVpanZyLWMyYzRhOTAwLTUzODYtNGE2YS1iZWU4LTViNzNlNTIzNWViZi5wbmciLCJ3aWR0aCI6Ijw9ODAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.xx5cTmUlA2EWUsmt3lDPvuHwUZGTABcySHov1NlJtas')",
             }}
           >
-            <FightingPokemon pokemon={team1.team[0]} />
-            <FightingPokemon variant="right" pokemon={team2.team[0]} />
-            <BattleTeamInfo teamDetails={team1} />
-            <BattleTeamInfo teamDetails={team2} variant="right" />
+            {pokemonA && (
+              <FightingPokemon
+                pokemon={pokemonA}
+                stageIdx={stageIdx}
+                key={pokemonA.name}
+                isLoser={!isAnimating && loser === pokemonA.name}
+              />
+            )}
+            {pokemonB && (
+              <FightingPokemon
+                variant="right"
+                pokemon={pokemonB}
+                stageIdx={stageIdx}
+                key={pokemonB.name}
+                isLoser={!isAnimating && loser === pokemonB.name}
+              />
+            )}
+            <BattleTeamInfo teamDetails={teams[0]} />
+            <BattleTeamInfo teamDetails={teams[1]} variant="right" />
+          </div>
+          <div>
+            <CustomButton
+              customStyles={{ fontSize: 16 }}
+              handleClick={nextStage}
+            >
+              Siguiente ronda
+            </CustomButton>
           </div>
         </div>
-        <div className="flex flex-col bg-white w-full h-full rounded-2xl py-4 px-8">
-          <span className="text-lg text-center">Historial</span>
+        <div className="flex flex-col bg-white w-full h-full rounded-2xl py-4 px-8 overflow-y-auto shadow-inner">
+          <span className="text-lg font-bold text-center mb-4 text-gray-700 border-b pb-2">
+            Historial de Combate
+          </span>
+
+          {history.slice(0, stageIdx + 1).map((event, i) => (
+            <div
+              key={i}
+              className="text-sm border-b border-gray-100 py-3 animate-fade-in last:border-none"
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <span className="bg-neutral-800 text-white text-[10px] px-2 py-0.5 rounded-full font-mono">
+                  Ronda {i + 1}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center text-gray-600">
+                <span className="font-bold">{event.pokemonA.name}</span>
+                <span className="text-xs italic text-gray-400">vs</span>
+                <span className="font-bold">{event.pokemonB.name}</span>
+              </div>
+
+              <div className="mt-2 p-2 bg-neutral-50 rounded-lg">
+                <p className="font-bold text-blue-700">
+                  ¡Ganador: {event.winner}!
+                </p>
+                <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+                  {event.reason}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </Container>

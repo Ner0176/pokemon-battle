@@ -7,13 +7,13 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
   };
 
   const exitClass = isLoser
-    ? "opacity-0 transition-opacity duration-1000 scale-50"
-    : "opacity-100";
-  const entryClass = "animate-in slide-in-from-bottom duration-500";
+    ? "opacity-0 translate-y-20 delay-1000"
+    : "opacity-100 scale-100";
+  const entryClass = "animate-in slide-in-from-bottom duration-1000";
 
   return (
     <div
-      className={`absolute flex flex-row justify-between gap-5 transition-all duration-700  
+      className={`absolute flex flex-row justify-between gap-5 transition-all 
         ${variants[variant] || variants.left} ${exitClass} ${entryClass} `}
     >
       <div className="flex flex-col gap-2 bg-white/90 px-4 py-2 rounded-lg shadow-lg h-fit">

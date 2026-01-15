@@ -1,11 +1,10 @@
 export const simulateBattle = (teamA, teamB) => {
   let fightersA = [...teamA.team];
   let fightersB = [...teamB.team];
+  const history = [];
 
-  const history = []; // Almacena el historial de rondas con los Pokémon completos
-
-  let currentPokemonAIndex = 0; // Índice del Pokémon actual en el campo de batalla de A
-  let currentPokemonBIndex = 0; // Índice del Pokémon actual en el campo de batalla de B
+  let currentPokemonAIndex = 0;
+  let currentPokemonBIndex = 0;
 
   while (
     currentPokemonAIndex < fightersA.length &&
@@ -14,40 +13,44 @@ export const simulateBattle = (teamA, teamB) => {
     const p1 = fightersA[currentPokemonAIndex];
     const p2 = fightersB[currentPokemonBIndex];
 
-    const speed1 = p1.stats.find((s) => s.name === "SPE").score;
-    const attack1 = p1.stats.find((s) => s.name === "ATK").score;
-    const defense1 = p1.stats.find((s) => s.name === "DEF").score;
+    const stats1 = {
+      atk: p1.stats.find((s) => s.name === "ATK").score,
+      def: p1.stats.find((s) => s.name === "DEF").score,
+      spe: p1.stats.find((s) => s.name === "SPE").score,
+    };
 
-    const speed2 = p2.stats.find((s) => s.name === "SPE").score;
-    const attack2 = p2.stats.find((s) => s.name === "ATK").score;
-    const defense2 = p2.stats.find((s) => s.name === "DEF").score;
+    const stats2 = {
+      atk: p2.stats.find((s) => s.name === "ATK").score,
+      def: p2.stats.find((s) => s.name === "DEF").score,
+      spe: p2.stats.find((s) => s.name === "SPE").score,
+    };
 
-    let winnerPokemon; // Referencia al objeto ganador
-    let loserPokemon; // Referencia al objeto perdedor
+    let winnerPokemon;
+    let loserPokemon;
+    let reason = "";
 
     const firstAttacker =
-      speed1 >= speed2
-        ? { p: p1, att: attack1, def: defense1 }
-        : { p: p2, att: attack2, def: defense2 };
+      stats1.spe >= stats2.spe ? { p: p1, s: stats1 } : { p: p2, s: stats2 };
     const secondAttacker =
-      speed1 >= speed2
-        ? { p: p2, att: attack2, def: defense2 }
-        : { p: p1, att: attack1, def: defense1 };
+      stats1.spe >= stats2.spe ? { p: p2, s: stats2 } : { p: p1, s: stats1 };
 
-    if (firstAttacker.att > secondAttacker.def) {
+    if (firstAttacker.s.atk > secondAttacker.s.def) {
       winnerPokemon = firstAttacker.p;
       loserPokemon = secondAttacker.p;
-    } else if (secondAttacker.att > firstAttacker.def) {
+      reason = `${winnerPokemon.name} atacó primero y superó la defensa de ${loserPokemon.name}.`;
+    } else if (secondAttacker.s.atk > firstAttacker.s.def) {
       winnerPokemon = secondAttacker.p;
       loserPokemon = firstAttacker.p;
+      reason = `${firstAttacker.p.name} no pudo romper la defensa, pero ${winnerPokemon.name} contraatacó con éxito.`;
     } else {
-      // Empate de fuerza, gana el más rápido
       winnerPokemon = firstAttacker.p;
       loserPokemon = secondAttacker.p;
+      reason =
+        "Empate técnico en combate; la velocidad superior decidió el ganador.";
     }
 
-    // Registrar resultado de la ronda con los objetos completos
     history.push({
+      reason,
       pokemonA: p1,
       pokemonB: p2,
       winner: winnerPokemon.name,
@@ -55,14 +58,12 @@ export const simulateBattle = (teamA, teamB) => {
       roundWinnerTeam: winnerPokemon.id === p1.id ? teamA.name : teamB.name,
     });
 
-    // Actualizar los índices de los Pokémon para la siguiente ronda
     if (winnerPokemon.id === p1.id) {
-      currentPokemonBIndex++; // El Pokémon de B es derrotado, el siguiente de B entra
+      currentPokemonBIndex++;
     } else {
-      currentPokemonAIndex++; // El Pokémon de A es derrotado, el siguiente de A entra
+      currentPokemonAIndex++;
     }
   }
-
   return {
     winnerTeam:
       currentPokemonAIndex < fightersA.length ? teamA.name : teamB.name,
