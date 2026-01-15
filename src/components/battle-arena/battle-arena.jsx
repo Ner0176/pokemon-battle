@@ -3,7 +3,11 @@ import { usePokemonTeams } from "../stores";
 import { simulateBattle } from "./battle-arena.utils";
 import { useEffect } from "react";
 import { Container, CustomButton } from "../base";
-import { BattleTeamInfo, FightingPokemon } from "./battle-arena.content";
+import {
+  BattleHistoric,
+  BattleTeamInfo,
+  FightingPokemon,
+} from "./battle-arena.content";
 import { useNavigate } from "react-router-dom";
 
 export const BattleArena = () => {
@@ -44,7 +48,7 @@ export const BattleArena = () => {
 
   return (
     <Container>
-      <div className="grid grid-cols-3 gap-10 h-full">
+      <div className="grid grid-cols-3 gap-10 h-full pb-4">
         <div className="col-span-2 flex flex-col gap-3 h-full">
           <div
             className="relative h-1/2 border border-neutral-200 rounded-xl bg-cover bg-center overflow-hidden"
@@ -82,39 +86,11 @@ export const BattleArena = () => {
             </CustomButton>
           </div>
         </div>
-        <div className="flex flex-col bg-white w-full h-full rounded-2xl py-4 px-8 overflow-y-auto shadow-inner">
-          <span className="text-lg font-bold text-center mb-4 text-gray-700 border-b pb-2">
-            Historial de Combate
-          </span>
-
-          {history.slice(0, stageIdx + 1).map((event, i) => (
-            <div
-              key={i}
-              className="text-sm border-b border-gray-100 py-3 animate-fade-in last:border-none"
-            >
-              <div className="flex items-center gap-2 mb-1">
-                <span className="bg-neutral-800 text-white text-[10px] px-2 py-0.5 rounded-full font-mono">
-                  Ronda {i + 1}
-                </span>
-              </div>
-
-              <div className="flex justify-between items-center text-gray-600">
-                <span className="font-bold">{event.pokemonA.name}</span>
-                <span className="text-xs italic text-gray-400">vs</span>
-                <span className="font-bold">{event.pokemonB.name}</span>
-              </div>
-
-              <div className="mt-2 p-2 bg-neutral-50 rounded-lg">
-                <p className="font-bold text-blue-700">
-                  ¡Ganador: {event.winner}!
-                </p>
-                <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-                  {event.reason}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <BattleHistoric
+          history={history}
+          stageIdx={stageIdx}
+          isAnimating={isAnimating}
+        />
       </div>
     </Container>
   );

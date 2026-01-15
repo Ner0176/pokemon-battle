@@ -20,5 +20,10 @@
       "Random": "Order randomly",
       "Attack": "Order by attack"
     }
+  },
+  "BattleArena": {
+    "Historic": {
+      "Title": "Battle historic"
+    }
   }
 }

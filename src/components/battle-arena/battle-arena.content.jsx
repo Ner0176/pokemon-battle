@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
   const { name, types, movingSprite, movingBackSprite } = pokemon;
 
@@ -65,6 +67,55 @@ export const BattleTeamInfo = ({ variant = "left", teamDetails }) => {
           </div>
         ))}
       </div>
+    </div>
+  );
+};
+
+export const BattleHistoric = ({ history, stageIdx, isAnimating }) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex flex-col bg-white w-full h-full rounded-2xl py-4 px-8 overflow-y-auto shadow-sm">
+      <span className="text-lg font-bold text-center mb-4 border-b pb-2">
+        {t("BattleArena.Historic.Title")}
+      </span>
+      {history.slice(0, stageIdx + 1).map((event, i) => {
+        const showResult = i < stageIdx || !isAnimating;
+        return (
+          <div
+            key={i}
+            className="text-sm border-b border-gray-100 py-3 animate-fade-in last:border-none"
+          >
+            <div className="flex items-center gap-2 mb-1">
+              <span className="bg-neutral-800 text-white text-[10px] px-2 py-0.5 rounded-full font-mono">
+                Ronda {i + 1}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center text-gray-600">
+              <span className="font-bold">{event.pokemonA.name}</span>
+              <span className="text-xs italic text-gray-400">vs</span>
+              <span className="font-bold">{event.pokemonB.name}</span>
+            </div>
+            {showResult ? (
+              <div className="mt-2 p-2 bg-neutral-50 rounded-lg animate-in fade-in duration-500">
+                <p className="font-bold text-blue-700">
+                  ¡Ganador: {event.winner}!
+                </p>
+                <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+                  {event.reason}
+                </p>
+              </div>
+            ) : (
+              <div className="mt-2 p-2 bg-neutral-50/50 rounded-lg border border-dashed border-gray-200">
+                <p className="text-xs text-gray-400 italic text-center">
+                  Combatiendo...
+                </p>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };

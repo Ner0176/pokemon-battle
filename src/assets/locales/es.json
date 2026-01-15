@@ -21,5 +21,10 @@
       "Random": "Ordenar aleatorio",
       "Attack": "Ordenar por ataque"
     }
+  },
+  "BattleArena": {
+    "Historic": {
+      "Title": "Historial de combate"
+    }
   }
 }
