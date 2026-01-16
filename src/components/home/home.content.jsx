@@ -36,14 +36,12 @@ export const TeamsPreview = () => {
             >
               <span>{name}</span>
               <div className="flex flex-row items-center justify-evenly gap-3 w-full">
-                {team.map(({ stats, staticSprite }) => (
-                  <div className="flex flex-col items-center gap-1">
-                    <div className="w-fit h-16">
-                      <img
-                        src={staticSprite}
-                        className="size-full object-contain"
-                      />
-                    </div>
+                {team.map(({ id, stats, staticSprite }) => (
+                  <div key={id} className="flex flex-col items-center gap-1">
+                    <img
+                      src={staticSprite}
+                      className="h-16 aspect-square object-contain"
+                    />
                     {stats.map((item) => (
                       <span key={item.name} className="text-[10px]">
                         <span className="font-bold">{item.name}: </span>

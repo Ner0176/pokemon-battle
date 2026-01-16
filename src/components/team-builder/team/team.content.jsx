@@ -15,9 +15,7 @@ export const SelectedPokemon = ({ pokemon, handleDelete }) => {
       className="relative flex flex-row items-center justify-between px-6 border border-neutral-200 rounded-2xl py-4 bg-white hover:bg-neutral-50 cursor-pointer shadow-sm"
     >
       <div className="flex flex-row items-center gap-2">
-        <div className="h-14 w-fit">
-          <img className="size-full object-contain" src={movingSprite} />
-        </div>
+        <img className="h-14 aspect-square object-contain" src={movingSprite} />
         <div className="flex flex-col gap-3 first-letter:uppercase">
           {name}
           <div className="flex flex-row gap-1">

@@ -45,12 +45,10 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
           ))}
         </div>
       </div>
-      <div className="h-20 w-fit">
-        <img
-          className="size-full object-contain"
-          src={variant === "left" ? movingBackSprite : movingSprite}
-        />
-      </div>
+      <img
+        className="h-20 aspect-square object-contain"
+        src={variant === "left" ? movingBackSprite : movingSprite}
+      />
     </div>
   );
 };
@@ -79,14 +77,13 @@ export const BattleTeamInfo = ({
       <div className="grid grid-cols-3 gap-1">
         {team.map(({ staticSprite }, idx) => {
           return (
-            <div className="h-10 w-fit">
-              <img
-                src={staticSprite}
-                className={`size-full object-contain ${
-                  currentPkmIdx > idx ? "opacity-50" : ""
-                }`}
-              />
-            </div>
+            <img
+              key={idx}
+              src={staticSprite}
+              className={`h-10 aspect-square object-contain ${
+                currentPkmIdx > idx ? "opacity-50" : ""
+              }`}
+            />
           );
         })}
       </div>

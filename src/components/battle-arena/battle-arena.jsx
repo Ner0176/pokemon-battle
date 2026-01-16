@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useGetBattleTeams } from "../../stores";
 import { simulateBattle } from "./battle-arena.utils";
 import { useEffect } from "react";
-import { Container, CustomButton } from "../base";
+import { CustomButton } from "../base";
 import {
   BattleHistoric,
   BattleTeamInfo,
@@ -46,7 +46,7 @@ export const BattleArena = () => {
   };
 
   return (
-    <Container>
+    <>
       <div className="grid grid-cols-3 gap-10 h-full pb-4">
         <div className="col-span-2 flex flex-col gap-3 h-full">
           <div
@@ -109,6 +109,6 @@ export const BattleArena = () => {
           handleClose={() => navigate("/")}
         />
       )}
-    </Container>
+    </>
   );
 };

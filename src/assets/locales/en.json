@@ -1,5 +1,9 @@
 {
   "Base": {
+    "Labels": {
+      "Home": "Home",
+      "Teams": "Teams"
+    },
     "Winner": "Winner",
     "Fight": "Battle",
     "Delete": "Delete",
