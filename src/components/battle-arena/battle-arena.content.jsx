@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DisplayStats } from "../team-builder";
 
 export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
   const { name, stats, movingSprite, movingBackSprite } = pokemon;
@@ -38,11 +39,7 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
           />
         </div>
         <div className="flex flex-row items-center gap-1.5">
-          {stats.map((item) => (
-            <span key={item.name} className="text-[10px]">
-              <span>{item.name}:</span> {item.score}
-            </span>
-          ))}
+          <DisplayStats stats={stats} />
         </div>
       </div>
       <img

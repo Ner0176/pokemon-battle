@@ -26,11 +26,19 @@
   "TeamBuilder": {
     "SearchPokemon": "Buscar pokémon...",
     "TeamName": "Nombre del equipo...",
-    "TeamFull": "No se pueden seleccionar más de 6 pokémon",
-    "AlreadyInTeam": "Este pokémon ya está en el equipo",
     "OrderBy": {
       "Random": "Ordenar aleatorio",
       "Attack": "Ordenar por ataque"
+    },
+    "Success": {
+      "Update": "El equipo '{{value}}' ha sido actualizado",
+      "Delete": "El equipo '{{value}}' ha sido eliminado"
+    },
+    "Errors": {
+      "TeamFull": "No se pueden seleccionar más de 6 pokémon",
+      "AlreadyInTeam": "Este pokémon ya está en el equipo",
+      "TeamNotFull": "Faltan {{value}} Pokémon para completar tu equipo",
+      "EmptyTeamName": "Asigna un nombre a tu equipo para guardarlo"
     }
   },
   "BattleArena": {

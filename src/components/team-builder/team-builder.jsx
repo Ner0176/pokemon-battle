@@ -69,7 +69,7 @@ export const TeamBuilder = () => {
       if (pkmTeam.length > 5) {
         showToast({
           type: "error",
-          text: t("TeamBuilder.TeamFull"),
+          text: t("TeamBuilder.Errors.TeamFull"),
         });
         return;
       }
@@ -93,7 +93,7 @@ export const TeamBuilder = () => {
   const addPokemon = (id) => {
     const alreadyIn = pkmTeam.find((pkm) => pkm.id === id);
     if (alreadyIn) {
-      showToast("This pokemon is already in the team");
+      showToast({ type: "error", text: t("TeamBuilder.Errors.AlreadyInTeam") });
       return;
     }
     setSelectedId(id);
@@ -112,13 +112,13 @@ export const TeamBuilder = () => {
           <div className="w-full border border-neutral-200 rounded-xl">
             <CustomInput
               value={search}
-              placeholder={t("TeamBuilder.SearchPokemon")}
               handleChange={(value) => setSearch(value)}
+              placeholder={t("TeamBuilder.SearchPokemon")}
             />
           </div>
           <div className="grid grid-cols-2 gap-3 w-full h-full overflow-y-auto">
             {loadedPkm.map(({ name, url }, idx) => {
-              const pkmId = getIdFromUrl(url);
+              const pkmId = +getIdFromUrl(url);
               return (
                 <div
                   key={name}

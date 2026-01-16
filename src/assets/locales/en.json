@@ -25,11 +25,19 @@
   "TeamBuilder": {
     "SearchPokemon": "Search pokémon...",
     "TeamName": "Team's name...",
-    "TeamFull": "Team is already full",
-    "AlreadyInTeam": "This pokemon is already in the team",
     "OrderBy": {
       "Random": "Order randomly",
       "Attack": "Order by attack"
+    },
+    "Success": {
+      "Update": "Team '{{value}}' was successfully updated",
+      "Delete": "Team '{{value}}' was successfully deleted"
+    },
+    "Errors": {
+      "TeamFull": "Team is already full",
+      "AlreadyInTeam": "This pokemon is already in the team",
+      "TeamNotFull": "You need {{value}} more Pokémon to complete your team",
+      "EmptyTeamName": "Give your team a name to save it"
     }
   },
   "BattleArena": {

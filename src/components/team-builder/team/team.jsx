@@ -4,7 +4,7 @@ import {
   useDeletePkmTeam,
   useUpdatePkmTeam,
 } from "../../../stores";
-import { CustomButton, CustomInput, DragDrop } from "../../base";
+import { CustomButton, CustomInput, DragDrop, showToast } from "../../base";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { mdiFilterVariant } from "@mdi/js";
@@ -31,23 +31,31 @@ export const TeamSection = ({
   const handleSortByAttack = () => {
     setPkmTeam((prev) => {
       return [...prev].sort((a, b) => {
-        const attackA = a.stats.find((s) => s.name === "ATK")?.score || 0;
-        const attackB = b.stats.find((s) => s.name === "ATK")?.score || 0;
+        const attackA = a.stat["ATK"] || 0;
+        const attackB = b.stats["ATK"] || 0;
         return attackB - attackA;
       });
     });
   };
 
   const handleCreateTeam = () => {
-    createTeam({ name: teamName, pokemon: pkmTeam });
+    if (verifyTeamRequirements()) {
+      createTeam({ name: teamName, pokemon: pkmTeam });
+    }
   };
 
   const handleUpdateTeam = () => {
-    updateTeam({
-      team: pkmTeam,
-      name: teamName,
-      id: selectedTeamId,
-    });
+    if (verifyTeamRequirements()) {
+      updateTeam({
+        team: pkmTeam,
+        name: teamName,
+        id: selectedTeamId,
+      });
+      showToast({
+        type: "success",
+        text: t("TeamBuilder.Success.Update", { value: teamName }),
+      });
+    }
   };
 
   const handleDeleteTeam = () => {
@@ -57,6 +65,29 @@ export const TeamSection = ({
       return params;
     });
     deleteTeam(selectedTeamId);
+    showToast({
+      type: "success",
+      text: t("TeamBuilder.Success.Delete", { value: teamName }),
+    });
+  };
+
+  const verifyTeamRequirements = () => {
+    if (pkmTeam.length < 6) {
+      showToast({
+        type: "error",
+        text: t("TeamBuilder.Errors.TeamNotFull", {
+          value: 6 - pkmTeam.length,
+        }),
+      });
+      return false;
+    }
+
+    if (!teamName) {
+      showToast({ type: "error", text: t("TeamBuilder.Errors.EmptyTeamName") });
+      return false;
+    }
+
+    return true;
   };
 
   const deleteFromTeam = (id) => {
@@ -68,9 +99,9 @@ export const TeamSection = ({
       <div className="flex flex-row gap-6 w-full">
         <CustomInput
           value={teamName}
+          customStyles={{ fontSize: 14 }}
           placeholder={t("TeamBuilder.TeamName")}
           handleChange={(value) => setTeamName(value)}
-          customStyles={{ fontSize: 14 }}
         />
         <div className="flex flex-row items-center gap-2">
           <CustomButton

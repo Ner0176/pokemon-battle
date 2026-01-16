@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useGetBattleHistoric, usePokemonTeams } from "../../stores";
 import { CustomButton } from "../base";
+import { DisplayStats } from "../team-builder";
 
 export const TeamsPreview = () => {
   const { t } = useTranslation();
@@ -42,12 +43,7 @@ export const TeamsPreview = () => {
                       src={staticSprite}
                       className="h-16 aspect-square object-contain"
                     />
-                    {stats.map((item) => (
-                      <span key={item.name} className="text-[10px]">
-                        <span className="font-bold">{item.name}: </span>
-                        {item.score}
-                      </span>
-                    ))}
+                    <DisplayStats stats={stats} />
                   </div>
                 ))}
               </div>

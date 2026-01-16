@@ -13,26 +13,21 @@ export const simulateBattle = (teamA, teamB, t) => {
     const p1 = fightersA[currentPokemonAIndex];
     const p2 = fightersB[currentPokemonBIndex];
 
-    const stats1 = {
-      atk: p1.stats.find((s) => s.name === "ATK").score,
-      def: p1.stats.find((s) => s.name === "DEF").score,
-      spe: p1.stats.find((s) => s.name === "SPE").score,
-    };
-
-    const stats2 = {
-      atk: p2.stats.find((s) => s.name === "ATK").score,
-      def: p2.stats.find((s) => s.name === "DEF").score,
-      spe: p2.stats.find((s) => s.name === "SPE").score,
-    };
+    const stats1 = p1.stats;
+    const stats2 = p2.stats;
 
     let winnerPokemon;
     let loserPokemon;
     let reason = "";
 
     const firstAttacker =
-      stats1.spe >= stats2.spe ? { p: p1, s: stats1 } : { p: p2, s: stats2 };
+      stats1["SPE"] >= stats2["SPE"]
+        ? { p: p1, s: stats1 }
+        : { p: p2, s: stats2 };
     const secondAttacker =
-      stats1.spe >= stats2.spe ? { p: p2, s: stats2 } : { p: p1, s: stats1 };
+      stats1["SPE"] >= stats2["SPE"]
+        ? { p: p2, s: stats2 }
+        : { p: p1, s: stats1 };
 
     if (firstAttacker.s.atk > secondAttacker.s.def) {
       winnerPokemon = firstAttacker.p;

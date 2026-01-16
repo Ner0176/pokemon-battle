@@ -1,6 +1,15 @@
 import Icon from "@mdi/react";
 import { useState } from "react";
 import { mdiTrashCanOutline } from "@mdi/js";
+import { selectedPkmContainer } from "./team.styled";
+
+export const DisplayStats = ({ stats, fontSize = 10 }) => {
+  return Object.entries(stats).map(([key, value]) => (
+    <span key={key} style={{ fontSize }}>
+      <span className="font-bold">{key}:</span> {value}
+    </span>
+  ));
+};
 
 export const SelectedPokemon = ({ pokemon, handleDelete }) => {
   const { id, name, types, stats, movingSprite } = pokemon;
@@ -10,9 +19,9 @@ export const SelectedPokemon = ({ pokemon, handleDelete }) => {
   return (
     <div
       key={name}
+      className={selectedPkmContainer}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative flex flex-row items-center justify-between px-6 border border-neutral-200 rounded-2xl py-4 bg-white hover:bg-neutral-50 cursor-pointer shadow-sm"
     >
       <div className="flex flex-row items-center gap-2">
         <img className="h-14 aspect-square object-contain" src={movingSprite} />
@@ -28,11 +37,7 @@ export const SelectedPokemon = ({ pokemon, handleDelete }) => {
         </div>
       </div>
       <div className="flex flex-col gap-1.5">
-        {stats.map((item) => (
-          <span key={item.name} className="text-xs">
-            <span className="font-bold">{item.name}:</span> {item.score}
-          </span>
-        ))}
+        <DisplayStats stats={stats} fontSize={12} />
       </div>
       {isHovered && (
         <div

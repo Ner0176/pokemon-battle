@@ -15,17 +15,11 @@ export function formatPokemonInfo(info) {
     info.stats.map(({ base_stat, stat }) => [stat.name, base_stat])
   );
 
-  const stats = [
-    {
-      name: "ATK",
-      score: Math.max(statsMap.attack, statsMap["special-attack"]),
-    },
-    {
-      name: "DEF",
-      score: Math.max(statsMap.defense, statsMap["special-defense"]),
-    },
-    { name: "SPE", score: statsMap.speed },
-  ];
+  const stats = {
+    ATK: Math.max(statsMap.attack, statsMap["special-attack"]),
+    DEF: Math.max(statsMap.defense, statsMap["special-defense"]),
+    SPE: statsMap.speed,
+  };
 
   return {
     stats,
