@@ -131,7 +131,7 @@ export const TeamBuilder = () => {
                 );
               })}
               {(isPkmListLoading || isFetchingNextPage) &&
-                [...Array(5)].map((_, idx) => (
+                [...Array(20)].map((_, idx) => (
                   <Skeleton
                     key={idx}
                     className="w-full h-20"

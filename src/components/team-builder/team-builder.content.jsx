@@ -1,16 +1,19 @@
 import Icon from "@mdi/react";
-import { capitalize } from "../../utils";
 import { mdiPlus, mdiVolumeHigh } from "@mdi/js";
 import { useSearchParams } from "react-router-dom";
 import {
   pkmPreviewContainer,
   teamPreviewBoxContainer,
 } from "./team-builder.styled";
+import { useState } from "react";
+import Skeleton from "react-loading-skeleton";
 
 const BASE_ASSETS_URL = "https://raw.githubusercontent.com/PokeAPI";
 
 export const PokemonPreview = ({ details }) => {
   const { id, name } = details;
+
+  const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   const playSound = () => {
     const audio = new Audio(
@@ -22,16 +25,19 @@ export const PokemonPreview = ({ details }) => {
   return (
     <div className={pkmPreviewContainer}>
       <div className="flex flex-row items-center gap-2">
-        <div className="h-14 w-fit">
-          <img
-            className="size-full object-contain"
-            src={`${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/${id}.png`}
-            onError={(e) => {
-              e.currentTarget.src = `${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/0.png`;
-            }}
-          />
-        </div>
-        {capitalize(name)}
+        {!isImgLoaded && (
+          <Skeleton style={{ width: 32, height: 32, borderRadius: 8 }} />
+        )}
+        <img
+          loading="lazy"
+          onLoad={() => setIsImgLoaded(true)}
+          className="h-14 aspect-square object-contain"
+          src={`${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/${id}.png`}
+          onError={(e) => {
+            e.currentTarget.src = `${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/0.png`;
+          }}
+        />
+        <span className="first-letter:uppercase">{name}</span>
       </div>
       <div
         className="cursor-pointer"

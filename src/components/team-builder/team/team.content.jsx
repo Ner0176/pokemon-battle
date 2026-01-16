@@ -1,5 +1,4 @@
 import Icon from "@mdi/react";
-import { capitalize } from "../../../utils";
 import { useState } from "react";
 import { mdiTrashCanOutline } from "@mdi/js";
 
@@ -19,8 +18,8 @@ export const SelectedPokemon = ({ pokemon, handleDelete }) => {
         <div className="h-14 w-fit">
           <img className="size-full object-contain" src={movingSprite} />
         </div>
-        <div className="flex flex-col gap-3">
-          {capitalize(name)}
+        <div className="flex flex-col gap-3 first-letter:uppercase">
+          {name}
           <div className="flex flex-row gap-1">
             {types.map((type) => (
               <div key={type.name} className="w-fit h-3.75 border">
