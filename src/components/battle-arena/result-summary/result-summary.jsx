@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import Icon from "@mdi/react";
+import { mdiSwordCross } from "@mdi/js";
 import { CustomButton, Modal } from "../../base";
-import { TeamSummary } from "./result-summary.content";
+import { RoundsSection, TeamSummary } from "./result-summary.content";
 import { useAddBattleToHistory } from "../../../stores";
+import { VersusTag } from "../../home";
 
 export const BattleResultSummary = ({ result, teams, handleClose }) => {
   const { t } = useTranslation();
   const basePath = "BattleArena.Results";
-
   const addBattle = useAddBattleToHistory();
-
   const { redTeam, blueTeam } = teams;
 
   useEffect(() => {
@@ -19,81 +20,62 @@ export const BattleResultSummary = ({ result, teams, handleClose }) => {
 
   if (!result) return null;
 
+  const winnerName = result.winnerTeam;
+
+  const ResultFooter = (
+    <CustomButton
+      handleClick={handleClose}
+      customStyles={{ padding: "10px 30px" }}
+    >
+      {t(`${basePath}.Close`)}
+    </CustomButton>
+  );
+
   return (
     <Modal
-      width="800px"
+      width="850px"
+      footer={ResultFooter}
       handleClose={handleClose}
       title={t("BattleArena.Results.Title")}
     >
-      <div className="flex flex-col gap-6 pb-6">
-        <div className="bg-neutral-50 p-4 rounded-xl border border-neutral-200">
-          <h3 className="text-lg font-bold text-center mb-4 text-neutral-700">
-            {t("Base.Winner")}:{" "}
-            <span className="text-green-600 uppercase">
-              {result.winnerTeam}
-            </span>
-          </h3>
-
-          <div className="grid grid-cols-2 gap-4">
+      <div className="flex flex-col gap-6 pb-2">
+        <div className="flex flex-col items-center p-4 bg-neutral-50 rounded-xl border border-neutral-100 shadow-sm">
+          <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-1">
+            {t("Base.Winner")}
+          </span>
+          <span className="text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-yellow-500 to-orange-500 drop-shadow-sm mb-6 text-center">
+            {winnerName}
+          </span>
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4 w-full">
             <TeamSummary
-              teamName={redTeam.name}
-              survivors={result.survivorsA}
-              defeated={result.defeatedA}
-              isWinner={result.winnerTeam === redTeam.name}
               color="text-red-600"
+              teamName={redTeam.name}
+              defeated={result.defeatedA}
+              survivors={result.survivorsA}
+              isWinner={winnerName === redTeam.name}
             />
+            <VersusTag />
             <TeamSummary
+              align="right"
+              color="text-blue-600"
               teamName={blueTeam.name}
               survivors={result.survivorsB}
               defeated={result.defeatedB}
-              isWinner={result.winnerTeam === blueTeam.name}
-              color="text-blue-600"
-              align="right"
+              isWinner={winnerName === blueTeam.name}
             />
           </div>
         </div>
-
-        {/* --- SECCIÓN DE HISTORIAL DE RONDAS --- */}
-        <div>
-          <h4 className="font-bold text-neutral-600 mb-2">
-            {t(`${basePath}.Breakdown`)}
-          </h4>
-          <div className="flex flex-col gap-2">
-            {result.history.map((round, index) => (
-              <div
-                key={index}
-                className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 border border-neutral-100 rounded-lg shadow-sm text-sm"
-              >
-                <div className="flex items-center gap-2 mb-2 sm:mb-0">
-                  <span className="font-bold bg-neutral-200 px-2 py-1 rounded text-xs text-neutral-600">
-                    R{index + 1}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold">{round.pokemonA.name}</span>
-                    <span className="text-neutral-400 text-xs">vs</span>
-                    <span className="font-semibold">{round.pokemonB.name}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span
-                    title={round.reason}
-                    className="text-neutral-500 text-xs hidden sm:block truncate max-w-50"
-                  >
-                    {round.reason}
-                  </span>
-                  <div className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-xs font-bold whitespace-nowrap">
-                    {t(`${basePath}.Wins`, { name: round.winner })}
-                  </div>
-                </div>
-              </div>
-            ))}
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-2 px-2">
+            <Icon path={mdiSwordCross} className="size-5 text-neutral-400" />
+            <span className="font-bold text-neutral-600 text-sm uppercase tracking-wide">
+              {t(`${basePath}.Breakdown`)}
+            </span>
+            <div className="grow h-px bg-neutral-100 ml-2"></div>
           </div>
-        </div>
-        <div className="flex justify-end mt-2">
-          <CustomButton handleClick={handleClose}>
-            {t(`${basePath}.Close`)}
-          </CustomButton>
+          {result.history.map((round, idx) => (
+            <RoundsSection key={idx} index={idx} round={round} />
+          ))}
         </div>
       </div>
     </Modal>

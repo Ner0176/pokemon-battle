@@ -24,22 +24,24 @@ export const Modal = ({
             ${type === "default" ? "bg-white" : "bg-red-50"}
             `}
         >
-          <div
-            type={type}
-            className="flex flex-row items-center justify-between sm:pt-6 sm:mx-8 border-b border-neutral-200 pb-3"
-          >
-            {typeof title === "string" ? (
-              <span className="text-xl sm:text-2xl font-bold">{title}</span>
-            ) : (
-              title
-            )}
-            <div onClick={handleClose} className="cursor-pointer">
-              <Icon
-                path={mdiClose}
-                className="size-5 sm:size-6 text-neutral-400"
-              />
+          {title && (
+            <div
+              type={type}
+              className="flex flex-row items-center justify-between sm:pt-6 sm:mx-8 border-b border-neutral-200 pb-3"
+            >
+              {typeof title === "string" ? (
+                <span className="text-xl sm:text-2xl font-bold">{title}</span>
+              ) : (
+                title
+              )}
+              <div onClick={handleClose} className="cursor-pointer">
+                <Icon
+                  path={mdiClose}
+                  className="size-5 sm:size-6 text-neutral-400"
+                />
+              </div>
             </div>
-          </div>
+          )}
           <div
             className="w-full sm:px-8 overflow-y-auto"
             style={{ flex: "1 1 auto", maxHeight: "calc(100vh - 225px)" }}

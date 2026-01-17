@@ -33,7 +33,7 @@ export const PokemonPreview = ({ details }) => {
         <img
           loading="lazy"
           onLoad={() => setIsImgLoaded(true)}
-          className="h-14 aspect-square object-contain"
+          className="h-14 object-contain drop-shadow-sm"
           src={`${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/${id}.png`}
           onError={(e) => {
             e.currentTarget.src = `${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/0.png`;
