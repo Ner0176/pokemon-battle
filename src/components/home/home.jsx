@@ -41,9 +41,9 @@ export const HomeDashboard = () => {
       </div>
       <div className={HomeSectionContainer}>
         <div className="flex flex-col items-center gap-2">
-          <h2 className="text-2xl font-black text-neutral-700 uppercase tracking-wide">
+          <span className="text-2xl font-black text-neutral-700 uppercase tracking-wide">
             {t("Home.PrepareBattle.Title")}
-          </h2>
+          </span>
           <div className="h-1 w-16 bg-neutral-500 rounded-full"></div>
         </div>
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full bg-neutral-50 p-4 rounded-xl border border-neutral-200">

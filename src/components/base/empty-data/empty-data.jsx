@@ -21,7 +21,7 @@ export const EmptyData = ({
       />
       <span
         style={{ fontSize: textSize }}
-        className="font-semibold text-base sm:text-lg select-none text-center"
+        className="text-neutral-400 text-base sm:text-lg select-none text-center"
       >
         {title}
       </span>

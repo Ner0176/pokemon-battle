@@ -17,10 +17,16 @@
   },
   "Home": {
     "Teams": {
-      "Title": "My teams"
+      "Title": "My Teams",
+      "Placeholder": "Team name...",
+      "Empty": "You don't have any teams ready for battle"
     },
     "PrepareBattle": {
-      "Title": "Select contenders"
+      "Title": "Select Contenders"
+    },
+    "History": {
+      "See": "View",
+      "Empty": "No battles recorded yet"
     }
   },
   "TeamBuilder": {

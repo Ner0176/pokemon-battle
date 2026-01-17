@@ -18,10 +18,15 @@
   "Home": {
     "Teams": {
       "Title": "Mis equipos",
-      "Placeholder": "Nombre del equipo..."
+      "Placeholder": "Nombre del equipo...",
+      "Empty": "No tienes equipos listos para el combate"
     },
     "PrepareBattle": {
       "Title": "Selecciona contendientes"
+    },
+    "History": {
+      "See": "Ver",
+      "Empty": "Aún no se han registrado batallas"
     }
   },
   "TeamBuilder": {
