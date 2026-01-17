@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { CustomButton, CustomSelect, showToast } from "../base";
-import { BattlesHistory, TeamsPreview } from "./home.content";
-import { useTranslation } from "react-i18next";
-import { usePokemonTeams, useSelectTeamsToFight } from "../../stores";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { BattlesHistory, TeamsPreview } from "./home.content";
+import { CustomButton, CustomSelect, showToast } from "../base";
+import { usePokemonTeams, useSelectTeamsToFight } from "../../stores";
 
 export const HomeDashboard = () => {
   const { t } = useTranslation();

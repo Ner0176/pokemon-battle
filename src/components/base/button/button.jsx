@@ -25,7 +25,7 @@ export const CustomButton = ({
         ...(bgColor && { backgroundColor: bgColor }),
       }}
       className={`
-        flex items-center gap-1 rounded-xl px-4 py-2 text-sm transition-all shadow-sm  whitespace-nowrap
+        flex items-center gap-1 rounded-xl px-4 py-2 text-sm transition-all shadow-sm whitespace-nowrap
         ${variants[variant] || variants.primary}
         ${
           isDisabled === true

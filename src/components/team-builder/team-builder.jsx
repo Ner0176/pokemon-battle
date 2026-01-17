@@ -12,10 +12,15 @@ import {
 import { TeamSection } from "./team";
 import Skeleton from "react-loading-skeleton";
 import { useTranslation } from "react-i18next";
-import { CustomInput, showToast } from "../base";
+import { CustomInput, CustomSelect, showToast } from "../base";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { useGetPokemonDetails, useGetPokemonList } from "../../api";
+import {
+  useGetAllTypes,
+  useGetPokemonByType,
+  useGetPokemonDetails,
+  useGetPokemonList,
+} from "../../api";
 import { formatPokemonInfo, getIdFromUrl } from "./team-builder.utils";
 
 export const TeamBuilder = () => {
@@ -32,12 +37,16 @@ export const TeamBuilder = () => {
   const [search, setSearch] = useState("");
   const [pkmTeam, setPkmTeam] = useState([]);
   const [teamName, setTeamName] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
   const [selectedId, setSelectedId] = useState(null);
 
   const observerRef = useRef(null);
   const stateRef = useRef({ pkmTeam, teamName, selectedTeamId });
 
+  const { data: allTypes } = useGetAllTypes();
   const { data: pkmDetails } = useGetPokemonDetails(selectedId);
+  const { data: pkmListByType, isLoading: isPkmListByTypeLoading } =
+    useGetPokemonByType(typeFilter);
   const {
     hasNextPage,
     data: pkmList,
@@ -121,14 +130,18 @@ export const TeamBuilder = () => {
 
   const loadedPkm = useMemo(() => {
     const searchTerm = search.toLowerCase();
-    let allPokemon = pkmList?.pages.flatMap((page) => page.results) ?? [];
+    let allPokemon =
+      (typeFilter
+        ? pkmListByType?.pokemon.flatMap(({ pokemon }) => pokemon)
+        : pkmList?.pages.flatMap((page) => page.results)) ?? [];
 
     if (search) {
       allPokemon = allPokemon.filter((pkm) => pkm.name.includes(searchTerm));
     }
 
     return allPokemon;
-  }, [search, pkmList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, pkmList, pkmListByType]);
 
   const addPokemon = (id) => {
     const alreadyIn = pkmTeam.find((pkm) => pkm.id === id);
@@ -149,11 +162,22 @@ export const TeamBuilder = () => {
           />
         )}
         <div className="flex flex-col w-full h-full">
-          <div className="w-full border border-neutral-200 rounded-xl">
+          <div className="flex flex-row items-center gap-3 w-full">
             <CustomInput
               value={search}
               handleChange={(value) => setSearch(value)}
               placeholder={t("TeamBuilder.SearchPokemon")}
+            />
+            <CustomSelect
+              value={typeFilter}
+              defaultValue={"Selecciona un tipo"}
+              options={allTypes?.results.map(({ name }) => (
+                <option key={name} value={name}>
+                  {t(`TeamBuilder.Types.${name}`)}
+                </option>
+              ))}
+              handleChange={(value) => setTypeFilter(value)}
+              customStyles={{ width: "fit-content", minWidth: 150 }}
             />
           </div>
           <div className="grid grid-cols-2 gap-3 w-full h-full overflow-y-auto">
@@ -169,7 +193,9 @@ export const TeamBuilder = () => {
                 </div>
               );
             })}
-            {(isPkmListLoading || isFetchingNextPage) &&
+            {(isPkmListLoading ||
+              isFetchingNextPage ||
+              isPkmListByTypeLoading) &&
               [...Array(20)].map((_, idx) => (
                 <Skeleton
                   key={idx}
@@ -177,9 +203,7 @@ export const TeamBuilder = () => {
                   style={{ borderRadius: 12 }}
                 />
               ))}
-            <div ref={observerRef} className="h-4 w-full">
-              Loading...
-            </div>
+            <div ref={observerRef} className="h-4 w-full"></div>
           </div>
         </div>
       </div>

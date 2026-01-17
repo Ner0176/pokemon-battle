@@ -45,6 +45,28 @@
       "AlreadyInTeam": "Este pokémon ya está en el equipo",
       "TeamNotFull": "Faltan {{value}} Pokémon para completar tu equipo",
       "EmptyTeamName": "Asigna un nombre a tu equipo para guardarlo"
+    },
+    "Types": {
+      "normal": "Normal",
+      "fighting": "Lucha",
+      "flying": "Volador",
+      "poison": "Veneno",
+      "ground": "Tierra",
+      "rock": "Roca",
+      "bug": "Bicho",
+      "ghost": "Fantasma",
+      "steel": "Acero",
+      "fire": "Fuego",
+      "water": "Agua",
+      "grass": "Planta",
+      "electric": "Eléctrico",
+      "psychic": "Psíquico",
+      "ice": "Hielo",
+      "dragon": "Dragón",
+      "dark": "Siniestro",
+      "fairy": "Hada",
+      "stellar": "Astral",
+      "unknown": "Desconocido"
     }
   },
   "BattleArena": {

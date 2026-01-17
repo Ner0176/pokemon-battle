@@ -44,6 +44,28 @@
       "AlreadyInTeam": "This pokemon is already in the team",
       "TeamNotFull": "You need {{value}} more Pokémon to complete your team",
       "EmptyTeamName": "Give your team a name to save it"
+    },
+    "Types": {
+      "normal": "Normal",
+      "fighting": "Fighting",
+      "flying": "Flying",
+      "poison": "Poison",
+      "ground": "Ground",
+      "rock": "Rock",
+      "bug": "Bug",
+      "ghost": "Ghost",
+      "steel": "Steel",
+      "fire": "Fire",
+      "water": "Water",
+      "grass": "Grass",
+      "electric": "Electric",
+      "psychic": "Psychic",
+      "ice": "Ice",
+      "dragon": "Dragon",
+      "dark": "Dark",
+      "fairy": "Fairy",
+      "stellar": "Stellar",
+      "unknown": "Unknown"
     }
   },
   "BattleArena": {
