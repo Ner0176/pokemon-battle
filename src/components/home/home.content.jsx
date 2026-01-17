@@ -3,12 +3,14 @@ import { mdiPlus } from "@mdi/js";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useGetBattleHistory, usePokemonTeams } from "../../stores";
-import { CustomButton } from "../base";
+import { CustomButton, EmptyData } from "../base";
 import { DisplayStats } from "../team-builder";
 import { format } from "date-fns";
 import { useState } from "react";
 import { BattleResultSummary } from "../battle-arena/result-summary";
 import Skeleton from "react-loading-skeleton";
+import Pokeball from "../../assets/images/pokeball.png";
+import LazySornlax from "../../assets/images/snorlax.png";
 
 const TeamItem = ({ teamName, team, handleClick }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -55,22 +57,35 @@ export const TeamsPreview = () => {
         <span className="text-3xl font-bold text-neutral-600">
           {t("Home.Teams.Title")}
         </span>
-        <CustomButton handleClick={() => navigate("/team-builder")}>
-          <Icon path={mdiPlus} className="size-3.5" />
-          {t("Base.CreateTeam")}
-        </CustomButton>
       </div>
       <div className="flex flex-col items-center gap-3 size-full overflow-y-auto">
-        {pokemonTeams.map(({ id, name, team }) => {
-          return (
-            <TeamItem
-              key={id}
-              team={team}
-              teamName={name}
-              handleClick={() => showTeamDetails(id)}
-            />
-          );
-        })}
+        {!pokemonTeams.length ? (
+          <EmptyData
+            imageSize={150}
+            image={Pokeball}
+            customStyles={{ gap: 20, marginTop: 32 }}
+            title={
+              <CustomButton
+                customStyles={{ width: "fit-content" }}
+                handleClick={() => navigate("/team-builder")}
+              >
+                <Icon path={mdiPlus} className="size-3.5" />
+                {t("Base.CreateTeam")}
+              </CustomButton>
+            }
+          />
+        ) : (
+          pokemonTeams.map(({ id, name, team }) => {
+            return (
+              <TeamItem
+                key={id}
+                team={team}
+                teamName={name}
+                handleClick={() => showTeamDetails(id)}
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );
@@ -78,18 +93,21 @@ export const TeamsPreview = () => {
 
 export const BattlesHistory = () => {
   const { t } = useTranslation();
+  const basePath = "BattleArena.History";
 
   const [selectedBattle, setSelectedBattle] = useState();
 
   const history = useGetBattleHistory();
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6 bg-white p-6 rounded-xl min-h-0 size-full">
-      <h3 className="text-2xl font-bold mb-4">{t("Historial de Combatess")}</h3>
+    <>
+      <h3 className="text-2xl font-bold mb-4">{t(`${basePath}.Title`)}</h3>
       {history.length === 0 ? (
-        <p className="text-gray-500 italic">
-          {t("No hay batallas registradas")}
-        </p>
+        <EmptyData
+          imageSize={200}
+          image={LazySornlax}
+          title={`Aún no se han registrado batallas`}
+        />
       ) : (
         <div className="flex flex-col gap-3 size-full overflow-y-auto">
           {history.map((battle, index) => (
@@ -118,6 +136,6 @@ export const BattlesHistory = () => {
           handleClose={() => setSelectedBattle(undefined)}
         />
       )}
-    </div>
+    </>
   );
 };
