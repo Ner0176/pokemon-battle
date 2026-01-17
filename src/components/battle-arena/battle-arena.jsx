@@ -4,7 +4,7 @@ import { simulateBattle } from "./battle-arena.utils";
 import { useEffect } from "react";
 import { CustomButton } from "../base";
 import {
-  BattleHistoric,
+  BattleHistory,
   BattleTeamInfo,
   FightingPokemon,
 } from "./battle-arena.content";
@@ -96,7 +96,7 @@ export const BattleArena = () => {
             </CustomButton>
           </div>
         </div>
-        <BattleHistoric
+        <BattleHistory
           history={history}
           stageIdx={stageIdx}
           isAnimating={isAnimating}

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { CustomButton, CustomSelect, showToast } from "../base";
-import { BattlesHistoric, TeamsPreview } from "./home.content";
+import { BattlesHistory, TeamsPreview } from "./home.content";
 import { useTranslation } from "react-i18next";
 import { usePokemonTeams, useSelectTeamsToFight } from "../../stores";
 import { useState } from "react";
@@ -36,7 +36,7 @@ export const HomeDashboard = () => {
   return (
     <div className="grid grid-cols-2 gap-10 py-4 h-full">
       <TeamsPreview />
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 h-full min-h-0">
         <div className="flex flex-col items-center justify-center gap-6 bg-white p-6 rounded-xl shadow-inner">
           <h2 className="text-xl font-bold">{t("Home.PrepareBattle.Title")}</h2>
           <div className="flex flex-row items-center gap-6 w-full">
@@ -70,9 +70,7 @@ export const HomeDashboard = () => {
             {t("Base.Battle")}
           </CustomButton>
         </div>
-        <div className="flex flex-col items-center justify-center gap-6 bg-slate-50 p-6 rounded-xl">
-          <BattlesHistoric />
-        </div>
+        <BattlesHistory />
       </div>
     </div>
   );

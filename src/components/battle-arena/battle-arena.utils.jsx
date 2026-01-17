@@ -66,6 +66,8 @@ export const simulateBattle = (teamA, teamB, t) => {
   }
 
   return {
+    teamA,
+    teamB,
     history,
     winnerTeam:
       currentPokemonAIndex < fightersA.length ? teamA.name : teamB.name,

@@ -44,7 +44,7 @@
     "RedWins": "{{pkm1}} attacked first and broke through {{pkm2}}'s defense.",
     "BlueWins": "{{pkm1}} failed to break the defense, and {{pkm2}} successfully counterattacked.",
     "Tie": "Technical tie; superior speed decided the winner",
-    "Historic": {
+    "History": {
       "Title": "Battle History"
     },
     "Results": {

@@ -2,9 +2,12 @@ import Icon from "@mdi/react";
 import { mdiPlus } from "@mdi/js";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useGetBattleHistoric, usePokemonTeams } from "../../stores";
+import { useGetBattleHistory, usePokemonTeams } from "../../stores";
 import { CustomButton } from "../base";
 import { DisplayStats } from "../team-builder";
+import { format } from "date-fns";
+import { useState } from "react";
+import { BattleResultSummary } from "../battle-arena/result-summary";
 
 export const TeamsPreview = () => {
   const { t } = useTranslation();
@@ -55,36 +58,47 @@ export const TeamsPreview = () => {
   );
 };
 
-export const BattlesHistoric = () => {
+export const BattlesHistory = () => {
   const { t } = useTranslation();
 
-  const historic = useGetBattleHistoric();
+  const [selectedBattle, setSelectedBattle] = useState();
+
+  const history = useGetBattleHistory();
 
   return (
-    <div className="mt-10 border-t pt-6">
-      <h3 className="text-2xl font-bold mb-4">{t("Historial de Combates")}</h3>
-      {historic.length === 0 ? (
+    <div className="flex flex-col items-center justify-center gap-6 bg-white p-6 rounded-xl min-h-0 size-full">
+      <h3 className="text-2xl font-bold mb-4">{t("Historial de Combatess")}</h3>
+      {history.length === 0 ? (
         <p className="text-gray-500 italic">
           {t("No hay batallas registradas")}
         </p>
       ) : (
-        <div className="grid gap-3">
-          {historic.map((battle, index) => (
+        <div className="flex flex-col gap-3 size-full overflow-y-auto">
+          {history.map((battle, index) => (
             <div
               key={index}
-              className="flex justify-between p-4 bg-white shadow-sm rounded-lg border"
+              onClick={() => setSelectedBattle(battle)}
+              className="cursor-pointer flex justify-between p-4 bg-white shadow-sm rounded-lg border border-neutral-200"
             >
-              <span className="font-medium text-blue-600">
-                {battle.blueTeam}
-              </span>
+              <span className="font-medium text-blue-600">{"Team A"}</span>
               <span className="font-bold text-gray-400">VS</span>
-              <span className="font-medium text-red-600">{battle.redTeam}</span>
+              <span className="font-medium text-red-600">{"Team B"}</span>
               <span className="text-sm text-gray-400">
-                {battle.date || "Reciente"}
+                {battle.date ? format(battle.date, "dd/MM/yyyy") : "Reciente"}
               </span>
             </div>
           ))}
         </div>
+      )}
+      {selectedBattle && (
+        <BattleResultSummary
+          result={selectedBattle}
+          teams={{
+            redTeam: selectedBattle.teamA,
+            blueTeam: selectedBattle.teamB,
+          }}
+          handleClose={() => setSelectedBattle(undefined)}
+        />
       )}
     </div>
   );

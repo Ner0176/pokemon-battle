@@ -21,8 +21,8 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
   const animationClass = isLoser
     ? "opacity-0 translate-y-20 scale-90 delay-1000 duration-800"
     : isEntering
-    ? "opacity-0 -translate-y-20 scale-90"
-    : "opacity-100 translate-y-0 scale-100";
+      ? "opacity-0 -translate-y-20 scale-90"
+      : "opacity-100 translate-y-0 scale-100";
 
   return (
     <div
@@ -88,13 +88,13 @@ export const BattleTeamInfo = ({
   );
 };
 
-export const BattleHistoric = ({ history, stageIdx, isAnimating }) => {
+export const BattleHistory = ({ history, stageIdx, isAnimating }) => {
   const { t } = useTranslation();
 
   return (
     <div className="flex flex-col bg-white size-full min-h-0 rounded-2xl shadow-sm">
       <span className="text-lg font-bold text-center border-b border-neutral-200 pt-4 pb-2 px-8">
-        {t("BattleArena.Historic.Title")}
+        {t("BattleArena.History.Title")}
       </span>
       <div className="flex flex-col size-full overflow-y-auto px-8">
         {history.slice(0, stageIdx + 1).map((event, i) => {

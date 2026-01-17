@@ -1,14 +1,23 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { CustomButton, Modal } from "../../base";
 import { TeamSummary } from "./result-summary.content";
+import { useAddBattleToHistory } from "../../../stores";
 
 export const BattleResultSummary = ({ result, teams, handleClose }) => {
   const { t } = useTranslation();
   const basePath = "BattleArena.Results";
 
-  if (!result) return null;
+  const addBattle = useAddBattleToHistory();
 
   const { redTeam, blueTeam } = teams;
+
+  useEffect(() => {
+    if (result) addBattle({ ...result, date: new Date() });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
+
+  if (!result) return null;
 
   return (
     <Modal

@@ -45,7 +45,7 @@
     "RedWins": "{{pkm1}} atacó primero y superó la defensa de {{pkm2}}.",
     "BlueWins": "{{pkm1}} no pudo romper la defensa y {{pkm2}} contraatacó con éxito.",
     "Tie": "Empate técnico en combate; la velocidad superior decidió el ganador",
-    "Historic": {
+    "History": {
       "Title": "Historial de combate"
     },
     "Results": {

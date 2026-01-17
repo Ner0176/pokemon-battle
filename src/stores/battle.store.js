@@ -7,22 +7,22 @@ const useBattleStore = create(
       teams: { blueTeam: undefined, redTeam: undefined },
       selectTeamsToFight: (selectedTeams) =>
         set(() => ({ teams: selectedTeams })),
-      historic: [],
-      addBattleToHistoric: (battle) =>
-        set((state) => ({ historic: [...state, battle] })),
+      history: [],
+      addBattleToHistory: (battle) =>
+        set((state) => ({ history: [...state.history, battle] })),
     }),
     {
       name: "pokemon-battles",
       getStorage: () => localStorage,
-    }
-  )
+    },
+  ),
 );
 
-export const useGetBattleHistoric = () =>
-  useBattleStore((state) => state.historic);
+export const useGetBattleHistory = () =>
+  useBattleStore((state) => state.history);
 
-export const useAddBattleToHistoric = () =>
-  useBattleStore((state) => state.addBattleToHistoric);
+export const useAddBattleToHistory = () =>
+  useBattleStore((state) => state.addBattleToHistory);
 
 export const useGetBattleTeams = () => useBattleStore((state) => state.teams);
 
