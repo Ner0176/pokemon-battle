@@ -7,6 +7,8 @@ import {
 } from "./team-builder.styled";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import { useTranslation } from "react-i18next";
+import { CustomButton, Modal } from "../base";
 
 const BASE_ASSETS_URL = "https://raw.githubusercontent.com/PokeAPI";
 
@@ -17,7 +19,7 @@ export const PokemonPreview = ({ details }) => {
 
   const playSound = () => {
     const audio = new Audio(
-      `${BASE_ASSETS_URL}/cries/main/cries/pokemon/legacy/${id}.ogg`
+      `${BASE_ASSETS_URL}/cries/main/cries/pokemon/legacy/${id}.ogg`,
     );
     audio.play();
   };
@@ -64,7 +66,10 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
 
   return (
     <div className="flex flex-col gap-3 h-full overflow-y-auto p-1">
-      <div onClick={handleTeamIdParam} className={teamPreviewBoxContainer}>
+      <div
+        className={teamPreviewBoxContainer}
+        onClick={() => handleTeamIdParam({ teamId: null })}
+      >
         <Icon path={mdiPlus} className="size-4" />
       </div>
       {pokemonTeams.map((item) => {
@@ -93,5 +98,50 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
         );
       })}
     </div>
+  );
+};
+
+export const DraftModal = ({ draft, handleClose, onLoad }) => {
+  const { t } = useTranslation();
+  const basePath = "TeamBuilder.Draft";
+
+  const handleLoadDraft = () => {
+    onLoad(draft);
+    handleClose();
+  };
+
+  return (
+    <Modal
+      width="500px"
+      handleClose={handleClose}
+      title={t(`${basePath}.Title`)}
+    >
+      <div className="flex flex-col gap-6">
+        <p className="text-gray-600">{t(`${basePath}.Description`)}</p>
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <p className="font-bold text-sm text-gray-500 mb-2">
+            {"Untitled Team"} ({draft.length} Pokémon)
+          </p>
+          <div className="flex gap-2 overflow-hidden">
+            {draft.slice(0, 6).map((pkm) => (
+              <img
+                key={pkm.id}
+                alt={pkm.name}
+                className="w-8 h-8"
+                src={pkm.staticSprite}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-row justify-end gap-4 mt-2">
+          <CustomButton variant="secondary" handleClick={handleClose}>
+            {t("Base.Discard")}
+          </CustomButton>
+          <CustomButton handleClick={() => handleLoadDraft(draft)}>
+            {t(`${basePath}.Load`)}
+          </CustomButton>
+        </div>
+      </div>
+    </Modal>
   );
 };

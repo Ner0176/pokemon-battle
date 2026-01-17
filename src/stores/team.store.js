@@ -19,7 +19,7 @@ const useTeamStore = create(
       update: (updatedTeam) =>
         set((state) => ({
           pokemonTeams: state.pokemonTeams.map((team) =>
-            team.id === updatedTeam.id ? updatedTeam : team
+            team.id === updatedTeam.id ? updatedTeam : team,
           ),
         })),
       delete: (teamId) =>
@@ -30,8 +30,8 @@ const useTeamStore = create(
     {
       name: "pokemon-teams",
       getStorage: () => localStorage,
-    }
-  )
+    },
+  ),
 );
 
 export const usePokemonTeams = () =>

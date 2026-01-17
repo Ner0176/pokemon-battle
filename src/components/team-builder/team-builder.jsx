@@ -1,13 +1,22 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useGetPokemonDetails, useGetPokemonList } from "../../api";
-import { PokemonPreview, TeamsPreview } from "./team-builder.content";
+import {
+  DraftModal,
+  PokemonPreview,
+  TeamsPreview,
+} from "./team-builder.content";
 import { showToast } from "../base";
 import { useTranslation } from "react-i18next";
 import { TeamSection } from "./team";
 import Skeleton from "react-loading-skeleton";
 import { formatPokemonInfo, getIdFromUrl } from "./team-builder.utils";
 import { useSearchParams } from "react-router-dom";
-import { usePokemonTeams } from "../../stores";
+import {
+  useClearDraft,
+  useGetDraft,
+  usePokemonTeams,
+  useSaveDraft,
+} from "../../stores";
 import { CustomInput } from "../base";
 
 export const TeamBuilder = () => {
@@ -15,6 +24,9 @@ export const TeamBuilder = () => {
   const [searchParams] = useSearchParams();
   const selectedTeamId = searchParams.get("id");
 
+  const saveDraft = useSaveDraft();
+  const storedDraft = useGetDraft();
+  const clearDraft = useClearDraft();
   const storedTeams = usePokemonTeams();
 
   const observerRef = useRef(null);
@@ -23,6 +35,7 @@ export const TeamBuilder = () => {
   const [pkmTeam, setPkmTeam] = useState([]);
   const [teamName, setTeamName] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
 
   const { data: pkmDetails } = useGetPokemonDetails(selectedId);
   const {
@@ -74,6 +87,7 @@ export const TeamBuilder = () => {
         return;
       }
 
+      setSelectedId(null);
       setPkmTeam((prev) => [...prev, formatPokemonInfo(pkmDetails)]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,6 +164,16 @@ export const TeamBuilder = () => {
         setTeamName={setTeamName}
         selectedTeamId={selectedTeamId}
       />
+      {isDraftModalOpen && (
+        <DraftModal
+          draft={storedDraft}
+          onLoad={(draft) => setPkmTeam(draft)}
+          handleClose={() => {
+            setIsDraftModalOpen(false);
+            clearDraft();
+          }}
+        />
+      )}
     </div>
   );
 };

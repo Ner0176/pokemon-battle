@@ -7,6 +7,7 @@
     "Winner": "Winner",
     "Fight": "Battle",
     "Delete": "Delete",
+    "Discard": "Discard",
     "Search": "Search...",
     "RedTeam": "Red team",
     "BlueTeam": "Blue team",
@@ -32,6 +33,11 @@
     "Success": {
       "Update": "Team '{{value}}' was successfully updated",
       "Delete": "Team '{{value}}' was successfully deleted"
+    },
+    "Draft": {
+      "Load": "Load draft",
+      "Title": "Unsaved draft found",
+      "Description": "You have unsaved changes for a team. Do you want to continue editing this team?"
     },
     "Errors": {
       "TeamFull": "Team is already full",

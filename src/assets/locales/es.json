@@ -8,6 +8,7 @@
     "Battle": "Combatir",
     "Delete": "Eliminar",
     "Search": "Buscar...",
+    "Discard": "Descartar",
     "RedTeam": "Equipo rojo",
     "BlueTeam": "Equipo azul",
     "CreateTeam": "Crear equipo",
@@ -33,6 +34,11 @@
     "Success": {
       "Update": "El equipo '{{value}}' ha sido actualizado",
       "Delete": "El equipo '{{value}}' ha sido eliminado"
+    },
+    "Draft": {
+      "Load": "Cargar borrador",
+      "Title": "Borrar encontrado",
+      "Description": "Tienes cambios sin guardar de un equipo. Deseas continuar editando este equipo?"
     },
     "Errors": {
       "TeamFull": "No se pueden seleccionar más de 6 pokémon",
