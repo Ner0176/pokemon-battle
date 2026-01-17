@@ -4,9 +4,9 @@ import { persist } from "zustand/middleware";
 export const useDraftStore = create(
   persist(
     (set) => ({
-      draftTeam: [],
-      saveDraft: (team) => set(() => ({ draftTeam: team })),
-      clearDraft: () => set(() => ({ draftTeam: [] })),
+      draftTeam: null,
+      clearDraft: () => set(() => ({ draftTeam: null })),
+      saveDraft: (unsavedTeam) => set(() => ({ draftTeam: unsavedTeam })),
     }),
     { name: "draft-team", getStorage: () => localStorage },
   ),

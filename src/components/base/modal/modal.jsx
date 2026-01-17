@@ -5,6 +5,7 @@ import { mdiClose } from "@mdi/js";
 export const Modal = ({
   title,
   width,
+  footer,
   children,
   handleClose,
   type = "default",
@@ -45,6 +46,11 @@ export const Modal = ({
           >
             {children}
           </div>
+          {footer && (
+            <div className="flex flex-row justify-end items-center gap-4 w-full sm:px-8 py-5 border-t border-neutral-200">
+              {footer}
+            </div>
+          )}
         </div>
       </div>
       <div className="fixed inset-0 z-50 bg-black opacity-50" />

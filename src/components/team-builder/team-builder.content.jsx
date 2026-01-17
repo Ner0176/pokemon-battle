@@ -101,7 +101,7 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
   );
 };
 
-export const DraftModal = ({ draft, handleClose, onLoad }) => {
+export const DraftModal = ({ draft, onLoad, handleClose }) => {
   const { t } = useTranslation();
   const basePath = "TeamBuilder.Draft";
 
@@ -112,34 +112,36 @@ export const DraftModal = ({ draft, handleClose, onLoad }) => {
 
   return (
     <Modal
-      width="500px"
+      width="600px"
       handleClose={handleClose}
       title={t(`${basePath}.Title`)}
-    >
-      <div className="flex flex-col gap-6">
-        <p className="text-gray-600">{t(`${basePath}.Description`)}</p>
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <p className="font-bold text-sm text-gray-500 mb-2">
-            {"Untitled Team"} ({draft.length} Pokémon)
-          </p>
-          <div className="flex gap-2 overflow-hidden">
-            {draft.slice(0, 6).map((pkm) => (
-              <img
-                key={pkm.id}
-                alt={pkm.name}
-                className="w-8 h-8"
-                src={pkm.staticSprite}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-row justify-end gap-4 mt-2">
+      footer={
+        <div className="flex flex-row justify-end gap-4">
           <CustomButton variant="secondary" handleClick={handleClose}>
             {t("Base.Discard")}
           </CustomButton>
           <CustomButton handleClick={() => handleLoadDraft(draft)}>
             {t(`${basePath}.Load`)}
           </CustomButton>
+        </div>
+      }
+    >
+      <div className="flex flex-col gap-6 pb-2">
+        <p className="text-gray-600">{t(`${basePath}.Description`)}</p>
+        <div className="flex flex-col gap-1 bg-gray-50 px-4 py-3 rounded-lg shadow-md">
+          <span className="font-bold text-sm text-gray-500 mb-2">
+            {draft.name || "Untitled"} ({draft.team.length} Pokémon)
+          </span>
+          <div className="flex gap-2 overflow-hidden">
+            {draft.team.slice(0, 6).map((pkm) => (
+              <img
+                key={pkm.id}
+                alt={pkm.name}
+                className="size-12"
+                src={pkm.staticSprite}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </Modal>

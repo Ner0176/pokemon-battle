@@ -1,26 +1,26 @@
-import { useState, useRef, useEffect, useMemo } from "react";
-import { useGetPokemonDetails, useGetPokemonList } from "../../api";
-import {
-  DraftModal,
-  PokemonPreview,
-  TeamsPreview,
-} from "./team-builder.content";
-import { showToast } from "../base";
-import { useTranslation } from "react-i18next";
-import { TeamSection } from "./team";
-import Skeleton from "react-loading-skeleton";
-import { formatPokemonInfo, getIdFromUrl } from "./team-builder.utils";
-import { useSearchParams } from "react-router-dom";
 import {
   useClearDraft,
   useGetDraft,
   usePokemonTeams,
   useSaveDraft,
 } from "../../stores";
-import { CustomInput } from "../base";
+import {
+  DraftModal,
+  PokemonPreview,
+  TeamsPreview,
+} from "./team-builder.content";
+import { TeamSection } from "./team";
+import Skeleton from "react-loading-skeleton";
+import { useTranslation } from "react-i18next";
+import { CustomInput, showToast } from "../base";
+import { useState, useRef, useEffect, useMemo } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { useGetPokemonDetails, useGetPokemonList } from "../../api";
+import { formatPokemonInfo, getIdFromUrl } from "./team-builder.utils";
 
 export const TeamBuilder = () => {
   const { t } = useTranslation();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const selectedTeamId = searchParams.get("id");
 
@@ -29,13 +29,13 @@ export const TeamBuilder = () => {
   const clearDraft = useClearDraft();
   const storedTeams = usePokemonTeams();
 
-  const observerRef = useRef(null);
-
   const [search, setSearch] = useState("");
   const [pkmTeam, setPkmTeam] = useState([]);
   const [teamName, setTeamName] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
+
+  const observerRef = useRef(null);
+  const stateRef = useRef({ pkmTeam, teamName, selectedTeamId });
 
   const { data: pkmDetails } = useGetPokemonDetails(selectedId);
   const {
@@ -45,6 +45,30 @@ export const TeamBuilder = () => {
     isFetchingNextPage,
     isLoading: isPkmListLoading,
   } = useGetPokemonList();
+
+  useEffect(() => {
+    stateRef.current = { pkmTeam, teamName, selectedTeamId };
+  }, [pkmTeam, teamName, selectedTeamId]);
+
+  useEffect(() => {
+    return () => {
+      const currentTeam = stateRef.current.pkmTeam;
+      const currentName = stateRef.current.teamName;
+      const currentId = stateRef.current.selectedTeamId;
+
+      if (currentId) {
+        const findTeam = storedTeams.find((team) => team.id === currentId);
+        const dbTeam = findTeam ? findTeam.team : [];
+
+        const areSame = JSON.stringify(dbTeam) === JSON.stringify(currentTeam);
+
+        if (!areSame) saveDraft({ team: currentTeam, name: currentName });
+      } else if (currentTeam.length > 0 || currentName.length > 0) {
+        saveDraft({ team: currentTeam, name: currentName });
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
   useEffect(() => {
     let newPkmTeam = [];
@@ -164,13 +188,13 @@ export const TeamBuilder = () => {
         setTeamName={setTeamName}
         selectedTeamId={selectedTeamId}
       />
-      {isDraftModalOpen && (
+      {!!storedDraft && (
         <DraftModal
           draft={storedDraft}
-          onLoad={(draft) => setPkmTeam(draft)}
-          handleClose={() => {
-            setIsDraftModalOpen(false);
-            clearDraft();
+          handleClose={clearDraft}
+          onLoad={({ team, name }) => {
+            setPkmTeam(team);
+            setTeamName(name);
           }}
         />
       )}
