@@ -91,7 +91,7 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
                 className="max-h-full max-w-full object-contain"
               />
             </div>
-            <span className="text-sm truncate w-full text-center px-1">
+            <span className="text-xs truncate w-full text-center px-1">
               {item.name}
             </span>
           </div>

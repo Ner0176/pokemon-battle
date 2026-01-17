@@ -5,5 +5,5 @@ export const pkmPreviewContainer = `
 
 export const teamPreviewBoxContainer = `
     flex flex-col items-center justify-center w-full aspect-square bg-white
-    border border-neutral-200 rounded-lg cursor-pointer shadow-inner
+    border border-neutral-200 rounded-lg cursor-pointer shadow-inner max-w-[120px]
 `;

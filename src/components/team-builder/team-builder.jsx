@@ -56,6 +56,8 @@ export const TeamBuilder = () => {
       const currentName = stateRef.current.teamName;
       const currentId = stateRef.current.selectedTeamId;
 
+      if (!currentTeam.length) return;
+
       if (currentId) {
         const findTeam = storedTeams.find((team) => team.id === currentId);
         const dbTeam = findTeam ? findTeam.team : [];

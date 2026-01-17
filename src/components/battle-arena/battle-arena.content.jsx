@@ -66,11 +66,11 @@ export const BattleTeamInfo = ({
 
   return (
     <div
-      className={`absolute top-0 z-20 h-full bg-white/80 flex flex-col gap-2 items-center px-4 py-3 ${
+      className={`absolute top-0 z-20 h-full bg-white/80 flex flex-col gap-2 items-center px-4 py-3 max-w-37.5 ${
         variants[variant] || variants.left
       }`}
     >
-      <span className="text-sm text-center">{name}</span>
+      <span className="text-sm text-center truncate w-full">{name}</span>
       <div className="grid grid-cols-3 gap-1">
         {team.map(({ staticSprite }, idx) => {
           return (
