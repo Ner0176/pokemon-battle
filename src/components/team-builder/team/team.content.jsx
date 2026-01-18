@@ -15,16 +15,10 @@ export const DisplayStats = ({ stats, fontSize = 10 }) => {
 export const SelectedPokemon = ({ pokemon, handleDelete }) => {
   const { id, name, types, stats, movingSprite } = pokemon;
 
-  const [isHovered, setIsHovered] = useState(false);
   const [isLoadingGif, setIsLoadingGif] = useState(true);
 
   return (
-    <div
-      key={name}
-      className={selectedPkmContainer}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div key={name} className={selectedPkmContainer}>
       <div className="flex flex-row items-center gap-2">
         <div className="relative size-20 flex items-center justify-center shrink-0 bg-gray-50 rounded-full border border-gray-100 p-2">
           {isLoadingGif && (
@@ -53,17 +47,16 @@ export const SelectedPokemon = ({ pokemon, handleDelete }) => {
       <div className="flex flex-col gap-1.5">
         <DisplayStats stats={stats} fontSize={12} />
       </div>
-      {isHovered && (
-        <div
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDelete(id);
-          }}
-          className="absolute top-2 left-2 z-30 cursor-pointer"
-        >
-          <Icon path={mdiTrashCanOutline} className="size-4 text-red-500" />
-        </div>
-      )}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleDelete(id);
+        }}
+        aria-label="delete pokemon from team"
+        className="absolute top-2 left-2 z-30 cursor-pointer hidden group-hover:block"
+      >
+        <Icon path={mdiTrashCanOutline} className="size-4 text-red-500" />
+      </button>
     </div>
   );
 };
