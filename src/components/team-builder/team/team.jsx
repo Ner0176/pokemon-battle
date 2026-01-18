@@ -31,7 +31,7 @@ export const TeamSection = ({
   const handleSortByAttack = () => {
     setPkmTeam((prev) => {
       return [...prev].sort((a, b) => {
-        const attackA = a.stat["ATK"] || 0;
+        const attackA = a.stats["ATK"] || 0;
         const attackB = b.stats["ATK"] || 0;
         return attackB - attackA;
       });

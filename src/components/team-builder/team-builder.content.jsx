@@ -9,19 +9,27 @@ import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useTranslation } from "react-i18next";
 import { CustomButton, Modal } from "../base";
+import { useRef } from "react";
 
 const BASE_ASSETS_URL = "https://raw.githubusercontent.com/PokeAPI";
 
 export const PokemonPreview = ({ details }) => {
   const { id, name } = details;
 
+  const audioRef = useRef(null);
+
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   const playSound = () => {
-    const audio = new Audio(
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+
+    audioRef.current = new Audio(
       `${BASE_ASSETS_URL}/cries/main/cries/pokemon/legacy/${id}.ogg`,
     );
-    audio.play();
+    audioRef.current.play();
   };
 
   return (

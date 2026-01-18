@@ -20,11 +20,11 @@ export const VersusTagStyle = `
 `;
 
 export const BattleHistoryContainer = `
-    cursor-pointer group flex items-center justify-between p-3 bg-white
-    hover:bg-emerald-50 border border-neutral-100 rounded-lg transition-colors
+    group cursor-pointer group flex items-center justify-between p-3 bg-white
+    hover:bg-red-50 border border-neutral-100 rounded-lg transition-colors
 `;
 
 export const HistorySeeTag = `
-    text-xs font-bold text-neutral-300 bg-neutral-50 hover:text-emerald-300
-    hover:bg-emerald-50 px-2 py-1 rounded
+    text-xs font-bold text-neutral-300 bg-neutral-50
+    group-hover:bg-red-100 group-hover:text-red-300 px-2 py-1 rounded border border-neutral-100
 `;

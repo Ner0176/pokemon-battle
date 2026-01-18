@@ -2,6 +2,7 @@ import Icon from "@mdi/react";
 import { useState } from "react";
 import { mdiTrashCanOutline } from "@mdi/js";
 import { selectedPkmContainer } from "./team.styled";
+import Skeleton from "react-loading-skeleton";
 
 export const DisplayStats = ({ stats, fontSize = 10 }) => {
   return Object.entries(stats).map(([key, value]) => (
@@ -15,6 +16,7 @@ export const SelectedPokemon = ({ pokemon, handleDelete }) => {
   const { id, name, types, stats, movingSprite } = pokemon;
 
   const [isHovered, setIsHovered] = useState(false);
+  const [isLoadingGif, setIsLoadingGif] = useState(true);
 
   return (
     <div
@@ -24,7 +26,19 @@ export const SelectedPokemon = ({ pokemon, handleDelete }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex flex-row items-center gap-2">
-        <img className="h-14 aspect-square object-contain" src={movingSprite} />
+        <div className="relative size-20 flex items-center justify-center shrink-0 bg-gray-50 rounded-full border border-gray-100 p-2">
+          {isLoadingGif && (
+            <Skeleton style={{ width: 35, height: 35, borderRadius: 12 }} />
+          )}
+          <img
+            alt={name}
+            loading="lazy"
+            src={movingSprite}
+            onLoad={() => setIsLoadingGif(false)}
+            style={{ imageRendering: "pixelated" }}
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
         <div className="flex flex-col gap-3 first-letter:uppercase">
           {name}
           <div className="flex flex-row gap-1">

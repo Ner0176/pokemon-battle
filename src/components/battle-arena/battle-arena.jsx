@@ -86,7 +86,7 @@ export const BattleArena = () => {
         <div className="col-span-2 flex flex-col gap-4 h-full">
           <div
             style={{ backgroundImage: `url(${pkmBattleBg})` }}
-            className="relative h-3/4 border-4 border-white shadow-2xl rounded-2xl bg-cover bg-center overflow-hidden"
+            className="relative h-full border-4 border-white shadow-2xl rounded-2xl bg-cover bg-center overflow-hidden"
           >
             {pokemonRed && (
               <FightingPokemon

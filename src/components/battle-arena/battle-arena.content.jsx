@@ -15,8 +15,8 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
   }, []);
 
   const variants = {
-    left: "bottom-[25%] left-[15%] z-10",
-    right: "top-[18%] right-[15%] z-10",
+    left: "bottom-[25%] left-[12%] z-10",
+    right: "top-[18%] right-[8%] z-10",
   };
 
   const animationClass = isLoser
@@ -27,13 +27,13 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
 
   return (
     <div
-      className={`absolute flex flex-row items-end gap-4 transition-all duration-1000
+      className={`absolute flex flex-row items-center gap-10 transition-all duration-1000
         ${variants[variant] || variants.left} ${animationClass} 
         ${variant === "right" ? "flex-row-reverse" : ""}`}
     >
-      <div className="flex flex-col gap-1 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg border border-white/50 h-fit min-w-35">
+      <div className="flex flex-col gap-1 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-xl shadow-lg border border-white/50 h-fit min-w-35">
         <span className="font-bold uppercase text-xs">{name}</span>
-        <div className="w-32 h-2.5 bg-neutral-200 rounded-full overflow-hidden shadow-inner">
+        <div className="w-32 h-2 bg-neutral-200 rounded-full overflow-hidden shadow-inner">
           <div
             className={`h-full transition-all duration-1000 ${
               isLoser ? "w-0 bg-red-500" : "w-full bg-emerald-500"
@@ -44,11 +44,17 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
           <DisplayStats stats={stats} fontSize={9} />
         </div>
       </div>
-      <img
-        alt={name}
-        src={variant === "left" ? movingBackSprite : movingSprite}
-        className={`h-24 lg:h-32 aspect-square object-contain drop-shadow-xl`}
-      />
+      <div className="relative flex items-end justify-center size-32">
+        <img
+          alt={name}
+          style={{ imageRendering: "pixelated" }}
+          src={variant === "left" ? movingBackSprite : movingSprite}
+          className={`
+                w-auto h-auto scale-[1.6] origin-bottom drop-shadow-2xl
+                ${variant === "left" ? "scale-[1.9]" : "scale-[1.6]"}
+            `}
+        />
+      </div>
     </div>
   );
 };
@@ -61,19 +67,21 @@ export const BattleTeamInfo = ({
   const { name, team } = teamDetails;
 
   const variants = {
-    left: "bottom-0 left-0 rounded-tr-2xl text-red-600",
-    right: "top-0 right-0 rounded-bl-2xl text-blue-600",
+    left: "bottom-0 right-0 rounded-tl-2xl text-red-600",
+    right: "top-0 left-0 rounded-br-2xl text-blue-600",
   };
 
   const currentPkmIdx = team.findIndex((pkm) => pkm.id === currentPokemon?.id);
 
   return (
     <div
-      className={`absolute z-20 bg-white/90 backdrop-blur-md flex flex-col gap-2 items-center px-6 py-3 shadow-sm ${
+      className={`absolute z-20 bg-white/90 backdrop-blur-md flex flex-col gap-1.5 items-center px-5 py-2.5 shadow-sm ${
         variants[variant] || variants.left
       }`}
     >
-      <span className="text-sm font-bold uppercase tracking-wider">{name}</span>
+      <span className="text-sm font-bold uppercase tracking-wider drop-shadow-[1px_1px_0_rgba(0,0,0,0.25)]">
+        {name}
+      </span>
       <div className="flex gap-1">
         {team.map(({ staticSprite }, idx) => {
           return (
