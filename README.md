@@ -1,17 +1,43 @@
-# React + Vite
+# Pokémon Teams & Battle Simulator ⚔️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 1. Funcionalidades
 
-Currently, two official plugins are available:
+- **Gestión de Equipos:** Creación de múltiples equipos personalizados (máx. 6 Pokémon).
+- **Consumo de API:** Selección de Pokémon desde `pokeapi.co` con buscador y filtro por tipos.
+- **Drag & Drop:** Reordenamiento visual, orden aleatorio y orden por estadística de ataque.
+- **Persistencia:** Guardado de equipos y sistema de **Borradores Automáticos** (si el usuario sale sin guardar).
+- **Combate:** Simulación 1 vs 1 por posición basada en reglas de _Speed_, _Attack_ y _Defense_.
+- **Resultados:** Reporte de ganadores por ronda y resultado global.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologías y Herramientas
 
-## React Compiler
+- **Core:** React 19 + Vite 7.
+- **Lenguaje:** JavaScript (ESModules).
+- **Estado Global:** Zustand v5 (Gestión de equipos, combates y borradores).
+- **Estado del Servidor:** TanStack Query v5 (Consumo optimizado de PokéAPI).
+- **Estilos:** Tailwind CSS v4.
+- **Drag & Drop:** @dnd-kit.
+- **Enrutado:** React Router DOM v7.
+- **Testing:** Vitest + React Testing Library.
+- **Gestor de Paquetes:** pnpm.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📂 Arquitectura del Proyecto
 
-## Expanding the ESLint configuration
+Se ha implementado una arquitectura modular que separa claramente la **UI genérica** de la **lógica de negocio**, facilitando la escalabilidad y el mantenimiento.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# pokemon-battle
+```text
+src/
+├── api/              # Configuración de Axios e interceptores
+├── assets/           # Imágenes y recursos estáticos
+├── components/
+│   ├── base/         # UI Kit: Componentes atómicos reutilizables (Button, Modal, Toast...)
+│   ├── battle-arena/ # Feature: Vistas y lógica de la simulación de combate
+│   ├── home/         # Feature: Landing page
+│   └── team-builder/ # Feature: Constructor de equipos, búsqueda y Drag & Drop
+├── hooks/            # Custom Hooks transversales (useClickOutside)
+├── router/           # Configuración de rutas (React Router v7)
+├── stores/           # Stores de Zustand separados por dominio (battle, team, drafts)
+├── utils/            # Funciones puras compartidas
+├── App.jsx           # Layout principal y configuración de Providers
+└── main.jsx          # Entry point
+```
