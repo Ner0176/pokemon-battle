@@ -7,6 +7,8 @@ const useBattleStore = create(
       teams: { blueTeam: undefined, redTeam: undefined },
       selectTeamsToFight: (selectedTeams) =>
         set(() => ({ teams: selectedTeams })),
+      clearTeams: () =>
+        set(() => ({ teams: { blueTeam: undefined, redTeam: undefined } })),
       history: [],
       addBattleToHistory: (battle) =>
         set((state) => ({ history: [...state.history, battle] })),
@@ -28,3 +30,6 @@ export const useGetBattleTeams = () => useBattleStore((state) => state.teams);
 
 export const useSelectTeamsToFight = () =>
   useBattleStore((state) => state.selectTeamsToFight);
+
+export const useClearBattleTeams = () =>
+  useBattleStore((state) => state.clearTeams);

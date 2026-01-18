@@ -2,7 +2,8 @@
   "Base": {
     "Labels": {
       "Home": "Inicio",
-      "Teams": "Equipos"
+      "Teams": "Equipos",
+      "Battle": "Combate"
     },
     "Winner": "Ganador",
     "Battle": "Combatir",
@@ -11,6 +12,7 @@
     "Discard": "Descartar",
     "RedTeam": "Equipo rojo",
     "BlueTeam": "Equipo azul",
+    "Round": "Ronda {{value}}",
     "CreateTeam": "Crear equipo",
     "DeleteTeam": "Eliminar equipo",
     "UpdateTeam": "Actualizar equipo"
@@ -75,9 +77,12 @@
     }
   },
   "BattleArena": {
-    "RedWins": "{{pkm1}} atacó primero y superó la defensa de {{pkm2}}.",
-    "BlueWins": "{{pkm1}} no pudo romper la defensa y {{pkm2}} contraatacó con éxito.",
-    "Tie": "Empate técnico en combate; la velocidad superior decidió el ganador",
+    "Fighting": "Combatiendo...",
+    "ViewResult": "Ver resultado",
+    "WinByAttack": "{{winner}} atacó primero y superó la defensa de {{loser}}.",
+    "WinByCounter": "{{loser}} no pudo romper la defensa y {{winner}} contraatacó con éxito.",
+    "WinBySpeed": "Empate técnico en combate; la velocidad superior decidió el ganador",
+    "CanNotEscape": "¡Estás en medio de un combate, no puedes escapar!",
     "History": {
       "Title": "Historial de combate"
     },

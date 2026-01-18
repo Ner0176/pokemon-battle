@@ -104,9 +104,9 @@ const BattleName = ({ name, isWinner }) => (
 export const RoundsSection = ({ index, round }) => {
   const { t } = useTranslation();
 
-  const { winner, pokemonA, pokemonB, reason } = round;
+  const { winner, pokemonRed, pokemonBlue, reason } = round;
 
-  const isAWinner = winner === pokemonA.name;
+  const isAWinner = winner === pokemonRed.name;
 
   return (
     <div key={index} className={RoundContainer}>
@@ -115,9 +115,9 @@ export const RoundsSection = ({ index, round }) => {
           #{index + 1}
         </span>
         <div className="flex items-center gap-2 text-sm">
-          <BattleName name={pokemonA.name} isWinner={isAWinner} />
+          <BattleName name={pokemonRed.name} isWinner={isAWinner} />
           <span className="text-xs text-neutral-300 font-bold">VS</span>
-          <BattleName name={pokemonB.name} isWinner={!isAWinner} />
+          <BattleName name={pokemonBlue.name} isWinner={!isAWinner} />
         </div>
       </div>
       <div className="flex items-center gap-3 mt-2 sm:mt-0 w-full sm:w-auto justify-between sm:justify-end">

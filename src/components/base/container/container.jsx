@@ -1,19 +1,34 @@
 import Icon from "@mdi/react";
+import { showToast } from "../toast";
 import { useTranslation } from "react-i18next";
-import { mdiPokeball, mdiHomeOutline } from "@mdi/js";
+import { tabBox, tabsWrapper } from "./container.styled";
 import { useLocation, useNavigate } from "react-router-dom";
 import bgForest from "../../../assets/images/background-forest.jpg";
-import { tabBox, tabsWrapper } from "./container.styled";
-
-const TABS = [
-  { label: "Home", path: "/", icon: mdiHomeOutline },
-  { label: "Teams", path: "/team-builder", icon: mdiPokeball },
-];
+import { mdiPokeball, mdiHomeOutline, mdiSwordCross } from "@mdi/js";
 
 export const Container = ({ children }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const TABS = [
+    { label: "Home", path: "/", icon: mdiHomeOutline },
+    { label: "Teams", path: "/team-builder", icon: mdiPokeball },
+  ];
+
+  if (location.pathname.includes("battle-arena")) {
+    TABS.push({ label: "Battle", path: "/battle-arena", icon: mdiSwordCross });
+  }
+
+  const handleClick = (path) => {
+    if (location.pathname === path) return;
+    !location.pathname.includes("battle-arena")
+      ? navigate(path)
+      : showToast({
+          type: "error",
+          text: t("BattleArena.CanNotEscape"),
+        });
+  };
 
   return (
     <div
@@ -28,7 +43,7 @@ export const Container = ({ children }) => {
               return (
                 <div
                   key={idx}
-                  onClick={() => navigate(path)}
+                  onClick={() => handleClick(path)}
                   className={`${tabBox}${
                     location.pathname === path ? "bg-neutral-50" : "bg-white/90"
                   } `}

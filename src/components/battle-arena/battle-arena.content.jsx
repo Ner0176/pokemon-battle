@@ -1,7 +1,8 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DisplayStats } from "../team-builder";
+import Icon from "@mdi/react";
+import { mdiTrophy } from "@mdi/js";
 
 export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
   const { name, stats, movingSprite, movingBackSprite } = pokemon;
@@ -14,8 +15,8 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
   }, []);
 
   const variants = {
-    left: "bottom-10 left-50",
-    right: "top-10 right-50",
+    left: "bottom-[25%] left-[15%] z-10",
+    right: "top-[18%] right-[15%] z-10",
   };
 
   const animationClass = isLoser
@@ -26,25 +27,27 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
 
   return (
     <div
-      className={`absolute flex flex-row justify-between gap-5 transition-all duration-1000
-        ${variants[variant] || variants.left} ${animationClass}`}
+      className={`absolute flex flex-row items-end gap-4 transition-all duration-1000
+        ${variants[variant] || variants.left} ${animationClass} 
+        ${variant === "right" ? "flex-row-reverse" : ""}`}
     >
-      <div className="flex flex-col gap-1 bg-white/80 px-4 py-2 rounded-lg shadow-lg h-fit">
+      <div className="flex flex-col gap-1 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg border border-white/50 h-fit min-w-35">
         <span className="font-bold uppercase text-xs">{name}</span>
-        <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div className="w-32 h-2.5 bg-neutral-200 rounded-full overflow-hidden shadow-inner">
           <div
-            className={`h-full bg-emerald-500 transition-all duration-1000 ${
-              isLoser ? "w-0" : "w-full"
+            className={`h-full transition-all duration-1000 ${
+              isLoser ? "w-0 bg-red-500" : "w-full bg-emerald-500"
             }`}
           />
         </div>
-        <div className="flex flex-row items-center gap-1.5">
-          <DisplayStats stats={stats} />
+        <div className="flex flex-row items-center gap-1.5 opacity-80">
+          <DisplayStats stats={stats} fontSize={9} />
         </div>
       </div>
       <img
-        className="h-20 aspect-square object-contain"
+        alt={name}
         src={variant === "left" ? movingBackSprite : movingSprite}
+        className={`h-24 lg:h-32 aspect-square object-contain drop-shadow-xl`}
       />
     </div>
   );
@@ -58,27 +61,29 @@ export const BattleTeamInfo = ({
   const { name, team } = teamDetails;
 
   const variants = {
-    left: "left-0 justify-end",
-    right: "right-0 justify-start",
+    left: "bottom-0 left-0 rounded-tr-2xl text-red-600",
+    right: "top-0 right-0 rounded-bl-2xl text-blue-600",
   };
 
   const currentPkmIdx = team.findIndex((pkm) => pkm.id === currentPokemon?.id);
 
   return (
     <div
-      className={`absolute top-0 z-20 h-full bg-white/80 flex flex-col gap-2 items-center px-4 py-3 max-w-37.5 ${
+      className={`absolute z-20 bg-white/90 backdrop-blur-md flex flex-col gap-2 items-center px-6 py-3 shadow-sm ${
         variants[variant] || variants.left
       }`}
     >
-      <span className="text-sm text-center truncate w-full">{name}</span>
-      <div className="grid grid-cols-3 gap-1">
+      <span className="text-sm font-bold uppercase tracking-wider">{name}</span>
+      <div className="flex gap-1">
         {team.map(({ staticSprite }, idx) => {
           return (
             <img
               key={idx}
               src={staticSprite}
-              className={`h-10 aspect-square object-contain ${
-                currentPkmIdx > idx ? "opacity-50" : ""
+              className={`h-10 object-contain transition-opacity duration-300 ${
+                currentPkmIdx > idx
+                  ? "opacity-30 grayscale"
+                  : "opacity-100 drop-shadow-sm"
               }`}
             />
           );
@@ -92,62 +97,69 @@ export const BattleHistory = ({ history, stageIdx, isAnimating }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col bg-white size-full min-h-0 rounded-2xl shadow-sm">
-      <span className="text-lg font-bold text-center border-b border-neutral-200 pt-4 pb-2 px-8">
-        {t("BattleArena.History.Title")}
-      </span>
-      <div className="flex flex-col size-full overflow-y-auto px-8">
-        {history.slice(0, stageIdx + 1).map((event, i) => {
-          const showResult = i < stageIdx || !isAnimating;
-          return (
-            <div
-              key={i}
-              className="text-sm border-b border-gray-100 py-3 animate-fade-in first:mt-4 last:mb-4 last:border-none"
-            >
-              <div className="flex items-center gap-2 mb-1">
-                <span className="bg-neutral-800 text-white text-[10px] px-2 py-0.5 rounded-full font-mono">
-                  Ronda {i + 1}
-                </span>
-              </div>
-              <div className="flex justify-between items-center text-gray-600">
-                <span className="font-bold text-red-600">
-                  {event.pokemonA.name}
-                </span>
-                <span className="text-xs italic text-gray-400">vs</span>
-                <span className="font-bold text-blue-600">
-                  {event.pokemonB.name}
-                </span>
-              </div>
-              {showResult ? (
-                <div className="mt-2 p-2 bg-neutral-50 rounded-lg animate-in fade-in duration-500">
-                  <p className="font-bold">
-                    ¡Ganador:{" "}
-                    <span
-                      style={{
-                        color:
-                          event.winner === event.pokemonA.name
-                            ? "oklch(57.7% 0.245 27.325)"
-                            : "#155dfc",
-                      }}
-                    >
-                      {event.winner}
+    <div className="flex flex-col size-full">
+      <div className="border-b border-neutral-100 bg-neutral-50/50 p-4">
+        <span className="text-lg font-bold text-neutral-700 block text-center">
+          {t("BattleArena.History.Title")}
+        </span>
+      </div>
+
+      <div className="flex flex-col flex-1 overflow-y-auto p-4 gap-3">
+        {history
+          .slice(0, stageIdx + 1)
+          .map(({ winner, pokemonRed, pokemonBlue, reason }, i) => {
+            const showResult = i < stageIdx || !isAnimating;
+            const isWinnerA = winner === pokemonRed.name;
+
+            return (
+              <div
+                key={i}
+                className="bg-white border border-neutral-100 rounded-xl shadow-sm p-3"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="bg-neutral-100 text-neutral-500 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">
+                    {t("Base.Round", { value: i + 1 })}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-sm mb-2 px-1">
+                  <span
+                    className={`font-semibold ${isWinnerA && showResult ? "text-green-600" : "text-neutral-600"}`}
+                  >
+                    {pokemonRed.name}
+                  </span>
+                  <span className="text-xs text-neutral-300 font-bold italic">
+                    VS
+                  </span>
+                  <span
+                    className={`font-semibold ${!isWinnerA && showResult ? "text-green-600" : "text-neutral-600"}`}
+                  >
+                    {pokemonBlue.name}
+                  </span>
+                </div>
+                {showResult ? (
+                  <div className="mt-2 p-2 bg-blue-50/50 border border-blue-100 rounded-lg">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Icon
+                        path={mdiTrophy}
+                        className="size-3.5 text-yellow-500 "
+                      />
+                      <p className="font-bold text-xs text-neutral-800">
+                        {`${t("Base.Winner")}: `}
+                        <span className="text-blue-600">{winner}</span>
+                      </p>
+                    </div>
+                    <span className="text-xs text-neutral-500 italic leading-snug">
+                      "{reason}"
                     </span>
-                    !
-                  </p>
-                  <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-                    {event.reason}
-                  </p>
-                </div>
-              ) : (
-                <div className="mt-2 p-2 bg-neutral-50/50 rounded-lg border border-dashed border-gray-200">
-                  <p className="text-xs text-gray-400 italic text-center">
-                    Combatiendo...
-                  </p>
-                </div>
-              )}
-            </div>
-          );
-        })}
+                  </div>
+                ) : (
+                  <div className="text-center text-xs text-neutral-400 italic p-2 bg-neutral-50 border border-dashed border-neutral-200 rounded-lg">
+                    {t("BattleArena.Fighting")}
+                  </div>
+                )}
+              </div>
+            );
+          })}
       </div>
     </div>
   );

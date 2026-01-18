@@ -133,7 +133,7 @@ export const BattlesHistory = () => {
       ) : (
         <div className="flex flex-col gap-2 size-full overflow-y-auto pr-1">
           {history.map((battle, index) => {
-            const { teamA, teamB, date, winnerTeam } = battle;
+            const { redTeam, blueTeam, date, winnerTeam } = battle;
             return (
               <div
                 key={index}
@@ -142,14 +142,14 @@ export const BattlesHistory = () => {
               >
                 <div className="flex items-center gap-3">
                   <div
-                    className={`w-1 h-8 rounded-full ${winnerTeam === teamA.name ? "bg-blue-500" : "bg-red-500"}`}
+                    className={`w-1 h-8 rounded-full ${winnerTeam === redTeam.name ? "bg-red-500" : "bg-blue-500"}`}
                   />
                   <div className="flex flex-col">
                     <span className="font-bold text-sm text-neutral-700">
-                      {teamA.name} vs {teamB.name}
+                      {redTeam.name} vs {blueTeam.name}
                     </span>
                     <span className="text-xs text-neutral-400">
-                      {date && format(date, "dd/MM/yyyy")}
+                      {date && format(date, "dd/MM/yyyy HH:mm")}
                     </span>
                   </div>
                 </div>

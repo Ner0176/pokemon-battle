@@ -2,7 +2,8 @@
   "Base": {
     "Labels": {
       "Home": "Home",
-      "Teams": "Teams"
+      "Teams": "Teams",
+      "Battle": "Battle"
     },
     "Winner": "Winner",
     "Fight": "Battle",
@@ -11,6 +12,7 @@
     "Search": "Search...",
     "RedTeam": "Red team",
     "BlueTeam": "Blue team",
+    "Round": "Round {{value}}",
     "CreateTeam": "Create team",
     "DeleteTeam": "Delete team",
     "UpdateTeam": "Update team"
@@ -75,9 +77,12 @@
     }
   },
   "BattleArena": {
-    "RedWins": "{{pkm1}} attacked first and broke through {{pkm2}}'s defense.",
-    "BlueWins": "{{pkm1}} failed to break the defense, and {{pkm2}} successfully counterattacked.",
-    "Tie": "Technical tie; superior speed decided the winner",
+    "Fighting": "Fighting...",
+    "ViewResult": "View result",
+    "WinByAttack": "{{winner}} attacked first and broke through {{loser}}'s defense.",
+    "WinByCounter": "{{loser}} failed to break the defense, and {{winner}} successfully counterattacked.",
+    "WinBySpeed": "Technical tie; superior speed decided the winner",
+    "CanNotEscape": "You are in the middle of a battle, you cannot escape!",
     "History": {
       "Title": "Battle History"
     },
