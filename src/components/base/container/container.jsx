@@ -5,6 +5,7 @@ import { tabBox, tabsWrapper } from "./container.styled";
 import { useLocation, useNavigate } from "react-router-dom";
 import bgForest from "../../../assets/images/background-forest.jpg";
 import { mdiPokeball, mdiHomeOutline, mdiSwordCross } from "@mdi/js";
+import { LangSelect } from "./container.content";
 
 export const Container = ({ children }) => {
   const { t } = useTranslation();
@@ -36,8 +37,9 @@ export const Container = ({ children }) => {
       className="w-full h-screen bg-cover bg-center relative"
     >
       <div className="absolute inset-0 bg-black/40" />
+      <LangSelect />
       <div className="relative z-10 w-full h-full border px-10 pt-12 pb-4">
-        <div className="relative size-full bg-white/80 rounded-2xl rounded-tl-none px-6 pt-6 shadow-md">
+        <div className="relative size-full bg-white/80 rounded-2xl rounded-tl-none px-6 pt-6 shadow-md flex flex-col min-h-0">
           <div className={tabsWrapper}>
             {TABS.map(({ icon, path, label }, idx) => {
               return (
@@ -59,7 +61,9 @@ export const Container = ({ children }) => {
               );
             })}
           </div>
-          {children}
+          <div className="flex-1 w-full min-h-0 overflow-hidden relative">
+            {children}
+          </div>
         </div>
       </div>
     </div>

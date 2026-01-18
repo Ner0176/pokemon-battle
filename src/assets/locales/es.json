@@ -1,5 +1,9 @@
 {
   "Base": {
+    "Lang": {
+      "Spanish": "Spanish",
+      "English": "English"
+    },
     "Labels": {
       "Home": "Inicio",
       "Teams": "Equipos",
