@@ -32,6 +32,7 @@
     }
   },
   "TeamBuilder": {
+    "SelectType": "Selecciona un tipo",
     "SearchPokemon": "Buscar pokémon...",
     "TeamName": "Nombre del equipo...",
     "OrderBy": {
@@ -44,7 +45,7 @@
     },
     "Draft": {
       "Load": "Cargar borrador",
-      "Title": "Borrar encontrado",
+      "Title": "Borrador encontrado",
       "Description": "Tienes cambios sin guardar de un equipo. Deseas continuar editando este equipo?"
     },
     "Errors": {

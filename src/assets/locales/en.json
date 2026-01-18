@@ -32,6 +32,7 @@
     }
   },
   "TeamBuilder": {
+    "SelectType": "Select a type",
     "SearchPokemon": "Search pokémon...",
     "TeamName": "Team's name...",
     "OrderBy": {

@@ -25,7 +25,7 @@ export const CustomButton = ({
         ...(bgColor && { backgroundColor: bgColor }),
       }}
       className={`
-        flex items-center gap-1 rounded-xl px-4 py-2 text-sm transition-all shadow-sm whitespace-nowrap
+        flex items-center justify-center gap-1 rounded-xl min-w-25 xl:min-w-32 px-4 py-2 xl:py-2.5 text-xs lg:text-sm xl:text-base transition-all shadow-sm whitespace-nowrap
         ${variants[variant] || variants.primary}
         ${
           isDisabled === true
@@ -34,7 +34,7 @@ export const CustomButton = ({
         }
       `}
     >
-      {icon && <Icon path={icon} className="size-4" />}
+      {icon && <Icon path={icon} className="size-3 xl:size-4" />}
       {children}
     </button>
   );

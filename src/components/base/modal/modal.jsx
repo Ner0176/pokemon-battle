@@ -20,7 +20,7 @@ export const Modal = ({
           type={type}
           style={{ width }}
           className={`
-            flex flex-col gap-6 shadow-lg rounded-2xl w-[85%] lg:w-2/3 xl:w-1/2 
+            flex flex-col shadow-lg rounded-2xl w-[85%] lg:w-2/3 xl:w-1/2 max-h-[90vh]
             ${type === "default" ? "bg-white" : "bg-red-50"}
             `}
         >
@@ -42,10 +42,7 @@ export const Modal = ({
               </div>
             </div>
           )}
-          <div
-            className="w-full sm:px-8 overflow-y-auto"
-            style={{ flex: "1 1 auto", maxHeight: "calc(100vh - 225px)" }}
-          >
+          <div className="w-full sm:px-8 flex-1 min-h-0 overflow-y-auto">
             {children}
           </div>
           {footer && (

@@ -27,13 +27,15 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
 
   return (
     <div
-      className={`absolute flex flex-row items-center gap-10 transition-all duration-1000
+      className={`absolute flex flex-row items-center gap-5 xl:gap-10 transition-all duration-1000
         ${variants[variant] || variants.left} ${animationClass} 
         ${variant === "right" ? "flex-row-reverse" : ""}`}
     >
       <div className="flex flex-col gap-1 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-xl shadow-lg border border-white/50 h-fit min-w-35">
-        <span className="font-bold uppercase text-xs">{name}</span>
-        <div className="w-32 h-2 bg-neutral-200 rounded-full overflow-hidden shadow-inner">
+        <span className="font-bold uppercase text-[10px] xl:text-xs">
+          {name}
+        </span>
+        <div className="w-32 h-1.5 xl:h-2 bg-neutral-200 rounded-full overflow-hidden shadow-inner">
           <div
             className={`h-full transition-all duration-1000 ${
               isLoser ? "w-0 bg-red-500" : "w-full bg-emerald-500"
@@ -44,14 +46,14 @@ export const FightingPokemon = ({ pokemon, isLoser, variant = "left" }) => {
           <DisplayStats stats={stats} fontSize={9} />
         </div>
       </div>
-      <div className="relative flex items-end justify-center size-32">
+      <div className="relative flex items-end justify-center size-26 xl:size-32">
         <img
           alt={name}
           style={{ imageRendering: "pixelated" }}
           src={variant === "left" ? movingBackSprite : movingSprite}
           className={`
-                w-auto h-auto scale-[1.6] origin-bottom drop-shadow-2xl
-                ${variant === "left" ? "scale-[1.9]" : "scale-[1.6]"}
+                w-auto h-auto origin-bottom drop-shadow-2xl
+                ${variant === "left" ? "scale-[1.4] xl:scale-[1.9]" : "scale-[1.2] xl:scale-[1.6]"}
             `}
         />
       </div>
@@ -79,7 +81,7 @@ export const BattleTeamInfo = ({
         variants[variant] || variants.left
       }`}
     >
-      <span className="text-sm font-bold uppercase tracking-wider drop-shadow-[1px_1px_0_rgba(0,0,0,0.25)]">
+      <span className="text-xs xl:text-sm font-bold uppercase tracking-wider drop-shadow-[1px_1px_0_rgba(0,0,0,0.25)]">
         {name}
       </span>
       <div className="flex gap-1">
@@ -88,7 +90,7 @@ export const BattleTeamInfo = ({
             <img
               key={idx}
               src={staticSprite}
-              className={`h-10 object-contain transition-opacity duration-300 ${
+              className={`h-8 xl:h-10 object-contain transition-opacity duration-300 ${
                 currentPkmIdx > idx
                   ? "opacity-30 grayscale"
                   : "opacity-100 drop-shadow-sm"
@@ -106,7 +108,7 @@ export const BattleHistory = ({ history, stageIdx, isAnimating }) => {
 
   return (
     <div className="flex flex-col size-full">
-      <div className="border-b border-neutral-100 bg-neutral-50/50 p-4">
+      <div className="border-b border-neutral-100 bg-neutral-50/50 p-2.5 xl:p-4">
         <span className="text-lg font-bold text-neutral-700 block text-center">
           {t("BattleArena.History.Title")}
         </span>
@@ -125,13 +127,13 @@ export const BattleHistory = ({ history, stageIdx, isAnimating }) => {
                 className="bg-white border border-neutral-100 rounded-xl shadow-sm p-3"
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="bg-neutral-100 text-neutral-500 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">
+                  <span className="bg-neutral-100 text-neutral-500 text-[8px] xl:text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">
                     {t("Base.Round", { value: i + 1 })}
                   </span>
                 </div>
-                <div className="flex justify-between items-center text-sm mb-2 px-1">
+                <div className="flex justify-between items-center text-xs xl:text-sm mb-2 px-1 font-semibold">
                   <span
-                    className={`font-semibold ${isWinnerA && showResult ? "text-green-600" : "text-neutral-600"}`}
+                    className={`${isWinnerA && showResult ? "text-red-600" : "text-neutral-600"}`}
                   >
                     {pokemonRed.name}
                   </span>
@@ -139,7 +141,7 @@ export const BattleHistory = ({ history, stageIdx, isAnimating }) => {
                     VS
                   </span>
                   <span
-                    className={`font-semibold ${!isWinnerA && showResult ? "text-green-600" : "text-neutral-600"}`}
+                    className={`${!isWinnerA && showResult ? "text-blue-600" : "text-neutral-600"}`}
                   >
                     {pokemonBlue.name}
                   </span>
@@ -149,19 +151,19 @@ export const BattleHistory = ({ history, stageIdx, isAnimating }) => {
                     <div className="flex items-center gap-1.5 mb-1">
                       <Icon
                         path={mdiTrophy}
-                        className="size-3.5 text-yellow-500 "
+                        className="size-3 xl:size-3.5 text-yellow-500 "
                       />
-                      <p className="font-bold text-xs text-neutral-800">
+                      <p className="font-bold text-[10px] xl:text-xs text-neutral-800">
                         {`${t("Base.Winner")}: `}
                         <span className="text-blue-600">{winner}</span>
                       </p>
                     </div>
-                    <span className="text-xs text-neutral-500 italic leading-snug">
+                    <span className="text-[10px] xl:text-xs text-neutral-500 italic block leading-normal">
                       "{reason}"
                     </span>
                   </div>
                 ) : (
-                  <div className="text-center text-xs text-neutral-400 italic p-2 bg-neutral-50 border border-dashed border-neutral-200 rounded-lg">
+                  <div className="text-center text-[10px] xl:text-xs text-neutral-400 italic p-2 bg-neutral-50 border border-dashed border-neutral-200 rounded-lg">
                     {t("BattleArena.Fighting")}
                   </div>
                 )}

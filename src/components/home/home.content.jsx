@@ -15,7 +15,7 @@ import {
   BattleHistoryContainer,
   EmptyTeamsContainer,
   HistorySeeTag,
-  TeamCoontainer,
+  TeamContainer,
   VersusTagStyle,
 } from "./home.styled";
 
@@ -23,7 +23,7 @@ const TeamItem = ({ teamName, team, handleClick }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <div onClick={handleClick} className={TeamCoontainer}>
+    <div onClick={handleClick} className={TeamContainer}>
       <span className="font-bold text-lg text-neutral-700 w-full text-center truncate group-hover:text-emerald-600">
         {teamName}
       </span>

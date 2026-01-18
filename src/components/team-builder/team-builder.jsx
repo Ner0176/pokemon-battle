@@ -22,10 +22,14 @@ import {
   useGetPokemonList,
 } from "../../api";
 import { formatPokemonInfo, getIdFromUrl } from "./team-builder.utils";
+import { useWindowWidth } from "../../hooks";
 
 export const TeamBuilder = () => {
   const { t } = useTranslation();
   const location = useLocation();
+
+  const width = useWindowWidth();
+
   const [searchParams] = useSearchParams();
   const selectedTeamId = searchParams.get("id");
 
@@ -153,7 +157,7 @@ export const TeamBuilder = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-10 h-full">
+    <div className="grid grid-cols-2 gap-6 xl:gap-10 h-full">
       <div className="flex flex-row gap-5 min-h-0 h-full">
         {storedTeams.length > 0 && (
           <TeamsPreview
@@ -170,7 +174,7 @@ export const TeamBuilder = () => {
             />
             <CustomSelect
               value={typeFilter}
-              defaultValue={"Selecciona un tipo"}
+              defaultValue={t("TeamBuilder.SelectType")}
               options={allTypes?.results.map(({ name }) => (
                 <option key={name} value={name}>
                   {t(`TeamBuilder.Types.${name}`)}
@@ -180,14 +184,15 @@ export const TeamBuilder = () => {
               customStyles={{ width: "fit-content", minWidth: 150 }}
             />
           </div>
-          <div className="grid grid-cols-2 gap-3 w-full h-full overflow-y-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 xl:gap-3 w-full h-full overflow-y-auto">
             {loadedPkm.map(({ name, url }, idx) => {
               const pkmId = +getIdFromUrl(url);
+              const addMarginTop = idx === 0 || (idx === 1 && width >= 1024);
               return (
                 <div
                   key={name}
                   onClick={() => addPokemon(pkmId)}
-                  style={{ marginTop: idx < 2 && 12 }}
+                  style={{ marginTop: addMarginTop && 12 }}
                 >
                   <PokemonPreview details={{ id: pkmId, name: name }} />
                 </div>

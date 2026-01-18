@@ -41,13 +41,15 @@ export const PokemonPreview = ({ details }) => {
         <img
           loading="lazy"
           onLoad={() => setIsImgLoaded(true)}
-          className="h-14 object-contain drop-shadow-sm"
+          className="h-10 xl:h-14 object-contain drop-shadow-sm"
           src={`${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/${id}.png`}
           onError={(e) => {
             e.currentTarget.src = `${BASE_ASSETS_URL}/sprites/master/sprites/pokemon/0.png`;
           }}
         />
-        <span className="first-letter:uppercase">{name}</span>
+        <span className="text-sm xl:text-base 2xl:text-[17px] first-letter:uppercase">
+          {name}
+        </span>
       </div>
       <div
         className="cursor-pointer"
@@ -56,7 +58,7 @@ export const PokemonPreview = ({ details }) => {
           playSound();
         }}
       >
-        <Icon path={mdiVolumeHigh} className="h-6" />
+        <Icon path={mdiVolumeHigh} className="h-4.5 xl:h-6" />
       </div>
     </div>
   );
@@ -73,12 +75,12 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
   };
 
   return (
-    <div className="flex flex-col gap-3 h-full overflow-y-auto p-1">
+    <div className="flex flex-row lg:flex-col gap-3 h-full overflow-y-auto p-1">
       <div
         className={teamPreviewBoxContainer}
         onClick={() => handleTeamIdParam({ teamId: null })}
       >
-        <Icon path={mdiPlus} className="size-4" />
+        <Icon path={mdiPlus} className="size-3 xl:size-4" />
       </div>
       {pokemonTeams.map((item) => {
         const isSelected =
@@ -99,7 +101,7 @@ export const TeamsPreview = ({ selectedTeamId, pokemonTeams }) => {
                 className="max-h-full max-w-full object-contain"
               />
             </div>
-            <span className="text-xs truncate w-full text-center px-1">
+            <span className="text-[10px] xl:text-xs truncate w-full text-center px-1">
               {item.name}
             </span>
           </div>
@@ -134,7 +136,7 @@ export const DraftModal = ({ draft, onLoad, handleClose }) => {
         </div>
       }
     >
-      <div className="flex flex-col gap-6 pb-2">
+      <div className="flex flex-col gap-6 py-4">
         <p className="text-gray-600">{t(`${basePath}.Description`)}</p>
         <div className="flex flex-col gap-1 bg-gray-50 px-4 py-3 rounded-lg shadow-md">
           <span className="font-bold text-sm text-gray-500 mb-2">

@@ -37,7 +37,7 @@ export const Container = ({ children }) => {
     >
       <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 w-full h-full border px-10 pt-12 pb-4">
-        <div className="relative size-full bg-white/80 rounded-2xl rounded-tl-none px-6 pt-4 shadow-md">
+        <div className="relative size-full bg-white/80 rounded-2xl rounded-tl-none px-6 pt-6 shadow-md">
           <div className={tabsWrapper}>
             {TABS.map(({ icon, path, label }, idx) => {
               return (
@@ -48,8 +48,13 @@ export const Container = ({ children }) => {
                     location.pathname === path ? "bg-neutral-50" : "bg-white/90"
                   } `}
                 >
-                  <Icon path={icon} className="size-4" />
-                  <span className="text-sm">{t(`Base.Labels.${label}`)}</span>
+                  <Icon
+                    path={icon}
+                    className="mt-0.5 size-3 xl:mt-0 xl:size-4"
+                  />
+                  <span className="text-xs xl:text-sm">
+                    {t(`Base.Labels.${label}`)}
+                  </span>
                 </div>
               );
             })}

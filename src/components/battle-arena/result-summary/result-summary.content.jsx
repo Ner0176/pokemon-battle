@@ -25,12 +25,12 @@ const StatsBox = ({ variant, value }) => {
   return (
     <div className="flex flex-col items-center p-2 bg-white/60 rounded-lg backdrop-blur-sm min-w-25">
       <Icon
-        className="size-6 mb-1"
+        className="size-4.5 xl:size-6 mb-1"
         path={styles[variant].icon}
         color={styles[variant].iconColor}
       />
       <span
-        className="text-2xl font-bold"
+        className="text-lg xl:text-2xl font-bold"
         style={{ color: styles[variant].textColor }}
       >
         {value}
@@ -64,7 +64,7 @@ export const TeamSummary = ({
 
   return (
     <div
-      className={`flex flex-col ${containerClasses} p-4 rounded-xl border ${bgTheme} transition-all duration-300 ${isWinner ? "ring-2 ring-yellow-400 shadow-lg scale-105 z-10" : "opacity-80"}`}
+      className={`flex flex-col ${containerClasses} p-3 xl:p-4 rounded-xl border ${bgTheme} transition-all duration-300 ${isWinner ? "ring-2 ring-yellow-400 shadow-lg scale-105 z-10" : "opacity-80"}`}
     >
       <div className="flex flex-col mb-3">
         {isWinner && (
@@ -77,7 +77,9 @@ export const TeamSummary = ({
             </span>
           </div>
         )}
-        <span className={`font-black text-xl leading-tight ${color}`}>
+        <span
+          className={`font-black text-lg xl:text-xl leading-tight ${color}`}
+        >
           {teamName}
         </span>
       </div>
@@ -93,7 +95,7 @@ export const TeamSummary = ({
 
 const BattleName = ({ name, isWinner }) => (
   <span
-    className={`font-semibold transition-colors ${
+    className={`font-semibold transition-colors text-sm sxl:text-base ${
       isWinner ? "text-green-600" : "text-neutral-400 line-through decoration-2"
     }`}
   >
@@ -111,19 +113,21 @@ export const RoundsSection = ({ index, round }) => {
   return (
     <div key={index} className={RoundContainer}>
       <div className="flex items-center gap-3 w-full sm:w-auto">
-        <span className="font-mono font-bold text-xs text-neutral-400 bg-neutral-100 px-2 py-1 rounded">
+        <span className="font-mono font-bold text-[10px] xl:text-xs text-neutral-400 bg-neutral-100 px-2 py-1 rounded">
           #{index + 1}
         </span>
         <div className="flex items-center gap-2 text-sm">
           <BattleName name={pokemonRed.name} isWinner={isAWinner} />
-          <span className="text-xs text-neutral-300 font-bold">VS</span>
+          <span className="text-[10px] xl:text-xs text-neutral-300 font-bold">
+            VS
+          </span>
           <BattleName name={pokemonBlue.name} isWinner={!isAWinner} />
         </div>
       </div>
       <div className="flex items-center gap-3 mt-2 sm:mt-0 w-full sm:w-auto justify-between sm:justify-end">
         <span
           title={reason}
-          className="text-neutral-400 text-xs italic truncate max-w-37.5"
+          className="text-neutral-400 text-[10px] xl:text-xs italic truncate max-w-37.5"
         >
           "{reason}"
         </span>

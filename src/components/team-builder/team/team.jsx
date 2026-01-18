@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { mdiFilterVariant } from "@mdi/js";
 import { mdiSword } from "@mdi/js";
+import { useWindowWidth } from "../../../hooks";
 
 export const TeamSection = ({
   pkmTeam,
@@ -19,6 +20,8 @@ export const TeamSection = ({
 }) => {
   const { t } = useTranslation();
   const [_, setSearchParams] = useSearchParams();
+
+  const width = useWindowWidth();
 
   const createTeam = useCreatePkmTeam();
   const updateTeam = useUpdatePkmTeam();
@@ -96,17 +99,18 @@ export const TeamSection = ({
 
   return (
     <div className="flex flex-col gap-5 items-center justify-center w-full">
-      <div className="flex flex-row gap-6 w-full">
+      <div className="flex flex-col xl:flex-row gap-2 xl:gap-6 w-full">
         <CustomInput
           value={teamName}
-          customStyles={{ fontSize: 14 }}
           placeholder={t("TeamBuilder.TeamName")}
           handleChange={(value) => setTeamName(value)}
+          customStyles={{ fontSize: width < 1280 ? 12 : 14 }}
         />
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex flex-row items-center justify-end w-full gap-2">
           <CustomButton
             icon={mdiFilterVariant}
             handleClick={handleSort}
+            customStyles={{ fontSize: width < 1280 ? 12 : 14 }}
             color={{ bgColor: "#f5f5f5", textColor: "#404040" }}
           >
             {t("TeamBuilder.OrderBy.Random")}
@@ -114,6 +118,7 @@ export const TeamSection = ({
           <CustomButton
             icon={mdiSword}
             handleClick={handleSortByAttack}
+            customStyles={{ fontSize: width < 1280 ? 12 : 14 }}
             color={{ bgColor: "#f5f5f5", textColor: "#404040" }}
           >
             {t("TeamBuilder.OrderBy.Attack")}
@@ -133,7 +138,7 @@ export const TeamSection = ({
         {[...Array(6 - pkmTeam.length)].map((_, idx) => (
           <div
             key={`empty-${idx}`}
-            className="border-2 border-neutral-200 bg-white rounded-xl w-full h-23.5 shadow-inner"
+            className="border-2 border-neutral-200 bg-white rounded-xl w-full h-20 xl:h-23.5 shadow-inner"
           />
         ))}
       </div>

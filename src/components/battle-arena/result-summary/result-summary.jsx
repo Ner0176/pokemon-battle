@@ -24,17 +24,16 @@ export const BattleResultSummary = ({ result, handleClose }) => {
 
   return (
     <Modal
-      width="850px"
       footer={ResultFooter}
       handleClose={handleClose}
       title={t("BattleArena.Results.Title")}
     >
-      <div className="flex flex-col gap-6 pb-2">
+      <div className="flex flex-col gap-6 py-4">
         <div className="flex flex-col items-center p-4 bg-neutral-50 rounded-xl border border-neutral-100 shadow-sm">
           <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-1">
             {t("Base.Winner")}
           </span>
-          <span className="text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-yellow-500 to-orange-500 drop-shadow-sm mb-6 text-center">
+          <span className="text-2xl xl:text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-yellow-500 to-orange-500 drop-shadow-sm mb-6 text-center">
             {winnerTeam}
           </span>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4 w-full">

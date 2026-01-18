@@ -5,6 +5,6 @@ export const RoundContainer = `
 `;
 
 export const RoundWinTag = `
-    bg-white border border-emerald-200 text-emerald-700 text-[10px]
+    bg-white border border-emerald-200 text-emerald-700 text-[9px] xl:text-[10px]
     font-bold px-2 py-1 rounded-full shadow-sm whitespace-nowrap
 `;

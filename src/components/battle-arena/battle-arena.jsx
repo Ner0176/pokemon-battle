@@ -82,8 +82,8 @@ export const BattleArena = () => {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-6 h-full pb-4 px-6 pt-2">
-        <div className="col-span-2 flex flex-col gap-4 h-full">
+      <div className="grid grid-cols-3 gap-4 xl:gap-6 h-full pb-4">
+        <div className="col-span-2 flex flex-col gap-4 h-full 2xl:h-[85%]">
           <div
             style={{ backgroundImage: `url(${pkmBattleBg})` }}
             className="relative h-full border-4 border-white shadow-2xl rounded-2xl bg-cover bg-center overflow-hidden"

@@ -3,6 +3,6 @@ export const tabsWrapper = `
     rounded-t-xl border border-neutral-200 overflow-hidden
 `;
 export const tabBox = `
-    flex flex-row items-center gap-1 px-4 py-1 cursor-pointer 
+    flex flex-row items-center gap-1 px-3 xl:px-4 py-1 cursor-pointer 
     border-r border-neutral-300 last:border-r-0 hover:bg-neutral-50
 `;
